@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background-color: #0a0a0f;
+    color: #f5f5f7;
+    font-family: 'Inter', 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-bg-base text-ink-high;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background-color: rgba(59, 130, 246, 0.3);
+    color: #f5f5f7;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-bg-card border border-border-subtle rounded-xl shadow-card;
+    transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+  }
+
+  .card-hover {
+    @apply card;
+  }
+
+  .card-hover:hover {
+    @apply border-accent-blue shadow-glow-blue;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-lg
+           bg-accent-blue text-white font-medium
+           hover:bg-accent-blue-bright
+           focus:outline-none focus:ring-2 focus:ring-accent-blue/40 focus:ring-offset-2 focus:ring-offset-bg-base
+           transition-colors;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-lg
+           bg-transparent text-ink-high border border-border-subtle
+           hover:border-accent-blue hover:text-accent-blue-bright
+           transition-colors;
+  }
+
+  .glyph {
+    @apply inline-flex items-center justify-center font-mono;
+    font-feature-settings: 'tnum' on, 'lnum' on;
+  }
+}

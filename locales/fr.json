@@ -1,0 +1,28 @@
+{
+  "app": {
+    "name": "7Powers",
+    "tagline": "Construisez la défensibilité de votre projet — comme Helmer"
+  },
+  "nav": {
+    "home": "Accueil",
+    "dashboard": "Mes projets",
+    "login": "Connexion",
+    "logout": "Déconnexion"
+  },
+  "landing": {
+    "hero": {
+      "title": "Construisez la défensibilité de votre projet — comme Helmer",
+      "subtitle": "7Powers stress-teste votre moat avec le framework Hamilton Helmer. 7 Powers, 1 Power Map, un plan d'action. Du workshop à la roadmap en 90 minutes.",
+      "cta": "Commencer"
+    }
+  },
+  "powers": {
+    "scale": "Économies d'échelle",
+    "network": "Effets de réseau",
+    "counter": "Counter-Positioning",
+    "switching": "Coûts de switch",
+    "branding": "Marque",
+    "cornered": "Ressource captive",
+    "process": "Process Power"
+  }
+}
