@@ -33,7 +33,7 @@ async function submit() {
   <main class="mx-auto max-w-md px-6 py-24">
     <div class="card p-8 space-y-6">
       <div class="flex items-center gap-3 text-ink-mid">
-        <span class="glyph text-accent-blue-bright text-xl">⬡</span>
+        <Logo :size="40" mode="dark" />
         <span class="tracking-widest text-xs uppercase">{{ t('app.name') }}</span>
       </div>
 

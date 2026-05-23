@@ -16,7 +16,7 @@ const powers = [
   <main class="mx-auto max-w-5xl px-6 py-24">
     <section class="space-y-8">
       <div class="flex items-center gap-3 text-ink-mid">
-        <span class="glyph text-accent-blue-bright text-xl">⬡</span>
+        <Logo :size="56" mode="dark" />
         <span class="tracking-widest text-xs uppercase">{{ t('app.name') }}</span>
       </div>
 

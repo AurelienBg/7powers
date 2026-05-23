@@ -15,7 +15,9 @@ watchEffect(() => {
 <template>
   <main class="mx-auto max-w-md px-6 py-24">
     <div class="card p-8 space-y-4 text-center">
-      <div class="glyph text-3xl text-accent-blue-bright">⬡</div>
+      <div class="flex justify-center">
+        <Logo :size="56" mode="dark" />
+      </div>
       <h1 class="text-xl font-semibold text-ink-high">
         {{ user ? t('confirm.success') : t('confirm.verifying') }}
       </h1>

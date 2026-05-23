@@ -28,6 +28,11 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  components: [
+    // Flatten directory hierarchy: components/ui/Logo.vue → <Logo />
+    { path: '~/components', pathPrefix: false }
+  ],
+
   typescript: {
     strict: true,
     typeCheck: false
@@ -42,6 +47,9 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: 'Stress-test the defensibility of your project with Hamilton Helmer\'s 7 Powers framework.' },
         { name: 'theme-color', content: '#0a0a0f' }
+      ],
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }
       ]
     }
   },

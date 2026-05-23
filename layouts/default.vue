@@ -16,8 +16,8 @@ async function handleSignOut() {
   <div class="min-h-screen flex flex-col bg-bg-base text-ink-high">
     <header class="border-b border-border-subtle">
       <div class="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
-        <NuxtLink :to="localePath('/')" class="flex items-center gap-2">
-          <span class="glyph text-accent-blue-bright text-lg">⬡</span>
+        <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5">
+          <Logo :size="28" mode="dark" />
           <span class="font-semibold tracking-tight">{{ t('app.name') }}</span>
         </NuxtLink>
 
@@ -55,7 +55,7 @@ async function handleSignOut() {
     <footer class="border-t border-border-subtle py-6 mt-12">
       <div class="mx-auto max-w-6xl px-6 text-xs text-ink-low flex items-center justify-between">
         <span>{{ t('app.name') }} — {{ t('app.tagline') }}</span>
-        <span class="glyph">⬡</span>
+        <Logo :size="18" mode="dark" :show-seven="false" />
       </div>
     </footer>
   </div>
