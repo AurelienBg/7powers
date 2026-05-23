@@ -13,7 +13,8 @@
     "hero": {
       "title": "Build the defensibility of your project — Helmer-style",
       "subtitle": "7Powers stress-tests your moat with Hamilton Helmer's framework. 7 Powers, 1 Power Map, an action plan. From workshop to roadmap in 90 minutes.",
-      "cta": "Get started"
+      "cta": "Get started",
+      "continueExisting": "Continue my project"
     }
   },
   "login": {
@@ -36,6 +37,58 @@
     "hint": "We're verifying your magic link.",
     "redirecting": "Redirecting."
   },
+  "module0": {
+    "step": "Module 0",
+    "title": "The project",
+    "subtitle": "Lay the foundation. Name, sector, stage. These are the three axes we'll stress-test your moat against.",
+    "nameLabel": "Project name",
+    "namePlaceholder": "e.g. Uniswap v5",
+    "sectorLabel": "Sector",
+    "sectorHint": "Determines which Power examples we'll surface.",
+    "stageLabel": "S-Curve stage",
+    "stageHint": "Helmer: each Power is built at a different stage. We tune the questions accordingly.",
+    "descriptionLabel": "Short description",
+    "descriptionOptional": "(optional)",
+    "descriptionPlaceholder": "One or two sentences to set the scene.",
+    "submit": "Create project",
+    "errors": {
+      "nameRequired": "Name is required.",
+      "sectorRequired": "Pick a sector.",
+      "stageRequired": "Pick a stage."
+    }
+  },
+  "sectors": {
+    "defi": "DeFi / Web3",
+    "defiHint": "On-chain protocols, AMMs, lending, RWA.",
+    "ai": "AI / Agents",
+    "aiHint": "LLM apps, agent platforms, AI infra.",
+    "saas": "SaaS / B2B",
+    "saasHint": "Classic Helmer cases. Linear, Notion, Stripe.",
+    "web3-other": "Web3 (other)",
+    "web3-otherHint": "NFT, gaming, social tokens, infra."
+  },
+  "stages": {
+    "origination": "Origination",
+    "originationHint": "Before product-market fit. Targets: Cornered Resource, Counter-Positioning.",
+    "takeoff": "Takeoff",
+    "takeoffHint": "PMF achieved, scaling up. Targets: Scale, Network Effects, Switching Costs.",
+    "stability": "Stability",
+    "stabilityHint": "Established position. Targets: Branding, Process Power."
+  },
+  "hub": {
+    "title": "{name}",
+    "subtitleSector": "{sector} · {stage}",
+    "modulesHeading": "Modules",
+    "module0": "The project",
+    "module1": "Market sizing",
+    "moduleSynthesis": "Power Map",
+    "comingSoon": "Soon",
+    "done": "Done",
+    "openModule": "Open",
+    "backToProject": "Back to project",
+    "resetProject": "Delete this project (local)",
+    "resetConfirm": "Really delete this local project? This action cannot be undone."
+  },
   "powers": {
     "scale": "Scale Economies",
     "network": "Network Economies",
@@ -44,5 +97,14 @@
     "branding": "Branding",
     "cornered": "Cornered Resource",
     "process": "Process Power"
+  },
+  "powerGlyphs": {
+    "scale": "⬡",
+    "network": "◉",
+    "counter": "⇄",
+    "switching": "◈",
+    "branding": "✦",
+    "cornered": "△",
+    "process": "⚖"
   }
 }

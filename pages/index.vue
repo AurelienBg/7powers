@@ -1,5 +1,20 @@
 <script setup lang="ts">
 const { t } = useI18n()
+const localePath = useLocalePath()
+const { hasProject, currentProject } = useProject()
+
+// If the user already has a local project, the CTA becomes "Continue my project"
+// pointing to its hub. Otherwise it kicks off Module 0.
+const ctaTarget = computed(() => {
+  if (hasProject.value && currentProject.value) {
+    return localePath(`/project/${currentProject.value.local_id}`)
+  }
+  return localePath('/project/new')
+})
+
+const ctaLabel = computed(() =>
+  hasProject.value ? t('landing.hero.continueExisting') : t('landing.hero.cta')
+)
 
 const powers = [
   { key: 'scale', glyph: '⬡' },
@@ -29,9 +44,9 @@ const powers = [
       </p>
 
       <div>
-        <button type="button" class="btn-primary">
-          {{ t('landing.hero.cta') }}
-        </button>
+        <NuxtLink :to="ctaTarget" class="btn-primary text-base !px-6 !py-3">
+          {{ ctaLabel }}
+        </NuxtLink>
       </div>
     </section>
 

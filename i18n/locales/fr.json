@@ -13,7 +13,8 @@
     "hero": {
       "title": "Construisez la défensibilité de votre projet — comme Helmer",
       "subtitle": "7Powers stress-teste votre moat avec le framework Hamilton Helmer. 7 Powers, 1 Power Map, un plan d'action. Du workshop à la roadmap en 90 minutes.",
-      "cta": "Commencer"
+      "cta": "Commencer",
+      "continueExisting": "Reprendre mon projet"
     }
   },
   "login": {
@@ -36,6 +37,58 @@
     "hint": "On vérifie ton lien magique.",
     "redirecting": "Redirection en cours."
   },
+  "module0": {
+    "step": "Module 0",
+    "title": "Le projet",
+    "subtitle": "Pose les bases. Nom, secteur, stade. C'est sur ces 3 axes qu'on va stress-tester ton moat.",
+    "nameLabel": "Nom du projet",
+    "namePlaceholder": "Ex. Uniswap v5",
+    "sectorLabel": "Secteur",
+    "sectorHint": "Détermine les exemples de Powers qui te seront proposés.",
+    "stageLabel": "Stade S-Curve",
+    "stageHint": "Helmer : chaque Power se construit à un stade différent. On adapte les questions.",
+    "descriptionLabel": "Description courte",
+    "descriptionOptional": "(optionnel)",
+    "descriptionPlaceholder": "Une phrase ou deux pour situer le projet.",
+    "submit": "Créer le projet",
+    "errors": {
+      "nameRequired": "Le nom est requis.",
+      "sectorRequired": "Choisis un secteur.",
+      "stageRequired": "Choisis un stade."
+    }
+  },
+  "sectors": {
+    "defi": "DeFi / Web3",
+    "defiHint": "Protocoles on-chain, AMMs, lending, RWA.",
+    "ai": "AI / Agents",
+    "aiHint": "LLM apps, agent platforms, AI infra.",
+    "saas": "SaaS / B2B",
+    "saasHint": "Cas classiques Helmer. Linear, Notion, Stripe.",
+    "web3-other": "Web3 (autre)",
+    "web3-otherHint": "NFT, gaming, social tokens, infra."
+  },
+  "stages": {
+    "origination": "Origination",
+    "originationHint": "Avant le product-market fit. Cibles : Cornered Resource, Counter-Positioning.",
+    "takeoff": "Takeoff",
+    "takeoffHint": "PMF acquis, on scale. Cibles : Scale, Network Effects, Switching Costs.",
+    "stability": "Stability",
+    "stabilityHint": "Position établie. Cibles : Branding, Process Power."
+  },
+  "hub": {
+    "title": "{name}",
+    "subtitleSector": "{sector} · {stage}",
+    "modulesHeading": "Modules",
+    "module0": "Le projet",
+    "module1": "Taille de marché",
+    "moduleSynthesis": "Power Map",
+    "comingSoon": "Bientôt",
+    "done": "Fait",
+    "openModule": "Ouvrir",
+    "backToProject": "Retour au projet",
+    "resetProject": "Supprimer ce projet (local)",
+    "resetConfirm": "Vraiment supprimer ce projet local ? Cette action est irréversible."
+  },
   "powers": {
     "scale": "Économies d'échelle",
     "network": "Effets de réseau",
@@ -44,5 +97,14 @@
     "branding": "Marque",
     "cornered": "Ressource captive",
     "process": "Process Power"
+  },
+  "powerGlyphs": {
+    "scale": "⬡",
+    "network": "◉",
+    "counter": "⇄",
+    "switching": "◈",
+    "branding": "✦",
+    "cornered": "△",
+    "process": "⚖"
   }
 }
