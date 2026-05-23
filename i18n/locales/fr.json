@@ -37,6 +37,37 @@
     "hint": "On vérifie ton lien magique.",
     "redirecting": "Redirection en cours."
   },
+  "module1": {
+    "step": "Module 1",
+    "title": "Taille de marché",
+    "subtitle": "Helmer : Value = Market × Power. Sans marché, pas de valeur — même avec un Power. Trois chiffres + tes sources.",
+    "liveScore": "Score d'attractivité",
+    "scoreBands": {
+      "strong": "Marché solide. Un bon Power dessus donne une vraie défensibilité.",
+      "solid": "Marché viable. Reste à voir si ton SOM est tenable.",
+      "thin": "Marché étroit. Vérifie que ton angle vaut le coup.",
+      "empty": "Pas encore évalué. Renseigne au moins le TAM."
+    },
+    "coherenceWarningTitle": "Incohérence détectée",
+    "coherenceWarningBody": "TAM doit être ≥ SAM ≥ SOM. Tu peux quand même sauvegarder, mais ça donne un signal au lecteur que les chiffres méritent un check.",
+    "currencyLabel": "Devise",
+    "tamLabel": "TAM — Total Addressable Market",
+    "tamHint": "Si tout le monde sur Terre utilisait ton produit, combien ça vaut ? Marché total théorique.",
+    "tamPlaceholder": "Ex. 50000000000 (= 50B)",
+    "samLabel": "SAM — Serviceable Addressable Market",
+    "samHint": "La part du TAM que tu peux réellement adresser (géographie, segment, canal de distribution).",
+    "samPlaceholder": "Ex. 5000000000 (= 5B)",
+    "somLabel": "SOM — Serviceable Obtainable Market",
+    "somHint": "Ce que tu peux capturer concrètement en 3-5 ans. Garde-toi des chiffres lyriques.",
+    "somPlaceholder": "Ex. 500000000 (= 500M)",
+    "sourcesLabel": "Sources",
+    "sourcesOptional": "(optionnel)",
+    "sourcesHint": "Une ligne par source. Reports d'analystes, statistiques publiques, données de marché propriétaires.",
+    "sourcesPlaceholder": "Statista Crypto Industry Report 2025\nMessari State of DeFi Q1 2026\n…",
+    "notesLabel": "Notes méthodologiques",
+    "notesPlaceholder": "Comment tu as construit ces chiffres (top-down, bottom-up, comparable, etc.)",
+    "save": "Sauvegarder et revenir au projet"
+  },
   "module0": {
     "step": "Module 0",
     "title": "Le projet",

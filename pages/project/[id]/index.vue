@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PowerType } from '~/types/database'
+import { computeMarketAttractiveness, hasMinimumMarketData } from '~/utils/marketScore'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -22,6 +23,15 @@ const powers: PowerType[] = [
   'cornered',
   'process'
 ]
+
+const marketDone = computed(() =>
+  !!currentProject.value && hasMinimumMarketData(currentProject.value.market_size)
+)
+
+const marketScore = computed(() => {
+  if (!currentProject.value) return 0
+  return computeMarketAttractiveness(currentProject.value.market_size)
+})
 
 function onResetProject() {
   if (confirm(t('hub.resetConfirm'))) {
@@ -65,17 +75,27 @@ function onResetProject() {
           <p class="text-xs text-ink-mid">{{ currentProject.name }}</p>
         </div>
 
-        <!-- Module 1: market sizing — coming soon -->
-        <div class="card p-5 space-y-3 opacity-60">
+        <!-- Module 1: market sizing -->
+        <NuxtLink
+          :to="localePath(`/project/${currentProject.local_id}/market`)"
+          class="card-hover p-5 space-y-3 block"
+          :class="marketDone ? 'border-accent-blue/50' : ''"
+        >
           <div class="flex items-center justify-between">
             <span class="text-xs text-ink-low font-mono">01</span>
-            <span class="text-xs uppercase tracking-wider text-ink-low">
-              {{ t('hub.comingSoon') }}
+            <span
+              v-if="marketDone"
+              class="text-xs uppercase tracking-wider text-accent-blue-bright tabular-nums"
+            >
+              {{ marketScore }}/100
+            </span>
+            <span v-else class="text-xs uppercase tracking-wider text-ink-mid">
+              {{ t('hub.openModule') }}
             </span>
           </div>
           <h3 class="text-base font-medium text-ink-high">{{ t('hub.module1') }}</h3>
           <p class="text-xs text-ink-mid">TAM · SAM · SOM</p>
-        </div>
+        </NuxtLink>
 
         <!-- Modules 2-8: the 7 Powers — coming soon -->
         <div

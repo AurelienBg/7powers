@@ -37,6 +37,37 @@
     "hint": "We're verifying your magic link.",
     "redirecting": "Redirecting."
   },
+  "module1": {
+    "step": "Module 1",
+    "title": "Market sizing",
+    "subtitle": "Helmer: Value = Market × Power. No market, no value — even with a Power. Three numbers + your sources.",
+    "liveScore": "Attractiveness score",
+    "scoreBands": {
+      "strong": "Solid market. A real Power on top of this gives genuine defensibility.",
+      "solid": "Viable market. Question is whether your SOM holds up.",
+      "thin": "Thin market. Verify that your angle is worth the effort.",
+      "empty": "Not yet sized. Start with at least TAM."
+    },
+    "coherenceWarningTitle": "Coherence issue",
+    "coherenceWarningBody": "TAM should be ≥ SAM ≥ SOM. You can still save, but it signals to readers that the numbers warrant a second look.",
+    "currencyLabel": "Currency",
+    "tamLabel": "TAM — Total Addressable Market",
+    "tamHint": "If everyone on Earth used your product, how much is it worth? The theoretical ceiling.",
+    "tamPlaceholder": "e.g. 50000000000 (= 50B)",
+    "samLabel": "SAM — Serviceable Addressable Market",
+    "samHint": "The portion of TAM you can realistically reach (geography, segment, channel).",
+    "samPlaceholder": "e.g. 5000000000 (= 5B)",
+    "somLabel": "SOM — Serviceable Obtainable Market",
+    "somHint": "What you can concretely capture in 3-5 years. Resist the temptation to inflate.",
+    "somPlaceholder": "e.g. 500000000 (= 500M)",
+    "sourcesLabel": "Sources",
+    "sourcesOptional": "(optional)",
+    "sourcesHint": "One per line. Analyst reports, public stats, proprietary market data.",
+    "sourcesPlaceholder": "Statista Crypto Industry Report 2025\nMessari State of DeFi Q1 2026\n…",
+    "notesLabel": "Methodology notes",
+    "notesPlaceholder": "How you built these numbers (top-down, bottom-up, comparable, etc.)",
+    "save": "Save and return to project"
+  },
   "module0": {
     "step": "Module 0",
     "title": "The project",
