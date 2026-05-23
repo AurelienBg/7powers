@@ -14,6 +14,7 @@ const {
   assessments,
   switchProject
 } = useProject()
+const { isOpen: isSidebarOpen, close: closeSidebar } = useSidebar()
 
 const { compute: computePowerScore, isComplete: isPowerComplete } = usePowerScore()
 
@@ -28,6 +29,7 @@ const otherProjects = computed(() =>
 function handleProjectSwitch(p: LocalProject) {
   switchProject(p.local_id)
   navigateTo(localePath(`/project/${p.local_id}`))
+  closeSidebar()
 }
 
 function projectInitial(p: LocalProject): string {
@@ -130,11 +132,23 @@ const syncLabel = computed(() => {
 async function handleSignOut() {
   await signOut()
   await navigateTo(localePath('/'))
+  closeSidebar()
 }
+
+// Auto-close drawer on route change (mobile UX — user clicks a module link).
+watch(() => route.path, () => {
+  if (isSidebarOpen.value) closeSidebar()
+})
 </script>
 
 <template>
-  <aside class="w-72 shrink-0 border-r border-border-subtle flex flex-col bg-bg-base sticky top-0 h-screen">
+  <aside
+    class="w-72 shrink-0 border-r border-border-subtle flex flex-col bg-bg-base
+           md:sticky md:top-0 md:h-screen md:translate-x-0
+           fixed top-0 left-0 h-screen z-40
+           transition-transform duration-200 ease-out"
+    :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
+  >
     <!-- Brand -->
     <div class="px-5 py-4 border-b border-border-subtle">
       <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5">

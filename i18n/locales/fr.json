@@ -19,7 +19,8 @@
     "setupSection": "Setup",
     "powersSection": "7 Powers",
     "synthesisSection": "Synthèse",
-    "defensibility": "Defensibility"
+    "defensibility": "Defensibility",
+    "openMenu": "Ouvrir le menu"
   },
   "landing": {
     "hero": {
