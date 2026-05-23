@@ -6,9 +6,25 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/i18n',
+    '@nuxtjs/supabase',
     '@vueuse/nuxt'
   ],
+
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_ANON_KEY,
+    serviceKey: process.env.SUPABASE_SERVICE_ROLE,
+    redirectOptions: {
+      login: '/login',
+      callback: '/confirm',
+      // Local-first: we DON'T force redirect on every route.
+      // Auth is opt-in for users who want to persist their project.
+      exclude: ['/*'],
+      cookieRedirect: false
+    }
+  },
 
   css: ['~/assets/css/main.css'],
 
@@ -45,11 +61,8 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    supabaseServiceRole: process.env.SUPABASE_SERVICE_ROLE,
+    // Server-only secrets
     anthropicApiKey: process.env.ANTHROPIC_API_KEY,
-    public: {
-      supabaseUrl: process.env.SUPABASE_URL,
-      supabaseAnonKey: process.env.SUPABASE_ANON_KEY
-    }
+    public: {}
   }
 })

@@ -16,6 +16,26 @@
       "cta": "Commencer"
     }
   },
+  "login": {
+    "title": "Se connecter pour sauvegarder",
+    "subtitle": "Pas obligatoire pour commencer. Tu peux travailler en local et te connecter plus tard pour persister ton projet.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "toi{'@'}exemple.com",
+    "sendLink": "Recevoir le lien magique",
+    "sending": "Envoi…",
+    "sentTitle": "Lien envoyé.",
+    "sentBody": "Vérifie {email}. Le lien expire dans 1 heure.",
+    "useDifferentEmail": "Utiliser un autre email",
+    "invalidEmail": "Email invalide.",
+    "genericError": "Quelque chose n'a pas marché. Réessaie.",
+    "localFirstHint": "Ton travail est sauvegardé localement même sans compte."
+  },
+  "confirm": {
+    "verifying": "Vérification…",
+    "success": "Connecté.",
+    "hint": "On vérifie ton lien magique.",
+    "redirecting": "Redirection en cours."
+  },
   "powers": {
     "scale": "Économies d'échelle",
     "network": "Effets de réseau",

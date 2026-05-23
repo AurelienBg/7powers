@@ -16,6 +16,26 @@
       "cta": "Get started"
     }
   },
+  "login": {
+    "title": "Sign in to save your work",
+    "subtitle": "Not required to start. You can work locally and sign in later to persist your project.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you{'@'}example.com",
+    "sendLink": "Send magic link",
+    "sending": "Sending…",
+    "sentTitle": "Link sent.",
+    "sentBody": "Check {email}. The link expires in 1 hour.",
+    "useDifferentEmail": "Use a different email",
+    "invalidEmail": "Invalid email.",
+    "genericError": "Something went wrong. Try again.",
+    "localFirstHint": "Your work is saved locally even without an account."
+  },
+  "confirm": {
+    "verifying": "Verifying…",
+    "success": "Signed in.",
+    "hint": "We're verifying your magic link.",
+    "redirecting": "Redirecting."
+  },
   "powers": {
     "scale": "Scale Economies",
     "network": "Network Economies",

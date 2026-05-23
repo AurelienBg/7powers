@@ -2,9 +2,7 @@
 </script>
 
 <template>
-  <div class="min-h-screen bg-bg-base text-ink-high">
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
