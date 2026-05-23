@@ -16,14 +16,10 @@ export default defineNuxtConfig({
     url: process.env.SUPABASE_URL,
     key: process.env.SUPABASE_ANON_KEY,
     serviceKey: process.env.SUPABASE_SERVICE_ROLE,
-    redirectOptions: {
-      login: '/login',
-      callback: '/confirm',
-      // Local-first: we DON'T force redirect on every route.
-      // Auth is opt-in for users who want to persist their project.
-      exclude: ['/*'],
-      cookieRedirect: false
-    }
+    // Local-first (Gameframe-style): auth is OPT-IN.
+    // Disabling redirect entirely → users can browse without being forced to /login.
+    // The login page is reachable via the explicit "Connexion" link in the header.
+    redirect: false
   },
 
   css: ['~/assets/css/main.css'],
