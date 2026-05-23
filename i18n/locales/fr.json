@@ -37,6 +37,68 @@
     "hint": "On vérifie ton lien magique.",
     "redirecting": "Redirection en cours."
   },
+  "power": {
+    "helmerDefinition": "Définition Helmer",
+    "exampleFor": "Exemple pour ton secteur ({sector})",
+    "powerScore": "Power Strength Score",
+    "questionsHeading": "Auto-évaluation",
+    "qualitativeHeading": "Description qualitative",
+    "actionItemsHeading": "3 next-steps pour renforcer ce Power",
+    "actionItemsHint": "Concret, actionnable, dans les 90 prochains jours. Tu peux laisser vide ce que tu n'as pas encore défini.",
+    "benefitLabel": "Le Benefit en clair",
+    "benefitHint": "Décris en une phrase ou deux le bénéfice cash-flow concret. Pas un slogan, un chiffre ou un mécanisme.",
+    "barrierLabel": "La Barrier en clair",
+    "barrierHint": "Pourquoi un concurrent identique-bien-financé n'arrive pas à arbitrer ton Benefit ? C'est ça qui transforme un avantage en Power.",
+    "save": "Sauvegarder et revenir au projet",
+    "scaleLabels": {
+      "none": "0 — Pas du tout",
+      "totally": "5 — Totalement"
+    },
+    "scoreBands": {
+      "strong": "Power solide. Tu as un vrai moat sur cet axe.",
+      "solid": "Power crédible mais perfectible. Renforce la Barrier.",
+      "weak": "Power embryonnaire ou contestable. Soit le projet est jeune, soit ce n'est pas vraiment un Power.",
+      "absent": "Pas de Power détecté sur cet axe — c'est OK, on n'en a pas besoin sur les 7."
+    },
+    "scale": {
+      "step": "Module 2 · Power",
+      "tagline": "Les coûts unitaires baissent quand le volume monte. Le concurrent doit grossir pour matcher.",
+      "definition": "Quand tes coûts unitaires baissent avec le volume, ton prix résiste mieux qu'un concurrent plus petit. Le Benefit est mesurable. La Barrier vient du fait qu'un challenger devrait atteindre TON volume — ce qui prend des années et du capital — pour matcher tes coûts.",
+      "examples": {
+        "defi": "Uniswap V3 : TVL massive → meilleur pricing en routing → plus de TVL. Les Curve / Balancer plus petits offrent des spreads moins compétitifs sur les paires majeures. Le concurrent doit attirer des milliards en liquidité pour matcher — prend des années.",
+        "ai": "Anthropic / OpenAI : coût d'entraînement amorti sur des millions d'utilisateurs. Coût marginal d'inférence baisse avec optimisations sur GPU pool partagé. Un nouveau labo doit absorber le CapEx infra ($100M+) avant de matcher unit economics.",
+        "saas": "AWS : coût par compute-hour baisse drastiquement avec l'échelle de leurs data centers et leur achat hardware. GCP / Azure ont mis 10+ ans à approcher des unit economics comparables sur certains services.",
+        "web3-other": "Réseaux Layer 2 (Arbitrum, Optimism) : plus de TPS = coût par tx plus bas via rollup batching. Un nouveau L2 doit attirer du volume avant d'avoir des coûts compétitifs."
+      },
+      "q1": {
+        "label": "Le bénéfice de coût unitaire est-il quantifiable ?",
+        "hint": "Peux-tu donner un chiffre : 'à 10x notre volume, notre coût par X baisse de Y%' ?"
+      },
+      "q2": {
+        "label": "L'impact économique est-il significatif à ton stade ?",
+        "hint": "La baisse de coût te donne-t-elle un edge prix > 10% que les concurrents ne peuvent pas matcher ?"
+      },
+      "q3": {
+        "label": "Quel temps / capital pour un concurrent de t'égaler ?",
+        "hint": "Ordre de grandeur : 6 mois ? 3 ans ? $10M ? $500M ? Plus c'est long et cher, plus la Barrier est haute."
+      },
+      "q4": {
+        "label": "Un concurrent identique avec $50M échouerait-il à matcher ton volume rapidement ?",
+        "hint": "Test 'Me too won't do'. Si oui (il échouerait), la Barrier tient. Si non, c'est juste un head-start arbitrable."
+      },
+      "q5": {
+        "label": "Tu es au stade Takeoff où Scale Economies se construit ?",
+        "hint": "Scale Economies se construit au stade Takeoff (PMF acquis, on scale). À Origination c'est trop tôt, à Stability c'est déjà figé."
+      },
+      "benefitPlaceholder": "Ex. À 1B$ TVL, notre slippage est 30% plus bas que le top 5 des AMM concurrents.",
+      "barrierPlaceholder": "Ex. Un challenger doit drainer ~500M$ TVL sur 12-18 mois et payer des incentives liquidity mining (~$5M/an) pour matcher.",
+      "actionPlaceholders": {
+        "0": "Mesurer précisément l'écart de coût unitaire vs. top 3 concurrents",
+        "1": "Documenter publiquement les unit economics pour signaler la Barrier",
+        "2": "Accélérer l'acquisition de volume sur le segment où la courbe est la plus pentue"
+      }
+    }
+  },
   "module1": {
     "step": "Module 1",
     "title": "Taille de marché",

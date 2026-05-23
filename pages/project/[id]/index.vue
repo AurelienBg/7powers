@@ -2,11 +2,17 @@
 import type { PowerType } from '~/types/database'
 import { computeMarketAttractiveness, hasMinimumMarketData } from '~/utils/marketScore'
 
+const { compute: computePowerScore, isComplete: isPowerComplete } = usePowerScore()
+
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const localePath = useLocalePath()
-const { currentProject, hasProject, reset } = useProject()
+const { currentProject, hasProject, assessments, reset } = useProject()
+
+// Phase 1 ships Scale Economies as the implemented Power template.
+// The other 6 are stubbed as "coming soon" until Phase 2.
+const IMPLEMENTED_POWERS: PowerType[] = ['scale']
 
 // If there's no local project at all, or the URL id doesn't match the active project,
 // send the user back to /project/new. (Multi-project support comes post-Phase 1.)
@@ -97,23 +103,45 @@ function onResetProject() {
           <p class="text-xs text-ink-mid">TAM · SAM · SOM</p>
         </NuxtLink>
 
-        <!-- Modules 2-8: the 7 Powers — coming soon -->
-        <div
-          v-for="(power, idx) in powers"
-          :key="power"
-          class="card p-5 space-y-3 opacity-60"
-        >
-          <div class="flex items-center justify-between">
-            <span class="text-xs text-ink-low font-mono">{{ String(idx + 2).padStart(2, '0') }}</span>
-            <span class="text-xs uppercase tracking-wider text-ink-low">
-              {{ t('hub.comingSoon') }}
-            </span>
+        <!-- Modules 2-8: the 7 Powers (Scale implemented in Phase 1) -->
+        <template v-for="(power, idx) in powers" :key="power">
+          <NuxtLink
+            v-if="IMPLEMENTED_POWERS.includes(power)"
+            :to="localePath(`/project/${currentProject.local_id}/power/${power}`)"
+            class="card-hover p-5 space-y-3 block"
+            :class="isPowerComplete(assessments[power]?.answers) ? 'border-accent-blue/50' : ''"
+          >
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-ink-low font-mono">{{ String(idx + 2).padStart(2, '0') }}</span>
+              <span
+                v-if="isPowerComplete(assessments[power]?.answers)"
+                class="text-xs uppercase tracking-wider text-accent-blue-bright tabular-nums"
+              >
+                {{ computePowerScore(assessments[power]?.answers) }}/100
+              </span>
+              <span v-else class="text-xs uppercase tracking-wider text-ink-mid">
+                {{ t('hub.openModule') }}
+              </span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="glyph text-lg text-accent-blue-bright">{{ t(`powerGlyphs.${power}`) }}</span>
+              <h3 class="text-base font-medium text-ink-high">{{ t(`powers.${power}`) }}</h3>
+            </div>
+          </NuxtLink>
+
+          <div v-else class="card p-5 space-y-3 opacity-60">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-ink-low font-mono">{{ String(idx + 2).padStart(2, '0') }}</span>
+              <span class="text-xs uppercase tracking-wider text-ink-low">
+                {{ t('hub.comingSoon') }}
+              </span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="glyph text-lg text-accent-blue-bright">{{ t(`powerGlyphs.${power}`) }}</span>
+              <h3 class="text-base font-medium text-ink-high">{{ t(`powers.${power}`) }}</h3>
+            </div>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="glyph text-lg text-accent-blue-bright">{{ t(`powerGlyphs.${power}`) }}</span>
-            <h3 class="text-base font-medium text-ink-high">{{ t(`powers.${power}`) }}</h3>
-          </div>
-        </div>
+        </template>
 
         <!-- Module 9: synthesis -->
         <div class="card p-5 space-y-3 opacity-60">

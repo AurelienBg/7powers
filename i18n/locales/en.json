@@ -37,6 +37,68 @@
     "hint": "We're verifying your magic link.",
     "redirecting": "Redirecting."
   },
+  "power": {
+    "helmerDefinition": "Helmer definition",
+    "exampleFor": "Example for your sector ({sector})",
+    "powerScore": "Power Strength Score",
+    "questionsHeading": "Self-assessment",
+    "qualitativeHeading": "Qualitative description",
+    "actionItemsHeading": "3 next-steps to strengthen this Power",
+    "actionItemsHint": "Concrete, actionable, within the next 90 days. Leave blank what you haven't defined yet.",
+    "benefitLabel": "The Benefit, in plain words",
+    "benefitHint": "Describe in one or two sentences the concrete cash-flow benefit. Not a slogan — a number or a mechanism.",
+    "barrierLabel": "The Barrier, in plain words",
+    "barrierHint": "Why does an identical, well-funded competitor fail to arbitrage your Benefit? This is what turns an advantage into a Power.",
+    "save": "Save and return to project",
+    "scaleLabels": {
+      "none": "0 — Not at all",
+      "totally": "5 — Totally"
+    },
+    "scoreBands": {
+      "strong": "Solid Power. You have a real moat on this axis.",
+      "solid": "Credible but perfectible. Strengthen the Barrier.",
+      "weak": "Embryonic or arguable Power. Either the project is young, or this isn't really a Power.",
+      "absent": "No Power detected on this axis — that's OK, you don't need all 7."
+    },
+    "scale": {
+      "step": "Module 2 · Power",
+      "tagline": "Unit costs drop as volume rises. Competitor must scale up to match.",
+      "definition": "When your unit costs fall with volume, your price beats smaller competitors. The Benefit is measurable. The Barrier comes from the fact that a challenger would need to reach YOUR volume — which takes years and capital — to match your costs.",
+      "examples": {
+        "defi": "Uniswap V3: massive TVL → better routing pricing → more TVL. Smaller Curve / Balancer offer less competitive spreads on major pairs. A competitor must attract billions in liquidity to match — takes years.",
+        "ai": "Anthropic / OpenAI: training cost amortized across millions of users. Marginal inference cost drops with optimizations on shared GPU pools. A new lab must absorb CapEx infra ($100M+) before matching unit economics.",
+        "saas": "AWS: cost per compute-hour drops drastically with the scale of their data centers and hardware procurement. GCP / Azure took 10+ years to approach comparable unit economics on certain services.",
+        "web3-other": "Layer 2 networks (Arbitrum, Optimism): more TPS = lower cost per tx via rollup batching. A new L2 must attract volume before having competitive costs."
+      },
+      "q1": {
+        "label": "Is the unit-cost benefit quantifiable?",
+        "hint": "Can you give a number: 'at 10x our volume, our cost per X drops by Y%'?"
+      },
+      "q2": {
+        "label": "Is the economic impact significant at your stage?",
+        "hint": "Does the cost drop give you a price edge > 10% that competitors can't match?"
+      },
+      "q3": {
+        "label": "How much time / capital for a competitor to catch up?",
+        "hint": "Order of magnitude: 6 months? 3 years? $10M? $500M? The longer and more expensive, the higher the Barrier."
+      },
+      "q4": {
+        "label": "Would an identical competitor with $50M fail to match your volume quickly?",
+        "hint": "'Me too won't do' test. If yes (they would fail), the Barrier holds. If no, it's just an arbitrable head-start."
+      },
+      "q5": {
+        "label": "Are you at the Takeoff stage where Scale Economies are built?",
+        "hint": "Scale Economies are built at the Takeoff stage (PMF achieved, scaling up). At Origination it's too early; at Stability it's locked in."
+      },
+      "benefitPlaceholder": "e.g. At $1B TVL, our slippage is 30% lower than top-5 competitor AMMs.",
+      "barrierPlaceholder": "e.g. A challenger must drain ~$500M TVL over 12-18 months and pay liquidity-mining incentives (~$5M/yr) to match.",
+      "actionPlaceholders": {
+        "0": "Precisely measure unit-cost gap vs. top 3 competitors",
+        "1": "Publicly document unit economics to signal the Barrier",
+        "2": "Accelerate volume acquisition on the steepest segment of the curve"
+      }
+    }
+  },
   "module1": {
     "step": "Module 1",
     "title": "Market sizing",
