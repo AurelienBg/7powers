@@ -5,10 +5,32 @@ const { t, locale, locales } = useI18n()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 const { isAuthenticated, signOut, user } = useAuth()
+// Mount the cloud-sync watcher here — it runs once for the lifetime of the
+// layout (which is the lifetime of any logged session). It triggers an
+// initial push of the local project to Supabase the moment auth lands.
+const { status: syncStatus } = useCloudSync()
 
 const otherLocales = computed(() =>
   (locales.value as { code: string; name: string }[]).filter((l) => l.code !== locale.value)
 )
+
+const syncLabel = computed(() => {
+  switch (syncStatus.value) {
+    case 'syncing': return t('nav.syncingToCloud')
+    case 'synced':  return t('nav.syncedToCloud')
+    case 'error':   return t('nav.syncFailed')
+    default:        return ''
+  }
+})
+
+const syncToneClass = computed(() => {
+  switch (syncStatus.value) {
+    case 'syncing': return 'text-accent-blue-bright'
+    case 'synced':  return 'text-ink-mid'
+    case 'error':   return 'text-amber-400'
+    default:        return 'text-ink-low'
+  }
+})
 
 async function handleSignOut() {
   await signOut()
@@ -38,6 +60,15 @@ async function handleSignOut() {
           <span class="w-px h-4 bg-border-subtle mx-1" />
 
           <template v-if="isAuthenticated">
+            <span
+              v-if="syncStatus !== 'idle'"
+              class="text-xs hidden md:inline-flex items-center gap-1 transition-colors"
+              :class="syncToneClass"
+              :title="syncLabel"
+            >
+              <span class="glyph">{{ syncStatus === 'error' ? '⚠' : syncStatus === 'syncing' ? '↻' : '☁' }}</span>
+              <span>{{ syncLabel }}</span>
+            </span>
             <span class="text-xs text-ink-mid hidden md:inline">{{ user?.email }}</span>
             <button type="button" class="btn-ghost !py-1.5 !px-3 text-sm" @click="handleSignOut">
               {{ t('nav.logout') }}
