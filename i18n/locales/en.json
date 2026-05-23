@@ -279,6 +279,23 @@
     "timeHoursAgo": "{n} h ago",
     "timeDaysAgo": "{n} d ago"
   },
+  "coach": {
+    "title": "Helmer Coach",
+    "contextLabel": "Module:",
+    "contextGeneral": "Project overview",
+    "open": "Coach",
+    "close": "Close",
+    "send": "Send",
+    "streaming": "Streaming…",
+    "clearThread": "Clear",
+    "inputPlaceholder": "Ask the coach…",
+    "inputHint": "Enter to send · Shift+Enter for a newline",
+    "emptyTitle": "Stress-test your defensibility",
+    "emptyBody": "Describe your Benefit, your Barrier, or ask the coach to assess what you just filled in. It knows your project, sector, stage, and current scores.",
+    "errors": {
+      "generic": "Error calling the coach. Check your connection and try again."
+    }
+  },
   "powers": {
     "scale": "Scale Economies",
     "network": "Network Economies",

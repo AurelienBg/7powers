@@ -279,6 +279,23 @@
     "timeHoursAgo": "il y a {n} h",
     "timeDaysAgo": "il y a {n} j"
   },
+  "coach": {
+    "title": "Coach Helmer",
+    "contextLabel": "Module :",
+    "contextGeneral": "Vue projet",
+    "open": "Coach",
+    "close": "Fermer",
+    "send": "Envoyer",
+    "streaming": "En cours…",
+    "clearThread": "Effacer",
+    "inputPlaceholder": "Pose ta question au coach…",
+    "inputHint": "Entrée pour envoyer · Shift+Entrée pour une nouvelle ligne",
+    "emptyTitle": "Stress-teste ta défensibilité",
+    "emptyBody": "Décris ton Benefit, ta Barrier, ou demande au coach un avis sur ce que tu viens de saisir. Il connaît ton projet, son secteur, son stade, et tes scores actuels.",
+    "errors": {
+      "generic": "Erreur lors de l'appel au coach. Vérifie ta connexion et réessaie."
+    }
+  },
   "powers": {
     "scale": "Économies d'échelle",
     "network": "Effets de réseau",

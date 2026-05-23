@@ -1,0 +1,194 @@
+<script setup lang="ts">
+import type { PowerContext } from '~/stores/coach'
+import type { PowerType } from '~/types/database'
+
+const { t } = useI18n()
+const route = useRoute()
+const { currentProject } = useProject()
+
+// ============================================================
+// Open / close drawer state (shared via useState — easier than props)
+// ============================================================
+
+const isOpen = useState<boolean>('coach-open', () => false)
+function close() { isOpen.value = false }
+
+// ============================================================
+// Derive powerContext from current route
+// ============================================================
+
+const powerContext = computed<PowerContext>(() => {
+  // /project/[id]/power/[type] → type is the power context
+  const type = route.params.type as string | undefined
+  if (type && ['scale', 'network', 'counter', 'switching', 'branding', 'cornered', 'process'].includes(type)) {
+    return type as PowerType
+  }
+  return 'general'
+})
+
+const { messages, isStreaming, errorMessage, sendMessage, clearThread } = useCoach(powerContext)
+
+// ============================================================
+// Input handling
+// ============================================================
+
+const input = ref('')
+const inputEl = ref<HTMLTextAreaElement | null>(null)
+const messagesEl = ref<HTMLDivElement | null>(null)
+
+async function submit() {
+  if (!input.value.trim() || isStreaming.value) return
+  const text = input.value
+  input.value = ''
+  await sendMessage(text)
+}
+
+function onKeydown(e: KeyboardEvent) {
+  // Enter sends, Shift+Enter inserts a newline.
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault()
+    submit()
+  }
+}
+
+// Auto-scroll to bottom on new messages / streaming deltas.
+watch([messages, isStreaming], async () => {
+  await nextTick()
+  if (messagesEl.value) {
+    messagesEl.value.scrollTop = messagesEl.value.scrollHeight
+  }
+}, { deep: true })
+
+// Auto-focus input when drawer opens.
+watch(isOpen, async (open) => {
+  if (open) {
+    await nextTick()
+    inputEl.value?.focus()
+  }
+})
+
+// ============================================================
+// Header label (which module the coach is currently "on")
+// ============================================================
+
+const contextLabel = computed(() => {
+  const ctx = powerContext.value
+  if (ctx === 'general') return t('coach.contextGeneral')
+  return t(`powers.${ctx}`)
+})
+</script>
+
+<template>
+  <Teleport to="body">
+    <!-- Backdrop on mobile only -->
+    <Transition
+      enter-active-class="transition-opacity duration-200"
+      leave-active-class="transition-opacity duration-150"
+      enter-from-class="opacity-0"
+      leave-to-class="opacity-0"
+    >
+      <div
+        v-if="isOpen"
+        class="md:hidden fixed inset-0 z-40 bg-bg-base/70 backdrop-blur-sm"
+        @click="close"
+      />
+    </Transition>
+
+    <!-- Drawer -->
+    <aside
+      v-if="currentProject"
+      class="fixed right-0 top-0 h-screen w-full md:w-[420px] z-50
+             bg-bg-card border-l border-border-subtle flex flex-col
+             transition-transform duration-200 ease-out"
+      :class="isOpen ? 'translate-x-0' : 'translate-x-full'"
+      :aria-hidden="!isOpen"
+    >
+      <!-- Header -->
+      <div class="px-4 py-3 border-b border-border-subtle flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="glyph text-xl text-gold-bright shrink-0">✦</span>
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-ink-high">{{ t('coach.title') }}</div>
+            <div class="text-xs text-ink-low truncate">
+              {{ t('coach.contextLabel') }} {{ contextLabel }}
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-1 shrink-0">
+          <button
+            v-if="messages.length > 0"
+            type="button"
+            class="text-xs text-ink-low hover:text-ink-high transition-colors px-2 py-1"
+            :title="t('coach.clearThread')"
+            @click="clearThread"
+          >
+            {{ t('coach.clearThread') }}
+          </button>
+          <button
+            type="button"
+            class="w-8 h-8 rounded inline-flex items-center justify-center
+                   text-ink-mid hover:text-ink-high hover:bg-bg-elevated transition-colors"
+            :aria-label="t('coach.close')"
+            @click="close"
+          >
+            <span class="text-xl leading-none">×</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div
+        ref="messagesEl"
+        class="flex-1 overflow-y-auto px-4 py-4 space-y-3"
+      >
+        <!-- Empty state -->
+        <div v-if="messages.length === 0" class="space-y-3 py-6">
+          <div class="text-center space-y-2">
+            <span class="glyph text-4xl text-gold-bright">✦</span>
+            <h3 class="text-base font-medium text-ink-high">{{ t('coach.emptyTitle') }}</h3>
+            <p class="text-sm text-ink-mid leading-relaxed">{{ t('coach.emptyBody') }}</p>
+          </div>
+        </div>
+
+        <CoachMessage
+          v-for="(msg, idx) in messages"
+          :key="msg.id"
+          :message="msg"
+          :streaming="isStreaming && idx === messages.length - 1 && msg.role === 'assistant'"
+        />
+
+        <!-- Error -->
+        <div v-if="errorMessage" class="card p-3 border-red-500/30 bg-red-500/5">
+          <p class="text-xs text-red-300">{{ errorMessage }}</p>
+        </div>
+      </div>
+
+      <!-- Input -->
+      <div class="border-t border-border-subtle p-3 space-y-2">
+        <textarea
+          ref="inputEl"
+          v-model="input"
+          rows="2"
+          class="w-full bg-bg-elevated border border-border-subtle rounded-lg px-3 py-2
+                 text-sm text-ink-high placeholder:text-ink-low
+                 focus:outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30
+                 transition-colors resize-none"
+          :placeholder="t('coach.inputPlaceholder')"
+          :disabled="isStreaming"
+          @keydown="onKeydown"
+        />
+        <div class="flex items-center justify-between gap-2">
+          <p class="text-[10px] text-ink-low">{{ t('coach.inputHint') }}</p>
+          <button
+            type="button"
+            class="btn-primary !px-4 !py-1.5 text-sm"
+            :disabled="!input.trim() || isStreaming"
+            @click="submit"
+          >
+            {{ isStreaming ? t('coach.streaming') : t('coach.send') }}
+          </button>
+        </div>
+      </div>
+    </aside>
+  </Teleport>
+</template>

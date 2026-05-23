@@ -79,5 +79,9 @@ if (route.params.id) {
         <slot />
       </main>
     </div>
+
+    <!-- AI Coach — floating bubble (collapsed) + drawer (open) -->
+    <CoachToggle />
+    <CoachChat />
   </div>
 </template>
