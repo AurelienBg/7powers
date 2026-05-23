@@ -1,5 +1,9 @@
 <script setup lang="ts">
-const { t, locale, locales, setLocale } = useI18n()
+const { t, locale, locales } = useI18n()
+// @nuxtjs/i18n v10 no longer auto-imports localePath/switchLocalePath as globals.
+// They must be obtained via these composables.
+const localePath = useLocalePath()
+const switchLocalePath = useSwitchLocalePath()
 const { isAuthenticated, signOut, user } = useAuth()
 
 const otherLocales = computed(() =>
