@@ -81,7 +81,10 @@
     "useDifferentEmail": "Use a different email",
     "invalidEmail": "Invalid email.",
     "genericError": "Something went wrong. Try again.",
-    "localFirstHint": "Your work is saved locally even without an account."
+    "localFirstHint": "Your work is saved locally even without an account.",
+    "signInWithGoogle": "Continue with Google",
+    "or": "or",
+    "redirecting": "Redirecting to Google…"
   },
   "confirm": {
     "verifying": "Verifying…",
