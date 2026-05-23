@@ -75,6 +75,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Server-only secrets
     anthropicApiKey: process.env.ANTHROPIC_API_KEY,
+    // Override-able via NUXT_ANTHROPIC_MODEL env var on Vercel without a rebuild.
+    // Per spec § 4.3: Sonnet 4 by default. Bump when newer Sonnet ships.
+    anthropicModel: process.env.ANTHROPIC_MODEL ?? 'claude-sonnet-4-20250514',
     public: {}
   }
 })
