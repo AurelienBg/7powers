@@ -100,7 +100,16 @@
     "verifying": "Verifying…",
     "success": "Signed in.",
     "hint": "We're verifying your magic link.",
-    "redirecting": "Redirecting."
+    "redirecting": "Redirecting.",
+    "errorTitle": "Verification failed",
+    "errorBody": "The magic link couldn't be validated. Expired? Already used? Opened in a different browser than the one where you requested it?",
+    "errorDetailLabel": "Technical detail",
+    "tryAgain": "Send a new link",
+    "backHome": "Back to home",
+    "errors": {
+      "noCode": "No verification code in the URL. This isn't a valid magic-link visit.",
+      "generic": "Unknown error during verification."
+    }
   },
   "power": {
     "helmerDefinition": "Helmer definition",

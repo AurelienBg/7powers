@@ -100,7 +100,16 @@
     "verifying": "Vérification…",
     "success": "Connecté.",
     "hint": "On vérifie ton lien magique.",
-    "redirecting": "Redirection en cours."
+    "redirecting": "Redirection en cours.",
+    "errorTitle": "La vérification a échoué",
+    "errorBody": "Le lien magique n'a pas pu être validé. Lien expiré ? Déjà utilisé ? Ouvert dans un autre navigateur que celui où tu l'as demandé ?",
+    "errorDetailLabel": "Détail technique",
+    "tryAgain": "Renvoyer un lien",
+    "backHome": "Retour à l'accueil",
+    "errors": {
+      "noCode": "Aucun code de vérification dans l'URL. Ce n'est pas une visite de lien magique valide.",
+      "generic": "Erreur inconnue lors de la vérification."
+    }
   },
   "power": {
     "helmerDefinition": "Définition Helmer",
