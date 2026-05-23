@@ -11,10 +11,15 @@ export default defineEventHandler(() => {
 
   return {
     note: 'TEMPORARY DEBUG ENDPOINT — booleans only, no secrets',
+    build_marker: 'v2-after-supabase-vars-added',
     runtime: {
       node_version: process.version,
       platform: process.platform,
-      env_count: Object.keys(process.env).length
+      env_count: Object.keys(process.env).length,
+      // VERCEL_GIT_COMMIT_SHA is auto-injected by Vercel on every build
+      // → tells us EXACTLY which commit this deployment was built from.
+      vercel_commit_sha: process.env.VERCEL_GIT_COMMIT_SHA ?? '(not on vercel?)',
+      vercel_env: process.env.VERCEL_ENV ?? '(not on vercel?)'
     },
     // What our .env.example uses
     custom_names: {
