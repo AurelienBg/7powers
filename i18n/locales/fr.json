@@ -11,10 +11,59 @@
   },
   "landing": {
     "hero": {
-      "title": "Construisez la défensibilité de votre projet — comme Helmer",
-      "subtitle": "7Powers stress-teste votre moat avec le framework Hamilton Helmer. 7 Powers, 1 Power Map, un plan d'action. Du workshop à la roadmap en 90 minutes.",
-      "cta": "Commencer",
+      "kicker": "Helmer 7 Powers framework",
+      "title": "Votre moat est-il un Power, ou juste un head-start ?",
+      "subtitle": "Helmer : Power = Benefit + Barrier. Sans Barrier, vous serez arbitré par le prochain concurrent bien financé. 7Powers stress-teste votre défensibilité en 90 minutes, par secteur et par stade. Pas de workshop. Pas de consultant.",
+      "cta": "Commencer un assessment",
       "continueExisting": "Reprendre mon projet"
+    },
+    "how": {
+      "heading": "Comment ça marche",
+      "subheading": "Cinq étapes. La même méthode que les workshops Helmer, sans 8h de réunion.",
+      "steps": {
+        "1": {
+          "title": "Setup projet",
+          "body": "Secteur, stade S-Curve, description. On adapte les questions et les exemples à votre contexte."
+        },
+        "2": {
+          "title": "Market sizing",
+          "body": "TAM / SAM / SOM + sources. Score d'attractivité 0-100 calculé sur la logique 'Value = Market × Power'."
+        },
+        "3": {
+          "title": "7 Powers en self-assessment",
+          "body": "Un module par Power. Cinq questions Q1-Q5 par module, scoring multiplicatif Helmer (zéro sur Benefit OU Barrier = pas de Power)."
+        },
+        "4": {
+          "title": "Power Map",
+          "body": "Radar visuel sur les 7 axes. Top 3 Powers identifiés, red flags signalés, Defensibility Score global."
+        },
+        "5": {
+          "title": "Plan d'action",
+          "body": "Trois next-steps concrets par Power. Export PDF pour le board, les investisseurs, ou votre équipe."
+        }
+      }
+    },
+    "for": {
+      "heading": "Pour qui",
+      "subheading": "Conçu pour les founders qui pitchent leur moat sans framework, et les programmes qui veulent un livrable structuré.",
+      "personas": {
+        "defi": {
+          "title": "Founders DeFi / Web3",
+          "body": "Vous présentez un protocole comme moat, mais sans Power identifié c'est juste un avantage arbitrable. Liquidité ≠ Network Effects. TVL ≠ Switching Costs."
+        },
+        "ai": {
+          "title": "Founders AI / Agents",
+          "body": "Face aux LLM providers, votre Power n'est probablement pas votre modèle. Cornered Resource (data exclusive) ? Counter-Positioning (modèle business que les incumbents ne peuvent copier) ?"
+        },
+        "incubator": {
+          "title": "Programs / Incubators",
+          "body": "Un livrable structuré post-workshop : Power Map + plan d'action pour chaque project de votre cohorte. Comparable d'un projet à l'autre."
+        }
+      }
+    },
+    "powersGrid": {
+      "heading": "Les 7 Powers d'Helmer",
+      "subheading": "Chaque Power = un mécanisme spécifique de défensibilité durable. La plupart des projets n'en ont que 2-3, et c'est normal."
     }
   },
   "login": {
