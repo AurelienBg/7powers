@@ -46,10 +46,18 @@ export default defineNuxtConfig({
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: 'Stress-test the defensibility of your project with Hamilton Helmer\'s 7 Powers framework.' },
-        { name: 'theme-color', content: '#0a0a0f' }
+        { name: 'theme-color', content: '#0a0a0f' },
+        // OpenGraph (Slack / LinkedIn / Twitter previews)
+        { property: 'og:title', content: '7Powers — Build defensibility, Helmer-style' },
+        { property: 'og:description', content: 'Stress-test the defensibility of your project with Hamilton Helmer\'s 7 Powers framework. Power Map, defensibility score, action plan.' },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:site_name', content: '7Powers' },
+        { name: 'twitter:card', content: 'summary' }
       ],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        // iOS home-screen icon (iOS 18+ supports SVG)
+        { rel: 'apple-touch-icon', href: '/favicon-A-with-7.svg' }
       ]
     }
   },
