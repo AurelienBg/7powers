@@ -244,7 +244,30 @@
     "openModule": "Ouvrir",
     "backToProject": "Retour au projet",
     "resetProject": "Supprimer ce projet (local)",
-    "resetConfirm": "Vraiment supprimer ce projet local ? Cette action est irréversible."
+    "resetConfirm": "Vraiment supprimer ce projet local ? Cette action est irréversible.",
+    "progressLabel": "Avancement"
+  },
+  "dashboard": {
+    "kicker": "Dashboard",
+    "title": "Tous les projets",
+    "subtitle": "{count} projet(s) en cours. Clique pour ouvrir, ou crée-en un nouveau.",
+    "emptyTitle": "Aucun projet pour l'instant",
+    "emptyBody": "Crée ton premier projet pour stress-tester sa défensibilité avec le framework 7 Powers d'Helmer.",
+    "emptyCta": "Créer un projet",
+    "cardMarket": "Market",
+    "cardPowers": "Powers",
+    "cardDefensibility": "Defensibility",
+    "deleteProject": "Supprimer",
+    "deleteConfirmTitle": "Supprimer ce projet ?",
+    "deleteConfirmBody": "« {name} » sera supprimé définitivement de ce navigateur. Si ce projet a été synchronisé dans le cloud, la copie cloud reste intacte.",
+    "deleteConfirm": "Supprimer",
+    "deleteCancel": "Annuler",
+    "anonHintTitle": "Tu travailles en local",
+    "anonHintBody": "Connecte-toi pour persister tes projets dans le cloud et y accéder depuis n'importe quel navigateur. Sans login, ton travail reste sur cette machine uniquement.",
+    "timeJustNow": "à l'instant",
+    "timeMinutesAgo": "il y a {n} min",
+    "timeHoursAgo": "il y a {n} h",
+    "timeDaysAgo": "il y a {n} j"
   },
   "powers": {
     "scale": "Économies d'échelle",

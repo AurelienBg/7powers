@@ -244,7 +244,30 @@
     "openModule": "Open",
     "backToProject": "Back to project",
     "resetProject": "Delete this project (local)",
-    "resetConfirm": "Really delete this local project? This action cannot be undone."
+    "resetConfirm": "Really delete this local project? This action cannot be undone.",
+    "progressLabel": "Progress"
+  },
+  "dashboard": {
+    "kicker": "Dashboard",
+    "title": "All projects",
+    "subtitle": "{count} project(s) in progress. Click to open one, or create a new one.",
+    "emptyTitle": "No projects yet",
+    "emptyBody": "Create your first project to stress-test its defensibility with Helmer's 7 Powers framework.",
+    "emptyCta": "Create a project",
+    "cardMarket": "Market",
+    "cardPowers": "Powers",
+    "cardDefensibility": "Defensibility",
+    "deleteProject": "Delete",
+    "deleteConfirmTitle": "Delete this project?",
+    "deleteConfirmBody": "\"{name}\" will be permanently deleted from this browser. If this project was synced to the cloud, the cloud copy remains intact.",
+    "deleteConfirm": "Delete",
+    "deleteCancel": "Cancel",
+    "anonHintTitle": "You're working locally",
+    "anonHintBody": "Sign in to persist your projects in the cloud and access them from any browser. Without login, your work stays on this machine only.",
+    "timeJustNow": "just now",
+    "timeMinutesAgo": "{n} min ago",
+    "timeHoursAgo": "{n} h ago",
+    "timeDaysAgo": "{n} d ago"
   },
   "powers": {
     "scale": "Scale Economies",

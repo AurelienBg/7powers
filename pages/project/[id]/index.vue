@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PowerType } from '~/types/database'
+import type { PowerType, LocalPowerAssessment } from '~/types/database'
 import { computeMarketAttractiveness, hasMinimumMarketData } from '~/utils/marketScore'
 
 definePageMeta({ layout: 'project' })
@@ -11,11 +11,7 @@ const router = useRouter()
 const localePath = useLocalePath()
 const { currentProject, deleteProject, assessments } = useProject()
 
-// Layout already handles the URL ↔ store sync and the bouncing if the id is
-// unknown. Below this line, we can assume currentProject is the right one.
-
 // Phase 1 ships Scale Economies as the implemented Power template.
-// The other 6 are stubbed as "coming soon" until Phase 2.
 const IMPLEMENTED_POWERS: PowerType[] = ['scale']
 
 const powers: PowerType[] = [
@@ -37,28 +33,87 @@ const marketScore = computed(() => {
   return computeMarketAttractiveness(currentProject.value.market_size)
 })
 
-function onResetProject() {
-  if (!currentProject.value) return
-  if (confirm(t('hub.resetConfirm'))) {
-    deleteProject(currentProject.value.local_id)
-    router.push(localePath('/'))
+const projectInitial = computed(() => currentProject.value?.name.charAt(0).toUpperCase() ?? '·')
+
+// Progress = how many of the 9 modules are completed
+// 9 = Module 0 (always done since project exists) + Module 1 (market) + 7 Powers
+// (Module 9 Synthesis isn't counted as completable — it's a derivative view)
+const completedCount = computed(() => {
+  let done = 1 // Module 0 always done
+  if (marketDone.value) done += 1
+  for (const p of powers) {
+    if (isPowerComplete(assessments.value[p]?.answers)) done += 1
   }
+  return done
+})
+
+const progressPercent = computed(() => Math.round((completedCount.value / 9) * 100))
+
+// ============================================================
+// Delete confirmation modal
+// ============================================================
+
+const showDeleteModal = ref(false)
+
+function openDelete() {
+  showDeleteModal.value = true
+}
+
+function cancelDelete() {
+  showDeleteModal.value = false
+}
+
+function executeDelete() {
+  if (!currentProject.value) return
+  deleteProject(currentProject.value.local_id)
+  showDeleteModal.value = false
+  router.push(localePath('/'))
 }
 </script>
 
 <template>
-  <main v-if="currentProject" class="mx-auto max-w-5xl px-6 py-12 space-y-12">
+  <div v-if="currentProject" class="mx-auto max-w-5xl px-6 py-10 space-y-10">
     <!-- Project header -->
-    <header class="space-y-2">
-      <h1 class="text-3xl font-semibold text-ink-high">{{ currentProject.name }}</h1>
-      <p class="text-sm text-ink-mid">
-        <span>{{ t(`sectors.${currentProject.sector}`) }}</span>
-        <span class="text-ink-low mx-2">·</span>
-        <span>{{ t(`stages.${currentProject.stage}`) }}</span>
-      </p>
-      <p v-if="currentProject.description" class="text-ink-mid max-w-2xl pt-2">
+    <header class="space-y-5">
+      <div class="flex items-start gap-4">
+        <div
+          class="w-14 h-14 rounded-xl flex items-center justify-center text-xl font-semibold shrink-0
+                 bg-gradient-to-br from-accent-blue/40 to-accent-blue-glow/40
+                 text-ink-high"
+        >
+          {{ projectInitial }}
+        </div>
+        <div class="space-y-1.5 flex-1 min-w-0">
+          <h1 class="text-3xl font-semibold text-ink-high break-words">{{ currentProject.name }}</h1>
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-bg-elevated text-ink-mid border border-border-subtle">
+              {{ t(`sectors.${currentProject.sector}`) }}
+            </span>
+            <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-bg-elevated text-ink-mid border border-border-subtle">
+              {{ t(`stages.${currentProject.stage}`) }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <p v-if="currentProject.description" class="text-ink-mid max-w-2xl">
         {{ currentProject.description }}
       </p>
+
+      <!-- Progress bar -->
+      <div class="space-y-2">
+        <div class="flex items-baseline justify-between">
+          <p class="text-[10px] uppercase tracking-widest text-ink-mid">{{ t('hub.progressLabel') }}</p>
+          <p class="text-xs text-ink-mid tabular-nums">{{ completedCount }} / 9</p>
+        </div>
+        <div class="h-1.5 rounded-full bg-bg-elevated overflow-hidden">
+          <div
+            class="h-full rounded-full transition-all duration-300"
+            :class="progressPercent >= 70 ? 'bg-gold-bright' : 'bg-accent-blue'"
+            :style="{ width: `${progressPercent}%` }"
+          />
+        </div>
+      </div>
     </header>
 
     <!-- Modules grid -->
@@ -67,13 +122,13 @@ function onResetProject() {
         {{ t('hub.modulesHeading') }}
       </h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         <!-- Module 0: done -->
         <div class="card p-5 space-y-3 border-accent-blue/50">
           <div class="flex items-center justify-between">
             <span class="text-xs text-ink-low font-mono">00</span>
             <span class="text-xs uppercase tracking-wider text-accent-blue-bright">
-              {{ t('hub.done') }}
+              ✓ {{ t('hub.done') }}
             </span>
           </div>
           <h3 class="text-base font-medium text-ink-high">{{ t('hub.module0') }}</h3>
@@ -102,7 +157,7 @@ function onResetProject() {
           <p class="text-xs text-ink-mid">TAM · SAM · SOM</p>
         </NuxtLink>
 
-        <!-- Modules 2-8: the 7 Powers (Scale implemented in Phase 1) -->
+        <!-- Modules 2-8: the 7 Powers -->
         <template v-for="(power, idx) in powers" :key="power">
           <NuxtLink
             v-if="IMPLEMENTED_POWERS.includes(power)"
@@ -163,10 +218,40 @@ function onResetProject() {
       <button
         type="button"
         class="text-xs text-ink-low hover:text-red-400 transition-colors"
-        @click="onResetProject"
+        @click="openDelete"
       >
         {{ t('hub.resetProject') }}
       </button>
     </section>
-  </main>
+
+    <!-- Delete confirmation modal -->
+    <Teleport to="body">
+      <div
+        v-if="showDeleteModal"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-base/80 backdrop-blur-sm"
+        @click.self="cancelDelete"
+      >
+        <div class="card p-6 max-w-md w-full space-y-4">
+          <h3 class="text-lg font-semibold text-ink-high">{{ t('dashboard.deleteConfirmTitle') }}</h3>
+          <p class="text-sm text-ink-mid">
+            {{ t('dashboard.deleteConfirmBody', { name: currentProject.name }) }}
+          </p>
+          <div class="flex items-center justify-end gap-2 pt-2">
+            <button type="button" class="btn-ghost !py-2 !px-4 text-sm" @click="cancelDelete">
+              {{ t('dashboard.deleteCancel') }}
+            </button>
+            <button
+              type="button"
+              class="inline-flex items-center justify-center px-4 py-2 rounded-lg
+                     bg-red-500/90 text-white text-sm font-medium
+                     hover:bg-red-500 transition-colors"
+              @click="executeDelete"
+            >
+              {{ t('dashboard.deleteConfirm') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </Teleport>
+  </div>
 </template>
