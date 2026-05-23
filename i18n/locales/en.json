@@ -171,6 +171,234 @@
         "1": "Publicly document unit economics to signal the Barrier",
         "2": "Accelerate volume acquisition on the steepest segment of the curve"
       }
+    },
+    "network": {
+      "step": "Module 3 · Power",
+      "tagline": "Value grows for every user when more users join. A competitor must reach critical mass.",
+      "definition": "When each new user increases value for existing ones, your service gets better as it grows. The Benefit is measurable (engagement, retention). The Barrier is the chicken-and-egg problem: a competitor must acquire enough users to offer the same value — which costs heavy incentives and takes time.",
+      "examples": {
+        "defi": "Uniswap: more LPs → more liquidity → better pricing → more traders → more fees for LPs. Aave / Compound: more lenders → better rates → more borrowers. Virtuous loop a competitor must kickstart with massive incentives (gas wars / liquidity mining wars).",
+        "ai": "Cursor / GitHub Copilot: more users → more feedback signals → better model → more users. Agent marketplaces (LangChain hub, OpenAI GPT store): more devs publish → more variety → more users → more incentive to publish.",
+        "saas": "Linear: connected teams generate cross-team network. Notion: shared workspace becomes the organization's hub. Figma: shared design files become the common asset. A 10x-better competitor struggles if the network has taken hold.",
+        "web3-other": "Lens / Farcaster: onchain social graph. Wallets (Phantom, MetaMask): adopted standards. NFT marketplaces (OpenSea, eroded by Blur). Competitor must do costly mass-onboarding to match the critical mass."
+      },
+      "q1": {
+        "label": "Is the marginal-value-per-additional-user effect quantifiable?",
+        "hint": "Can you measure: 'at 10x users, utility per user rises by X%' (metric: engagement, retention, ARPU)?"
+      },
+      "q2": {
+        "label": "Is the network effect already active in your current metrics?",
+        "hint": "Non-linear effect visible: churn drops with scale, ARPU rises, CAC falls."
+      },
+      "q3": {
+        "label": "How many users must a competitor acquire to reach your value-per-user?",
+        "hint": "Orders: 100K? 1M? 10M? The higher the threshold, the more solid the Barrier."
+      },
+      "q4": {
+        "label": "Would a competitor with $50M marketing budget succeed in poaching your users via incentives?",
+        "hint": "Me-too-won't-do test. If no (network holds), Barrier solid. If yes (gas wars work), it's arbitrable."
+      },
+      "q5": {
+        "label": "Are you at the Takeoff stage where Network Effects are built?",
+        "hint": "Takeoff (PMF + scaling) — ideal moment. Origination = too early, Stability = should already be locked."
+      },
+      "benefitPlaceholder": "e.g. At 100K active users, our engagement/user has doubled vs 10K. Churn dropped from 8% to 3%.",
+      "barrierPlaceholder": "e.g. A competitor must acquire 50K active users (~$5M CAC) to offer the same engagement — ~18 months of paid acquisition.",
+      "actionPlaceholders": {
+        "0": "Identify the precise network KPI (engagement, retention, per-user ARPU) and track it monthly",
+        "1": "Reduce CAC on the segment where the network self-reinforces fastest",
+        "2": "Lock down a network primitive (data format, integration) competitors can't easily replicate"
+      }
+    },
+    "counter": {
+      "step": "Module 4 · Power",
+      "tagline": "A business model incumbents can't copy without cannibalizing themselves.",
+      "definition": "You adopt a fundamentally different economic model that gives you an edge. The Benefit is measurable (lower price, better margins, different distribution). The Barrier is NOT technical — it's cannibalization: if the incumbent copies you, they destroy their own existing business.",
+      "examples": {
+        "defi": "Aave / Compound vs banks: 4-8% APY on stablecoins when banks offer 0.1%. A bank can't match without cannibalizing its free checking accounts and interest spread. MakerDAO: programmable over-collateralization no one copies without rethinking their entire credit back office.",
+        "ai": "Cursor vs JetBrains: pay-per-completion + AI-first vs annual license + plugin. JetBrains can't drop the license without crashing its recurring revenue. Open-source LLMs (Mistral, Llama): Anthropic can't open-source Claude without killing its API revenue.",
+        "saas": "Linear vs Jira: no enterprise sales, transparent pricing, no heavy admin. Atlassian can't match without destroying its sales-led business. Notion vs MS Office: freemium + native collaboration, Microsoft must protect Office 365 enterprise.",
+        "web3-other": "DAO governance vs corporate structure: token-voted, open, transparent. A corp can't tokenize governance without SEC headaches. Bitcoin self-custody vs custodial banks: a bank can't offer self-custody without blowing up its custodian model."
+      },
+      "q1": {
+        "label": "Is your economic model fundamentally different from incumbents (not just better, different)?",
+        "hint": "Pricing model, distribution, business unit, monetization — where is the structural delta?"
+      },
+      "q2": {
+        "label": "Is the value differential strong enough for a user to switch from an incumbent?",
+        "hint": "Does the low price or superior offering compensate for switch friction (trust, data, habits)?"
+      },
+      "q3": {
+        "label": "If an incumbent tried to copy you, what exactly would they have to cannibalize?",
+        "hint": "Name the concrete revenue stream of the incumbent that disappears if they adopt your model."
+      },
+      "q4": {
+        "label": "Would a competitor with $50M adopting your model face the same cannibalization dilemma as incumbents?",
+        "hint": "If a newcomer (no legacy) can copy you painlessly, your Power is arbitrable. If every entrant must make the same choice, Barrier solid."
+      },
+      "q5": {
+        "label": "Are you at Origination where Counter-Positioning is built?",
+        "hint": "Origination (pre-PMF) — ideal moment to design a disruptive model. Takeoff = too late to pivot the model."
+      },
+      "benefitPlaceholder": "e.g. Our usage-based pricing cuts cost for 80% of users by 60% vs incumbent seat-based pricing.",
+      "barrierPlaceholder": "e.g. Jira can't adopt our usage pricing without cannibalizing ~$2B of enterprise revenue locked in annual contracts.",
+      "actionPlaceholders": {
+        "0": "Articulate in writing the exact cannibalization dilemma each incumbent faces vs your model",
+        "1": "Lock in the value differential while incumbents can't respond",
+        "2": "Identify the most exposed incumbent segment and accelerate acquisition there"
+      }
+    },
+    "switching": {
+      "step": "Module 5 · Power",
+      "tagline": "A switch cost for users that lets you capture a premium or hold against 10x-better competitors.",
+      "definition": "Once a user adopts your product, the cost to leave becomes significant (time, data, retraining, broken integrations). You can price at a premium as long as that cost > a competitor's value delta. The Barrier grows with usage — every additional month reinforces lock-in.",
+      "examples": {
+        "defi": "Aave / Compound: LP positions, locked governance tokens (veCRV at Curve), onchain reputation. Switching = unwind positions, lose accrued rewards, redo KYC elsewhere. veCRV: 4-year lock for max voting power = massive switching cost.",
+        "ai": "Cursor / Claude Projects: personalized agent on your code style and docs, refined prompts/workflows. ChatGPT memory: the AI knows your preferences. Switching = start from scratch, lose weeks of tuning.",
+        "saas": "Salesforce: CRM integrations with 50+ tools, historical client data, automated workflows. Notion: workspace, templates, integrations. Switching = loss of structured data + weeks of migration.",
+        "web3-other": "ENS names: your .eth identity. NFT collections: community-anchored social status. Wallet: seed phrase + accumulated onchain reputation."
+      },
+      "q1": {
+        "label": "Is the user's switch cost quantifiable (hours, $ migration, data lost)?",
+        "hint": "How long + how much $ would an average user need to migrate to a competitor?"
+      },
+      "q2": {
+        "label": "Is the premium price (or retention) this cost lets you capture significant?",
+        "hint": "Can you price 15%+ above equivalent competitors without losing users? That's the signal."
+      },
+      "q3": {
+        "label": "How much time / effort does a user invest to switch after 6 months with you?",
+        "hint": "The longer the tenure, the higher the cost (accumulated data). Estimate for 1 month and 1 year of use."
+      },
+      "q4": {
+        "label": "If a free + 2x-better competitor showed up tomorrow, would your active users stay?",
+        "hint": "Ultimate test. If yes (low Switching Costs), it's not a Power. If no, solid Barrier."
+      },
+      "q5": {
+        "label": "Are you at Takeoff stage where Switching Costs accumulate through usage?",
+        "hint": "Takeoff (PMF + scale) — every month of usage per cohort adds switching cost. Origination = too early, Stability = saturated."
+      },
+      "benefitPlaceholder": "e.g. Our users average 50+ active integrations after 12 months. Migration takes 3-6 months of data engineering work.",
+      "barrierPlaceholder": "e.g. A competitor must not only match our product but also rebuild integrations with the 50+ tools our users connect — ~$100k+ per client.",
+      "actionPlaceholders": {
+        "0": "Measure concrete switch cost (time, $, lost data) for your average user and surface it",
+        "1": "Add features that grow user investment (custom templates, integrations, accumulated data)",
+        "2": "Raise switching costs specifically on segments most at risk of churn"
+      }
+    },
+    "branding": {
+      "step": "Module 6 · Power",
+      "tagline": "A brand that commands a price premium through perception, built on years of consistent signaling.",
+      "definition": "Your brand evokes quality, security, or status in a way that justifies a price above the objectively equivalent. The Benefit is measurable (price premium, conversion on brand name). The Barrier is hysteresis: it takes 3-5+ years of investment and consistency for a brand to settle in — a competitor can't shortcut that time.",
+      "examples": {
+        "defi": "Aave / MakerDAO: 'blue-chip DeFi'. Even if a new lending protocol offers 1% better, whales stay out of trust. Chainlink: the reference oracle — a new oracle, even technically superior, struggles to match accumulated trust.",
+        "ai": "Anthropic Claude: recognized safety-first positioning. Midjourney: premium artist brand. Against LLM commoditization, models work nearly the same — the brand makes the difference at the buying decision.",
+        "saas": "Stripe: developer trust. Notion: cool-kids productivity. Linear: engineering elegance. 30-50% price premium vs functionally equivalent competitors (Square, Coda, Jira).",
+        "web3-other": "BAYC: social status. Crypto.com: mass-market trust. Coinbase: the 'safe' platform (US regulation). Brand wins over tech in contexts where trust is scarce."
+      },
+      "q1": {
+        "label": "Does your brand command a measurable price premium vs equivalent alternatives?",
+        "hint": "Cite the delta: 'Our product prices at X, equivalent competitor at Y, and users still pay'."
+      },
+      "q2": {
+        "label": "Is the 3+ years of brand investment significant and consistent?",
+        "hint": "Content, design, partnerships, comm presence — what cumulative $ + consistency?"
+      },
+      "q3": {
+        "label": "How many years + marketing spend must a competitor invest to match your perception?",
+        "hint": "Brand = hysteresis. Orders: 3 years + $5M? 7 years + $50M? A mature brand takes decades."
+      },
+      "q4": {
+        "label": "Would a functionally identical competitor with $50M marketing fail to match your brand in 2 years?",
+        "hint": "That's the speed of hysteresis. If yes (slow), Barrier solid. If $50M commoditizes you in 2 years, that's not Branding."
+      },
+      "q5": {
+        "label": "Are you at Stability stage where Branding consolidates?",
+        "hint": "Stability (PMF + maturity) — that's when Branding really settles. Origination = too early (nascent brand), Takeoff = under construction."
+      },
+      "benefitPlaceholder": "e.g. Our conversion on name-search is 4x higher than category-search. Clients cite our brand in 60% of RFPs.",
+      "barrierPlaceholder": "e.g. Our brand was built through 6 years of content investing (~$3M spent), exclusive partnerships, 70+ NPS. A competitor must reproduce this time + capital + accumulated trust.",
+      "actionPlaceholders": {
+        "0": "Measure the real price premium vs equivalent competitors (controlled comparison)",
+        "1": "Invest in the most distinctive quality signal for your segment (security, design, engineering, tone)",
+        "2": "Protect the brand on its cardinal points — a brand miss costs 10x more to fix than to avoid"
+      }
+    },
+    "cornered": {
+      "step": "Module 7 · Power",
+      "tagline": "Exclusive, durable access to a critical asset — data, IP, contract, talent, distribution.",
+      "definition": "You hold an asset others don't and can't have: contractual exclusivity, intellectual property, proprietary dataset, top talent. Without that asset, your product would be commodity. The Barrier is legal or structural (ownership), not competitive (skill).",
+      "examples": {
+        "defi": "Ondo Finance: RWA partnership with BlackRock (BUIDL). A competitor can't have the same exclusive partnership. Anchorage Digital: regulated US custody license. Circle (USDC): US banking rails locked through 8+ years of compliance work.",
+        "ai": "Bloomberg: proprietary financial dataset to train a finance LLM. Hollywood studios: signed video data for video models. NVIDIA: CUDA + dev ecosystem locked. xAI / OpenAI: top ML talent retained via equity + IP restrictions.",
+        "saas": "Palantir: classified government contracts (DoD, NSA) — non-replicable without clearance. LinkedIn: data scraping agreements + lawsuits vs imitators. Salesforce: decades of proprietary CRM client data.",
+        "web3-other": "ENS: premium .eth domain names finite (never more). Cryptography patents (zkSync, StarkWare). Binance / Coinbase exclusive first-listing agreements."
+      },
+      "q1": {
+        "label": "Is the asset truly exclusive (verifiable, defensible contract / IP / patent)?",
+        "hint": "Is it legally or structurally verifiable, not just a 'head-start'?"
+      },
+      "q2": {
+        "label": "Is this asset critical to the business — without it, value collapses?",
+        "hint": "If you lost the asset tomorrow (contract broken, IP invalidated), how much value would you lose?"
+      },
+      "q3": {
+        "label": "What would it take for a competitor to acquire an equivalent asset?",
+        "hint": "Orders: $1M? $100M? Acquisition of another company? Truly one-of-a-kind?"
+      },
+      "q4": {
+        "label": "Could a $50M competitor buy or license an equivalent asset?",
+        "hint": "Decisive test. If yes, your asset isn't cornered, just expensive. If no (truly unique), Barrier ironclad."
+      },
+      "q5": {
+        "label": "Are you at Origination where Cornered Resource is won?",
+        "hint": "Origination — moment to win exclusivity (partnerships, IP, key hires). Takeoff = the window closes, Stability = too late."
+      },
+      "benefitPlaceholder": "e.g. Our proprietary dataset covers 80% of historical corporate bond trades, accumulated via 8 exclusive bank partnerships.",
+      "barrierPlaceholder": "e.g. The 8 partnerships are each 5-year terms, signed in 2024, with exclusivity clauses. A competitor must wait until 2029 to propose an equivalent deal — and must sign them blind.",
+      "actionPlaceholders": {
+        "0": "Lock down the most strategic exclusivities legally (IP audit, NDA, non-circumvent clauses)",
+        "1": "Identify top talent whose loss would be fatal and protect them (equity, terms)",
+        "2": "Build a 2nd-order moat around the asset (workflow, data architecture that makes the asset more useful at your shop than elsewhere)"
+      }
+    },
+    "process": {
+      "step": "Module 8 · Power",
+      "tagline": "Operational excellence — a complex process, accumulated over years, that a competitor can't replicate by reading a book.",
+      "definition": "Your organization has developed an operational process — quality, speed, cost — that beats competitors and that no one can copy by reading documentation. It takes years of learning by mistakes, refinement, and cultural embedding. The Barrier is tacit complexity.",
+      "examples": {
+        "defi": "Aave: risk management refined by 4+ years of stress tests (oracle architecture, risk weight parameterization, liquidation engine). Curve: veCRV design and incentive structure so complex that forks (Convex included) break on the details.",
+        "ai": "Anthropic: constitutional AI methodology, refined RLHF process. OpenAI: proprietary eval harness, fine-tuning pipeline. Tesla: self-driving training data pipeline (millions-of-miles fleet) + Dojo training infra. The open-sourced model doesn't capture the process that produced it.",
+        "saas": "AWS: data-center ops at massive scale, 20 years of experience. Toyota Production System: book published 30 years ago, no one copies it fully. Salesforce: refined sales + customer success machine.",
+        "web3-other": "Ethereum validators: 10 years of incremental decentralization (Geth, Erigon, multi-client). Cosmos / Polkadot: years-deep cross-chain coordination process."
+      },
+      "q1": {
+        "label": "Is your operational process measurably superior (cost/quality/speed) to competitors?",
+        "hint": "Cite the metric: 'Our X cost is Y% lower', 'Our cycle time is Z min vs W min'."
+      },
+      "q2": {
+        "label": "Is the performance gap vs competitors significant (>20%)?",
+        "hint": "10% is noise. 20%+ is a potential Power. 50%+ is locked in."
+      },
+      "q3": {
+        "label": "How many years must a competitor invest to replicate the process?",
+        "hint": "Process Power = tacit knowledge. Estimate: 2 years with a senior poach? 5 years from scratch?"
+      },
+      "q4": {
+        "label": "Would a competitor copy-pasting your full playbook fail to match your operational results?",
+        "hint": "Decisive test. If even with full docs they can't, it's real Process Power (Toyota, Aave). If docs suffice, it's arbitrable."
+      },
+      "q5": {
+        "label": "Are you at Stability stage where Process Power consolidates?",
+        "hint": "Stability — the org has lived complete cycles, refined processes, accumulated lessons. Origination/Takeoff = too early to have depth."
+      },
+      "benefitPlaceholder": "e.g. Our deploy time for a new feature is 4 days vs ~3 weeks at direct competitors. Defect rate 0.2% vs 1-2% industry standard.",
+      "barrierPlaceholder": "e.g. Our process rests on 6 years of iteration across 3 layers (architecture, tooling, engineering culture). A competitor poaching our VP Eng would take 2-3 years to replicate — the process is distributed across 30 people, not centralized.",
+      "actionPlaceholders": {
+        "0": "Document the key process internally (but protect sensitive details — avoid IP leakage)",
+        "1": "Measure the performance gap vs competitors on 2-3 key metrics and publish in marketing",
+        "2": "Strengthen tacit-process transmission (mentorship, systematic post-mortems, engineering culture)"
+      }
     }
   },
   "module1": {

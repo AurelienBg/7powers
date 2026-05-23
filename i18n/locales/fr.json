@@ -171,6 +171,234 @@
         "1": "Documenter publiquement les unit economics pour signaler la Barrier",
         "2": "Accélérer l'acquisition de volume sur le segment où la courbe est la plus pentue"
       }
+    },
+    "network": {
+      "step": "Module 3 · Power",
+      "tagline": "La valeur monte pour chaque user quand plus d'users rejoignent. Le concurrent doit acquérir une masse critique.",
+      "definition": "Quand chaque nouvel user augmente la valeur pour les users existants, ton service devient meilleur à mesure qu'il grandit. Le Benefit est mesurable (engagement, retention). La Barrier vient du chicken-and-egg : un concurrent doit acquérir suffisamment d'users pour offrir la même valeur — ce qui coûte cher en incentives et prend du temps.",
+      "examples": {
+        "defi": "Uniswap : plus de LP → plus de liquidité → meilleur pricing → plus de traders → plus de fees pour LP. Aave / Compound : plus de lenders → meilleurs rates → plus de borrowers. Cycle vertueux qu'un concurrent doit débourser massivement en incentives pour démarrer (gas wars / liquidity mining wars).",
+        "ai": "Cursor / GitHub Copilot : plus d'users → plus de signals de feedback → meilleur modèle → plus d'users. Agent marketplaces (LangChain hub, OpenAI GPT store) : plus de devs publient → plus de variété → plus d'users → plus d'incentive à publier.",
+        "saas": "Linear : équipes connectées génèrent du réseau cross-team. Notion : workspace partagé devient le hub de l'organisation. Figma : design files partagés deviennent l'asset commun. Un concurrent 10x meilleur peine si le réseau a accroché.",
+        "web3-other": "Lens / Farcaster : social graph onchain. Wallets (Phantom, MetaMask) : standard adopté. NFT marketplaces (OpenSea, érodé par Blur). Le concurrent doit faire un mass-onboarding coûteux pour matcher la masse critique."
+      },
+      "q1": {
+        "label": "L'effet de valeur additionnelle par user supplémentaire est-il quantifiable ?",
+        "hint": "Peux-tu mesurer : 'à 10x users, l'utility per user augmente de X%' (métrique : engagement, retention, ARPU) ?"
+      },
+      "q2": {
+        "label": "L'effet de réseau est-il déjà activé dans tes métriques actuelles ?",
+        "hint": "Effet non-linéaire visible : ton churn baisse avec la scale, ton ARPU monte, ton CAC descend."
+      },
+      "q3": {
+        "label": "Combien d'users devrait acquérir un concurrent pour atteindre ta valeur per user ?",
+        "hint": "Ordres : 100K ? 1M ? 10M ? Plus le seuil est haut, plus la Barrier est solide."
+      },
+      "q4": {
+        "label": "Un concurrent avec $50M de marketing budget réussirait-il à débaucher tes users via incentives ?",
+        "hint": "Test Me-too-won't-do. Si non (le réseau accroche), Barrier solide. Si oui (les gas wars marchent), c'est arbitrable."
+      },
+      "q5": {
+        "label": "Tu es au stade Takeoff où Network Effects se construit ?",
+        "hint": "Takeoff (PMF + scale en cours) — moment idéal. Origination = trop tôt, Stability = devrait déjà être verrouillé."
+      },
+      "benefitPlaceholder": "Ex. Avec 100K users actifs, notre engagement/user a doublé vs 10K users. Notre churn est tombé de 8% à 3%.",
+      "barrierPlaceholder": "Ex. Un concurrent doit acquérir 50K users actifs (= ~$5M en CAC) pour offrir le même engagement — soit ~18 mois de paid acquisition.",
+      "actionPlaceholders": {
+        "0": "Identifier le KPI précis du réseau (engagement, retention, ARPU per user) à tracker mensuellement",
+        "1": "Réduire le CAC du segment où le réseau s'auto-renforce le plus rapidement",
+        "2": "Verrouiller une primitive du réseau (format de données, intégration) que les concurrents ne peuvent pas répliquer facilement"
+      }
+    },
+    "counter": {
+      "step": "Module 4 · Power",
+      "tagline": "Un modèle business que les incumbents ne peuvent pas copier sans se cannibaliser eux-mêmes.",
+      "definition": "Tu adoptes un modèle économique fondamentalement différent qui te donne un avantage. Le Benefit est mesurable (prix bas, marges meilleures, distribution différente). La Barrier n'est PAS technique — c'est la cannibalisation : si l'incumbent te copie, il détruit son propre business existant.",
+      "examples": {
+        "defi": "Aave / Compound vs banques : 4-8% APY sur stablecoins quand les banques offrent 0.1%. Une banque ne peut pas matcher sans cannibaliser ses comptes courants gratuits et son interest spread. MakerDAO : sur-collatéralisation programmable que personne ne copie sans repenser tout son back-office crédit.",
+        "ai": "Cursor vs JetBrains : pay-per-completion + AI-first vs licence annuelle + plugin. JetBrains ne peut pas dropper la licence sans crasher son revenue récurrent. Open-source LLMs (Mistral, Llama) : Anthropic ne peut pas open-source Claude sans tuer son API revenue.",
+        "saas": "Linear vs Jira : pas d'enterprise sales, pricing transparent, pas d'admin lourd. Atlassian ne peut pas matcher sans détruire son sales-led business. Notion vs MS Office : freemium + collaboration native, Microsoft doit protéger son Office 365 enterprise.",
+        "web3-other": "DAO governance vs corporate structure : token-voted, open, transparent. Une corp ne peut pas tokeniser sa governance sans gérer SEC. Bitcoin self-custody vs banques dépositaires : la banque ne peut pas offrir self-custody sans dynamiter son modèle."
+      },
+      "q1": {
+        "label": "Ton modèle économique est-il fondamentalement différent de celui des incumbents (pas juste meilleur, différent) ?",
+        "hint": "Pricing model, distribution, business unit, monetization — où est le delta structurel ?"
+      },
+      "q2": {
+        "label": "Le différentiel de valeur est-il assez fort pour qu'un user switche depuis un incumbent ?",
+        "hint": "Le prix bas ou la prestation supérieure compensent-ils les frictions de switch (trust, données, habitudes) ?"
+      },
+      "q3": {
+        "label": "Si un incumbent essayait de te copier, qu'est-ce qu'il devrait cannibaliser exactement ?",
+        "hint": "Cite le revenue stream concret de l'incumbent qui disparaîtrait s'il adoptait ton modèle."
+      },
+      "q4": {
+        "label": "Un concurrent avec $50M qui adopte ton modèle aurait-il le même dilemme cannibal que les incumbents ?",
+        "hint": "Si un nouveau venu (no legacy) peut te copier sans douleur, ton Power est arbitrable. Si tout entrant doit faire le même choix, Barrier solide."
+      },
+      "q5": {
+        "label": "Tu es à l'Origination où Counter-Positioning se construit ?",
+        "hint": "Origination (pré-PMF) — moment idéal pour designer un modèle disruptif. Takeoff = trop tard pour pivoter le modèle."
+      },
+      "benefitPlaceholder": "Ex. Notre pricing usage-based réduit le coût pour 80% des users de 60% vs le pricing seat-based incumbent.",
+      "barrierPlaceholder": "Ex. Jira ne peut pas adopter notre pricing usage sans cannibaliser ~$2B de revenue enterprise déjà locké en contrats annuels.",
+      "actionPlaceholders": {
+        "0": "Articuler par écrit le dilemme cannibal exact de chaque incumbent face à ton modèle",
+        "1": "Verrouiller le différentiel de valeur tant que les incumbents ne peuvent pas répondre",
+        "2": "Identifier le segment d'incumbent le plus exposé et accélérer l'acquisition là-dessus"
+      }
+    },
+    "switching": {
+      "step": "Module 5 · Power",
+      "tagline": "Un coût de switch pour le user qui te permet de capturer un premium ou de tenir face à des concurrents 10x meilleurs.",
+      "definition": "Une fois qu'un user adopte ton produit, le coût pour partir devient significatif (temps, données, retraining, intégrations cassées). Tu peux pricer premium tant que ce coût > le delta de valeur d'un concurrent. La Barrier croît avec l'usage — chaque mois supplémentaire renforce le lock-in.",
+      "examples": {
+        "defi": "Aave / Compound : positions LP, governance tokens lockés (veCRV chez Curve), reputation on-chain. Switcher = unwind les positions, perdre les rewards accumulés, refaire le KYC ailleurs. veCRV : 4 ans de lock pour max voting power, switching cost massif.",
+        "ai": "Cursor / Claude Projects : agent personnalisé sur ton style de code et ta doc, prompts/workflows raffinés. ChatGPT memory : l'IA connaît tes préférences. Switcher = repartir from scratch, perdre des semaines de tuning.",
+        "saas": "Salesforce : intégrations CRM avec 50+ outils, données client historiques, workflows automatisés. Notion : workspace, templates, intégrations. Switch = perte de données structurées + des semaines de migration.",
+        "web3-other": "ENS names : ton .eth identity. NFT collections : status social ancré dans une communauté. Wallet : seed phrase + reputation onchain accumulée."
+      },
+      "q1": {
+        "label": "Le coût de switch pour un user est-il quantifiable (temps en heures, $ en migration, data perdue) ?",
+        "hint": "Un user moyen prendrait combien de temps + $ pour migrer vers un concurrent ?"
+      },
+      "q2": {
+        "label": "Le premium price (ou la rétention) que ce coût te permet de capter est-il significatif ?",
+        "hint": "Tu peux pricer 15%+ au-dessus de concurrents équivalents sans perdre d'users ? C'est le signal."
+      },
+      "q3": {
+        "label": "Combien de temps / effort un user investit-il pour switcher après 6 mois chez toi ?",
+        "hint": "Plus le user est ancien, plus le coût monte (data accumulée). Estimer pour 1 mois et 1 an d'usage."
+      },
+      "q4": {
+        "label": "Si un concurrent gratuit + 2x meilleur arrivait demain, est-ce que tes users actifs partiraient quand même ?",
+        "hint": "Test ultime. Si oui (Switching Costs faibles), ce n'est pas un Power. Si non, Barrier solide."
+      },
+      "q5": {
+        "label": "Tu es au stade Takeoff où les Switching Costs s'accumulent par l'usage ?",
+        "hint": "Takeoff (PMF + scale) — chaque mois d'usage par cohort ajoute du switching cost. Origination = trop tôt, Stability = saturé."
+      },
+      "benefitPlaceholder": "Ex. Nos users ont en moyenne 50+ intégrations actives après 12 mois. Migrer prend 3-6 mois de travail data engineering.",
+      "barrierPlaceholder": "Ex. Un concurrent doit non seulement matcher notre produit mais aussi reconstruire l'intégration des 50+ outils que nos users connectent — coût ~$100k+ par client.",
+      "actionPlaceholders": {
+        "0": "Mesurer le coût de switch concret (temps, $, data perdue) pour ton user moyen et le rendre visible",
+        "1": "Ajouter des features qui augmentent l'investissement du user (templates custom, intégrations, données accumulées)",
+        "2": "Lever des switching costs spécifiques sur les segments les plus à risque de churn"
+      }
+    },
+    "branding": {
+      "step": "Module 6 · Power",
+      "tagline": "Une marque qui commande un premium pricing par perception, construite sur des années de signaling cohérent.",
+      "definition": "Ta marque évoque qualité, sécurité ou status d'une manière qui justifie un prix supérieur à l'objectivement équivalent. Le Benefit est mesurable (price premium, conversion rate sur ton nom). La Barrier est l'hysteresis : il faut 3-5 ans+ d'investissement et de consistency pour qu'une marque s'installe — un concurrent ne peut pas court-circuiter ce temps.",
+      "examples": {
+        "defi": "Aave / MakerDAO : 'blue chip DeFi'. Même si un nouveau lending protocol offre 1% de mieux, les whales restent par confiance. Chainlink : oracle de référence — un nouvel oracle, même techniquement supérieur, peine à matcher la trust accumulée.",
+        "ai": "Anthropic Claude : positioning safety-first reconnu. Midjourney : artiste premium. Face à la commoditisation des LLMs, les modèles fonctionnent quasiment pareil — la marque fait la différence à l'achat final.",
+        "saas": "Stripe : developer trust. Notion : cool kids productivity. Linear : élégance ingénierie. Premium price 30-50% au-dessus de concurrents fonctionnellement équivalents (Square, Coda, Jira).",
+        "web3-other": "BAYC : status social. Crypto.com : trust mass market. Coinbase : la plate-forme 'safe' (réglementation US). Brand prime sur tech dans les contextes où la confiance est rare."
+      },
+      "q1": {
+        "label": "Ta marque commande-t-elle un premium price mesurable vs alternatives équivalentes ?",
+        "hint": "Cite le delta : 'Notre produit prix X, le concurrent équivalent prix Y, et nos users paient quand même'."
+      },
+      "q2": {
+        "label": "L'investissement brand des 3+ dernières années est-il significatif et cohérent ?",
+        "hint": "Content, design, partnerships, présence comm — quel investissement cumulé en $ et en consistency ?"
+      },
+      "q3": {
+        "label": "Combien d'années + de dépenses marketing un concurrent doit-il investir pour égaler ta perception ?",
+        "hint": "Brand = hysteresis. Ordres : 3 ans + $5M ? 7 ans + $50M ? Brand mature prend des décennies."
+      },
+      "q4": {
+        "label": "Un concurrent fonctionnellement identique avec $50M de marketing échouerait-il à égaler ta brand en 2 ans ?",
+        "hint": "C'est la rapidité de la hysteresis. Si oui (lent), Barrier solide. Si $50M te commoditizent en 2 ans, c'est pas du Branding."
+      },
+      "q5": {
+        "label": "Tu es au stade Stability où le Branding se consolide ?",
+        "hint": "Stability (PMF + maturité) — c'est là que Branding s'installe vraiment. Origination = trop tôt (brand naissante), Takeoff = en construction."
+      },
+      "benefitPlaceholder": "Ex. Notre conversion sur recherche par nom est 4x supérieure à la recherche catégorie. Nos clients citent notre marque dans 60% des appels d'offres.",
+      "barrierPlaceholder": "Ex. Notre brand a été construite via 6 ans de content investing (~$3M dépensés), partnerships exclusifs, NPS 70+. Un concurrent doit reproduire ce time + capital + trust accumulé.",
+      "actionPlaceholders": {
+        "0": "Mesurer le price premium réel vs concurrents équivalents (controlled comparison)",
+        "1": "Investir dans le signal qualité le plus distinctif sur ton segment (sécurité, design, ingénierie, ton)",
+        "2": "Protéger la marque sur ses points cardinaux — un brand miss coûte 10x plus à fixer qu'à éviter"
+      }
+    },
+    "cornered": {
+      "step": "Module 7 · Power",
+      "tagline": "Accès exclusif et durable à un actif critique — data, IP, contrat, talent, distribution.",
+      "definition": "Tu détiens un actif que les autres n'ont pas et ne peuvent pas avoir : exclusivité contractuelle, propriété intellectuelle, dataset propriétaire, top talent. Sans cet actif, ton produit serait commun. La Barrier est juridique ou structurelle (propriété), pas concurrentielle (compétences).",
+      "examples": {
+        "defi": "Ondo Finance : partenariat RWA avec BlackRock (BUIDL). Un concurrent ne peut pas avoir le même partenariat exclusif. Anchorage Digital : licence custody régulée US. Circle (USDC) : rails bancaires US verrouillés par 8+ ans de compliance work.",
+        "ai": "Bloomberg : dataset financier propriétaire pour entraîner un LLM finance. Studios Hollywood : data signed pour entraîner des modèles vidéo. NVIDIA : CUDA + écosystème dev locked. xAI / OpenAI : top talent ML retenu via equity + restrictions IP.",
+        "saas": "Palantir : contrats gov classifiés (DoD, NSA) — non-replicables sans clearance. LinkedIn : data scraping agreements + lawsuits contre les imitateurs. Salesforce : décennies de data CRM clients propriétaires.",
+        "web3-other": "ENS : premium .eth domain names finis (jamais plus). Brevets cryptographiques (zkSync, StarkWare). Accord Binance / Coinbase pour first-listing d'un token."
+      },
+      "q1": {
+        "label": "L'actif est-il vraiment exclusif (contrat, IP, brevets vérifiables et défendables) ?",
+        "hint": "C'est vérifiable juridiquement ou structurellement, pas juste une 'avance' ?"
+      },
+      "q2": {
+        "label": "Cet actif est-il critique au business — sans lui, ta valeur s'effondre ?",
+        "hint": "Si tu perdais l'actif demain (contrat rompu, IP invalidée), combien de valeur tu perdrais ?"
+      },
+      "q3": {
+        "label": "Combien faudrait-il à un concurrent pour acquérir un actif équivalent ?",
+        "hint": "Ordres : $1M ? $100M ? Acquisition d'une autre boîte ? Vraiment one-of-a-kind ?"
+      },
+      "q4": {
+        "label": "Un concurrent avec $50M pourrait-il acheter ou licensier un actif équivalent ?",
+        "hint": "Test décisif. Si oui, ton actif n'est pas cornered, c'est juste cher. Si non (vraiment unique), Barrier infaillible."
+      },
+      "q5": {
+        "label": "Tu es à l'Origination où Cornered Resource se conquiert ?",
+        "hint": "Origination — moment de gagner l'exclusivité (partenariats, IP, embauches clés). Takeoff = la fenêtre se ferme, Stability = trop tard."
+      },
+      "benefitPlaceholder": "Ex. Notre dataset propriétaire couvre 80% des trades historiques en obligations corporate, accumulé via 8 partenariats banque exclusifs.",
+      "barrierPlaceholder": "Ex. Les 8 partenariats sont de 5 ans chacun, signés en 2024, avec clause d'exclusivité. Un concurrent doit attendre 2029 minimum pour proposer un deal équivalent — et il faut les signer en aveugle.",
+      "actionPlaceholders": {
+        "0": "Verrouiller juridiquement les exclusivités les plus stratégiques (audit IP, NDA, clauses non-circumvent)",
+        "1": "Identifier le top talent dont la perte serait fatale et le protéger (equity, conditions)",
+        "2": "Construire un moat 2nd order autour de l'asset (workflow, data architecture qui rend l'asset plus utile chez toi qu'ailleurs)"
+      }
+    },
+    "process": {
+      "step": "Module 8 · Power",
+      "tagline": "Excellence opérationnelle — un process complexe, accumulé sur des années, qu'un concurrent ne peut pas répliquer en lisant un livre.",
+      "definition": "Ton organisation a développé un process opérationnel — qualité, vitesse, coût — qui surclasse les concurrents et que personne ne peut copier en lisant la documentation. Il faut des années d'apprentissage par l'erreur, de raffinement, et d'enracinement culturel. La Barrier est la complexité tacite.",
+      "examples": {
+        "defi": "Aave : risk management raffiné par 4+ ans de stress tests (oracle architecture, paramétrage des risk weights, liquidation engine). Curve : design veCRV et incentive structure tellement complexes que les forks (Convex inclus) se cassent les dents sur les détails.",
+        "ai": "Anthropic : constitutional AI methodology, RLHF process raffiné. OpenAI : eval harness, fine-tuning pipeline propriétaire. Tesla : self-driving training data pipeline (fleet de millions de miles) + Dojo training infra. Le model open-sourcé ne capture pas le process qui l'a produit.",
+        "saas": "AWS : opérations data center à grande échelle, 20 ans d'expérience. Toyota Production System : livre publié depuis 30 ans, personne ne le copie complètement. Salesforce : sales + customer success machine raffinés.",
+        "web3-other": "Ethereum validators : 10 ans de décentralisation incrémentale (Geth, Erigon, multi-client). Cosmos / Polkadot : process de coordination cross-chain accumulé sur des années."
+      },
+      "q1": {
+        "label": "Ton process opérationnel est-il mesurablement supérieur (coût/qualité/vitesse) à celui des concurrents ?",
+        "hint": "Cite la métrique : 'Notre coût d'X est Y% inférieur', 'Notre temps de cycle est Z minutes vs W minutes'."
+      },
+      "q2": {
+        "label": "L'écart de performance vs concurrents est-il significatif (>20%) ?",
+        "hint": "10% c'est du noise. 20%+ c'est un Power potentiel. 50%+ c'est verrouillé."
+      },
+      "q3": {
+        "label": "Combien d'années un concurrent doit-il investir pour répliquer le process ?",
+        "hint": "Process Power = tacit knowledge. Estimer : 2 ans avec un transfuge senior ? 5 ans en repartant from scratch ?"
+      },
+      "q4": {
+        "label": "Un concurrent qui copy-pasterait ton playbook complet échouerait-il à matcher tes résultats opérationnels ?",
+        "hint": "Test décisif. Si même avec la doc complète ils n'y arrivent pas, c'est du vrai Process Power (Toyota, Aave). Si la doc suffit, c'est arbitrable."
+      },
+      "q5": {
+        "label": "Tu es au stade Stability où Process Power se consolide ?",
+        "hint": "Stability — l'organisation a vécu des cycles complets, raffiné les processes, accumulé les leçons. Origination/Takeoff = trop tôt pour avoir de la profondeur."
+      },
+      "benefitPlaceholder": "Ex. Notre temps de déploiement d'une nouvelle feature est de 4 jours vs ~3 semaines chez nos concurrents directs. Defect rate 0.2% vs 1-2% standard secteur.",
+      "barrierPlaceholder": "Ex. Notre process repose sur 6 ans d'itération sur 3 layers (architecture, tooling, culture engineering). Un concurrent qui embaucherait notre VP Eng mettrait 2-3 ans pour répliquer — le process est distribué sur 30 personnes, pas centralisé.",
+      "actionPlaceholders": {
+        "0": "Documenter le process clé en interne (mais protéger les détails sensibles — éviter la fuite IP)",
+        "1": "Mesurer le gap de performance vs concurrents sur 2-3 métriques clés et publier en marketing",
+        "2": "Renforcer la transmission du process tacite (mentorat, post-mortems systématiques, culture engineering)"
+      }
     }
   },
   "module1": {

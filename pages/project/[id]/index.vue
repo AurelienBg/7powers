@@ -11,8 +11,16 @@ const router = useRouter()
 const localePath = useLocalePath()
 const { currentProject, deleteProject, assessments } = useProject()
 
-// Phase 1 ships Scale Economies as the implemented Power template.
-const IMPLEMENTED_POWERS: PowerType[] = ['scale']
+// All 7 Powers unlocked as of Phase 2.
+const IMPLEMENTED_POWERS: PowerType[] = [
+  'scale',
+  'network',
+  'counter',
+  'switching',
+  'branding',
+  'cornered',
+  'process'
+]
 
 const powers: PowerType[] = [
   'scale',

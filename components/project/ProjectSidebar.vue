@@ -50,9 +50,16 @@ const powers: PowerType[] = [
   'process'
 ]
 
-// Phase 1.5: only Scale Economies is fully wired. Others are visible but
-// flagged "soon" in the sidebar (consistent with the hub state).
-const IMPLEMENTED_POWERS: PowerType[] = ['scale']
+// All 7 Powers wired as of Phase 2.
+const IMPLEMENTED_POWERS: PowerType[] = [
+  'scale',
+  'network',
+  'counter',
+  'switching',
+  'branding',
+  'cornered',
+  'process'
+]
 
 const marketDone = computed(() =>
   !!currentProject.value && hasMinimumMarketData(currentProject.value.market_size)

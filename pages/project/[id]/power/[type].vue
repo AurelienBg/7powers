@@ -23,9 +23,18 @@ const ALL_POWERS: PowerType[] = [
   'process'
 ]
 
-// Phase 1 ships only Scale Economies as the template. Other Powers reuse this
-// same page in Phase 2 — for now they redirect to the hub.
-const IMPLEMENTED_POWERS: PowerType[] = ['scale']
+// All 7 Powers fully wired as of Phase 2. The dynamic [type].vue route
+// resolves i18n keys per Power via power.{type}.* — adding a new Power is
+// just an i18n addition plus listing it here.
+const IMPLEMENTED_POWERS: PowerType[] = [
+  'scale',
+  'network',
+  'counter',
+  'switching',
+  'branding',
+  'cornered',
+  'process'
+]
 
 const powerType = computed<PowerType | null>(() => {
   const t = route.params.type as string
