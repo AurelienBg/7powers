@@ -10,17 +10,30 @@ import type {
   ProjectStage
 } from '~/types/database'
 
+/**
+ * Multi-project store (schema v2).
+ *
+ * Anonymous mode: in practice we cap at 1 local project (Phase 1.5 design
+ * decision — N anon projects adds sync ambiguity for low value). Authenticated
+ * mode supports N projects, each with its own assessments. Migration from
+ * v1 (single-project) shape is handled by plugins/00.store-migration.client.ts.
+ *
+ * IDs are stable local_ids (`local-<uuid>`) used in URLs. When a project is
+ * synced to Supabase, its local_id is added to `syncedLocalIds` — we don't
+ * track the Supabase UUID separately in Phase 1.5 (full bidirectional sync
+ * is Phase 2+).
+ */
+
+type AssessmentMap = Record<PowerType, LocalPowerAssessment | undefined>
+
 interface ProjectState {
-  // Single active project for v1. Multi-project support comes later
-  // (dashboard module, post-Phase 1).
-  currentProject: LocalProject | null
-  assessments: Record<PowerType, LocalPowerAssessment | undefined>
-  // Track whether the user has logged in and pushed their local data to Supabase.
-  syncedToCloud: boolean
-  syncedProjectId: string | null
+  projects: Record<string, LocalProject>
+  assessmentsByProject: Record<string, AssessmentMap>
+  currentProjectId: string | null
+  syncedLocalIds: string[]
 }
 
-const emptyAssessments = (): Record<PowerType, LocalPowerAssessment | undefined> => ({
+const emptyAssessments = (): AssessmentMap => ({
   scale: undefined,
   network: undefined,
   counter: undefined,
@@ -32,25 +45,51 @@ const emptyAssessments = (): Record<PowerType, LocalPowerAssessment | undefined>
 
 export const useProjectStore = defineStore('project', {
   state: (): ProjectState => ({
-    currentProject: null,
-    assessments: emptyAssessments(),
-    syncedToCloud: false,
-    syncedProjectId: null
+    projects: {},
+    assessmentsByProject: {},
+    currentProjectId: null,
+    syncedLocalIds: []
   }),
 
   getters: {
-    hasProject: (state) => state.currentProject !== null,
+    projectList: (state): LocalProject[] => {
+      return Object.values(state.projects).sort((a, b) =>
+        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+      )
+    },
 
-    completedPowers: (state): PowerType[] => {
-      return (Object.entries(state.assessments) as [PowerType, LocalPowerAssessment | undefined][])
+    currentProject: (state): LocalProject | null => {
+      if (!state.currentProjectId) return null
+      return state.projects[state.currentProjectId] ?? null
+    },
+
+    currentAssessments(state): AssessmentMap {
+      if (!state.currentProjectId) return emptyAssessments()
+      return state.assessmentsByProject[state.currentProjectId] ?? emptyAssessments()
+    },
+
+    hasAnyProject: (state): boolean => Object.keys(state.projects).length > 0,
+
+    hasCurrentProject(): boolean {
+      return this.currentProject !== null
+    },
+
+    projectCount: (state): number => Object.keys(state.projects).length,
+
+    isCurrentProjectSynced(state): boolean {
+      return state.currentProjectId
+        ? state.syncedLocalIds.includes(state.currentProjectId)
+        : false
+    },
+
+    completedPowers(): PowerType[] {
+      return (Object.entries(this.currentAssessments) as [PowerType, LocalPowerAssessment | undefined][])
         .filter(([, a]) => a && typeof a.score === 'number')
         .map(([k]) => k)
     },
 
-    topPowers: (state) => {
-      const scored = (
-        Object.entries(state.assessments) as [PowerType, LocalPowerAssessment | undefined][]
-      )
+    topPowers(): { power: PowerType; score: number }[] {
+      const scored = (Object.entries(this.currentAssessments) as [PowerType, LocalPowerAssessment | undefined][])
         .map(([k, a]) => ({ power: k, score: a?.score ?? null }))
         .filter((x): x is { power: PowerType; score: number } => typeof x.score === 'number')
         .sort((a, b) => b.score - a.score)
@@ -65,10 +104,11 @@ export const useProjectStore = defineStore('project', {
       stage: ProjectStage
       description?: string
       market_size?: MarketSize
-    }) {
+    }): string {
       const now = new Date().toISOString()
-      this.currentProject = {
-        local_id: `local-${crypto.randomUUID()}`,
+      const localId = `local-${crypto.randomUUID()}`
+      this.projects[localId] = {
+        local_id: localId,
         name: input.name,
         sector: input.sector,
         stage: input.stage,
@@ -77,26 +117,50 @@ export const useProjectStore = defineStore('project', {
         created_at: now,
         updated_at: now
       }
-      this.assessments = emptyAssessments()
-      this.syncedToCloud = false
-      this.syncedProjectId = null
+      this.assessmentsByProject[localId] = emptyAssessments()
+      this.currentProjectId = localId
+      return localId
     },
 
-    updateProject(patch: Partial<Omit<LocalProject, 'local_id' | 'created_at'>>) {
-      if (!this.currentProject) return
-      this.currentProject = {
-        ...this.currentProject,
+    setCurrentProject(localId: string | null) {
+      if (localId === null || this.projects[localId]) {
+        this.currentProjectId = localId
+      }
+    },
+
+    deleteProject(localId: string) {
+      delete this.projects[localId]
+      delete this.assessmentsByProject[localId]
+      this.syncedLocalIds = this.syncedLocalIds.filter((id) => id !== localId)
+      if (this.currentProjectId === localId) {
+        // Pick the next most-recently-updated project, or null if none left.
+        const remaining = this.projectList
+        this.currentProjectId = remaining[0]?.local_id ?? null
+      }
+    },
+
+    updateCurrentProject(patch: Partial<Omit<LocalProject, 'local_id' | 'created_at'>>) {
+      if (!this.currentProjectId) return
+      const existing = this.projects[this.currentProjectId]
+      if (!existing) return
+      this.projects[this.currentProjectId] = {
+        ...existing,
         ...patch,
         updated_at: new Date().toISOString()
       }
     },
 
     upsertAssessment(power: PowerType, answers: PowerAnswers, score: number | null) {
+      if (!this.currentProjectId) return
+      if (!this.assessmentsByProject[this.currentProjectId]) {
+        this.assessmentsByProject[this.currentProjectId] = emptyAssessments()
+      }
+      const map = this.assessmentsByProject[this.currentProjectId]
+      const existing = map[power]
       const now = new Date().toISOString()
-      const existing = this.assessments[power]
-      this.assessments[power] = {
+      map[power] = {
         local_id: existing?.local_id ?? `local-${crypto.randomUUID()}`,
-        local_project_id: this.currentProject?.local_id ?? '',
+        local_project_id: this.currentProjectId,
         power,
         answers,
         score,
@@ -107,32 +171,34 @@ export const useProjectStore = defineStore('project', {
     },
 
     setActionItems(power: PowerType, items: ActionItem[]) {
-      const existing = this.assessments[power]
+      if (!this.currentProjectId) return
+      const map = this.assessmentsByProject[this.currentProjectId]
+      if (!map) return
+      const existing = map[power]
       if (!existing) return
-      this.assessments[power] = {
+      map[power] = {
         ...existing,
         action_items: items,
         updated_at: new Date().toISOString()
       }
     },
 
-    reset() {
-      this.currentProject = null
-      this.assessments = emptyAssessments()
-      this.syncedToCloud = false
-      this.syncedProjectId = null
+    markSynced(localId: string) {
+      if (!this.syncedLocalIds.includes(localId)) {
+        this.syncedLocalIds.push(localId)
+      }
     },
 
-    markSynced(supabaseProjectId: string) {
-      this.syncedToCloud = true
-      this.syncedProjectId = supabaseProjectId
+    reset() {
+      this.projects = {}
+      this.assessmentsByProject = {}
+      this.currentProjectId = null
+      this.syncedLocalIds = []
     }
   },
 
-  // Persist local-first state to localStorage so the user can leave + come back
-  // without logging in. pinia-plugin-persistedstate/nuxt is wired in nuxt.config.ts.
   persist: {
-    key: 'sevenpowers:project',
-    pick: ['currentProject', 'assessments', 'syncedToCloud', 'syncedProjectId']
+    key: 'sevenpowers:project:v2',
+    pick: ['projects', 'assessmentsByProject', 'currentProjectId', 'syncedLocalIds']
   }
 })

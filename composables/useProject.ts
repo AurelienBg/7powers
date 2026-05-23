@@ -1,7 +1,6 @@
 import { useProjectStore } from '~/stores/project'
 import type {
   Project,
-  PowerAssessment,
   PowerType,
   PowerAnswers,
   ProjectSector,
@@ -12,16 +11,22 @@ import type {
 /**
  * useProject — high-level façade for project state.
  *
- * Gameframe-style local-first model:
- *   - Anonymous users get a project in localStorage (via Pinia + persistedstate).
- *   - On login, we push the local project up to Supabase and mark it synced.
- *   - Subsequent mutations go to both stores until full Supabase migration is done
- *     (post-Phase 1; for now we only handle the initial upload).
+ * Multi-project model (Phase 1.5+):
+ *   - Anonymous users get a single local project in localStorage.
+ *     (We keep the soft cap at 1 anon project for sync simplicity.)
+ *   - Authenticated users can have N projects, synced to Supabase one-shot
+ *     on login or project creation.
+ *
+ * Routes use `local_id` consistently (the URL doesn't change after sync).
  */
 export function useProject() {
   const store = useProjectStore()
   const supabase = useSupabaseClient()
   const user = useSupabaseUser()
+
+  // ============================================================
+  // Project lifecycle
+  // ============================================================
 
   function createProject(input: {
     name: string
@@ -29,48 +34,60 @@ export function useProject() {
     stage: ProjectStage
     description?: string
     market_size?: MarketSize
-  }) {
-    store.createLocalProject(input)
+  }): string {
+    return store.createLocalProject(input)
   }
 
+  function switchProject(localId: string | null) {
+    store.setCurrentProject(localId)
+  }
+
+  function deleteProject(localId: string) {
+    store.deleteProject(localId)
+  }
+
+  // ============================================================
+  // Current-project mutations
+  // ============================================================
+
   function updateMarketSize(market_size: MarketSize) {
-    store.updateProject({ market_size })
+    store.updateCurrentProject({ market_size })
   }
 
   function saveAssessment(power: PowerType, answers: PowerAnswers, score: number | null) {
     store.upsertAssessment(power, answers, score)
   }
 
+  // ============================================================
+  // Supabase sync
+  // ============================================================
+
   /**
-   * Push the current local project + assessments to Supabase.
-   * Called manually after the user logs in.
-   * Returns the newly created Supabase project id (or the existing one if already synced).
+   * One-shot push of the CURRENT project + its assessments to Supabase.
+   * Idempotent (skipped if already synced). Returns the Supabase id or null.
    */
   async function syncToCloud(): Promise<string | null> {
     if (!user.value) throw new Error('Not authenticated')
-    if (!store.currentProject) return null
-    if (store.syncedToCloud && store.syncedProjectId) return store.syncedProjectId
-
-    const local = store.currentProject
+    const current = store.currentProject
+    if (!current) return null
+    if (store.syncedLocalIds.includes(current.local_id)) return current.local_id
 
     const { data: created, error: projectError } = await supabase
       .from('projects')
       .insert({
         user_id: user.value.id,
-        name: local.name,
-        sector: local.sector,
-        stage: local.stage,
-        description: local.description,
-        market_size: local.market_size
+        name: current.name,
+        sector: current.sector,
+        stage: current.stage,
+        description: current.description,
+        market_size: current.market_size
       })
       .select('id')
       .single<Pick<Project, 'id'>>()
 
-    if (projectError || !created) {
-      throw projectError ?? new Error('Failed to create project')
-    }
+    if (projectError || !created) throw projectError ?? new Error('Failed to create project')
 
-    const assessmentRows = Object.values(store.assessments)
+    const assessmentRows = Object.values(store.currentAssessments)
       .filter((a): a is NonNullable<typeof a> => !!a)
       .map((a) => ({
         project_id: created.id,
@@ -87,20 +104,29 @@ export function useProject() {
       if (assessmentsError) throw assessmentsError
     }
 
-    store.markSynced(created.id)
+    store.markSynced(current.local_id)
     return created.id
   }
 
   return {
-    // state
+    // state — single project
     currentProject: computed(() => store.currentProject),
-    assessments: computed(() => store.assessments),
-    syncedToCloud: computed(() => store.syncedToCloud),
-    hasProject: computed(() => store.hasProject),
+    assessments: computed(() => store.currentAssessments),
+    hasProject: computed(() => store.hasCurrentProject),
     topPowers: computed(() => store.topPowers),
     completedPowers: computed(() => store.completedPowers),
+    syncedToCloud: computed(() => store.isCurrentProjectSynced),
+
+    // state — multi-project
+    projectList: computed(() => store.projectList),
+    hasAnyProject: computed(() => store.hasAnyProject),
+    projectCount: computed(() => store.projectCount),
+    syncedLocalIds: computed(() => store.syncedLocalIds),
+
     // actions
     createProject,
+    switchProject,
+    deleteProject,
     updateMarketSize,
     saveAssessment,
     syncToCloud,

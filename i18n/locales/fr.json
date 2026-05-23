@@ -12,6 +12,15 @@
     "syncingToCloud": "Synchronisation…",
     "syncFailed": "Échec sync"
   },
+  "sidebar": {
+    "newProject": "Nouveau projet",
+    "allProjects": "Tous les projets",
+    "otherProjects": "Autres projets",
+    "setupSection": "Setup",
+    "powersSection": "7 Powers",
+    "synthesisSection": "Synthèse",
+    "defensibility": "Defensibility"
+  },
   "landing": {
     "hero": {
       "kicker": "Helmer 7 Powers framework",

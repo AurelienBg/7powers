@@ -7,15 +7,14 @@ import {
   hasMinimumMarketData
 } from '~/utils/marketScore'
 
+definePageMeta({ layout: 'project' })
+
 const { t } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
-const { currentProject, hasProject, updateMarketSize } = useProject()
+const { currentProject, updateMarketSize } = useProject()
 
-// Guard: if no project (or wrong id), back to /project/new.
-if (!hasProject.value || currentProject.value?.local_id !== route.params.id) {
-  await navigateTo(localePath('/project/new'))
-}
+// Layout handles URL ↔ store sync + guards. We can read currentProject directly.
 
 // Local working copy of the market — only persists to the store on save.
 // This lets the user explore values + see the live score without committing.

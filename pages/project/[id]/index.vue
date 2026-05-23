@@ -2,23 +2,21 @@
 import type { PowerType } from '~/types/database'
 import { computeMarketAttractiveness, hasMinimumMarketData } from '~/utils/marketScore'
 
+definePageMeta({ layout: 'project' })
+
 const { compute: computePowerScore, isComplete: isPowerComplete } = usePowerScore()
 
 const { t } = useI18n()
-const route = useRoute()
 const router = useRouter()
 const localePath = useLocalePath()
-const { currentProject, hasProject, assessments, reset } = useProject()
+const { currentProject, deleteProject, assessments } = useProject()
+
+// Layout already handles the URL ↔ store sync and the bouncing if the id is
+// unknown. Below this line, we can assume currentProject is the right one.
 
 // Phase 1 ships Scale Economies as the implemented Power template.
 // The other 6 are stubbed as "coming soon" until Phase 2.
 const IMPLEMENTED_POWERS: PowerType[] = ['scale']
-
-// If there's no local project at all, or the URL id doesn't match the active project,
-// send the user back to /project/new. (Multi-project support comes post-Phase 1.)
-if (!hasProject.value || currentProject.value?.local_id !== route.params.id) {
-  await navigateTo(localePath('/project/new'))
-}
 
 const powers: PowerType[] = [
   'scale',
@@ -40,8 +38,9 @@ const marketScore = computed(() => {
 })
 
 function onResetProject() {
+  if (!currentProject.value) return
   if (confirm(t('hub.resetConfirm'))) {
-    reset()
+    deleteProject(currentProject.value.local_id)
     router.push(localePath('/'))
   }
 }

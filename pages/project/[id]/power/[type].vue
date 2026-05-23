@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { PowerType, PowerAnswers, ActionItem, ProjectSector } from '~/types/database'
 
+definePageMeta({ layout: 'project' })
+
 const { t } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
-const { currentProject, hasProject, assessments, saveAssessment } = useProject()
+const { currentProject, assessments, saveAssessment } = useProject()
 const { compute, isComplete } = usePowerScore()
 
 // ============================================================
@@ -30,20 +32,17 @@ const powerType = computed<PowerType | null>(() => {
   return ALL_POWERS.includes(t as PowerType) ? (t as PowerType) : null
 })
 
-// Guard 1: no project or wrong id → /project/new
-if (!hasProject.value || currentProject.value?.local_id !== route.params.id) {
-  await navigateTo(localePath('/project/new'))
-}
-
-// Guard 2: invalid power type → hub
+// Guard 1: invalid power type → hub
 if (!powerType.value) {
   await navigateTo(localePath(`/project/${route.params.id}`))
 }
 
-// Guard 3: not-yet-implemented power → hub (will be removed in Phase 2)
+// Guard 2: not-yet-implemented power → hub (will be removed in Phase 2)
 if (powerType.value && !IMPLEMENTED_POWERS.includes(powerType.value)) {
   await navigateTo(localePath(`/project/${route.params.id}`))
 }
+
+// Project existence + URL ↔ store sync is handled by layouts/project.vue.
 
 // ============================================================
 // State

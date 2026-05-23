@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import type { ProjectSector, ProjectStage } from '~/types/database'
 
+// Use the project layout so the sidebar stays visible during creation
+// (lets the user switch back to an existing project mid-form).
+definePageMeta({ layout: 'project' })
+
 const { t } = useI18n()
 const localePath = useLocalePath()
-const { createProject, hasProject, currentProject } = useProject()
+const { createProject, hasAnyProject, projectList } = useProject()
+const { isAuthenticated } = useAuth()
 
-// If the user already has a local project, send them to its hub.
-// Module 0 is for first-time setup only (one-project local model).
-if (hasProject.value && currentProject.value) {
-  await navigateTo(localePath(`/project/${currentProject.value.local_id}`))
+// Anon users are capped at 1 local project. If they hit this page despite
+// already having one, redirect to their existing hub.
+if (!isAuthenticated.value && hasAnyProject.value) {
+  const existing = projectList.value[0]
+  if (existing) {
+    await navigateTo(localePath(`/project/${existing.local_id}`))
+  }
 }
 
 const sectors: { id: ProjectSector; glyph: string }[] = [
@@ -60,16 +68,13 @@ function validate(): boolean {
 
 async function submit() {
   if (!validate()) return
-  createProject({
+  const newLocalId = createProject({
     name: form.name.trim(),
     sector: form.sector as ProjectSector,
     stage: form.stage as ProjectStage,
     description: form.description.trim() || undefined
   })
-  // currentProject is now populated. Send to its hub.
-  if (currentProject.value) {
-    await navigateTo(localePath(`/project/${currentProject.value.local_id}`))
-  }
+  await navigateTo(localePath(`/project/${newLocalId}`))
 }
 </script>
 
