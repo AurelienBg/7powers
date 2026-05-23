@@ -206,18 +206,22 @@ function executeDelete() {
         </template>
 
         <!-- Module 9: synthesis -->
-        <div class="card p-5 space-y-3 opacity-60">
+        <NuxtLink
+          :to="localePath(`/project/${currentProject.local_id}/synthesis`)"
+          class="card-hover p-5 space-y-3 block border-gold/30"
+        >
           <div class="flex items-center justify-between">
             <span class="text-xs text-ink-low font-mono">09</span>
-            <span class="text-xs uppercase tracking-wider text-ink-low">
-              {{ t('hub.comingSoon') }}
+            <span class="text-xs uppercase tracking-wider text-gold-bright">
+              {{ t('hub.openModule') }}
             </span>
           </div>
           <div class="flex items-center gap-2">
             <span class="glyph text-lg text-gold-bright">✦</span>
             <h3 class="text-base font-medium text-ink-high">{{ t('hub.moduleSynthesis') }}</h3>
           </div>
-        </div>
+          <p class="text-xs text-ink-mid">{{ t('hub.synthesisSubtitle') }}</p>
+        </NuxtLink>
       </div>
     </section>
 

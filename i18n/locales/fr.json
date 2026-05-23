@@ -483,7 +483,71 @@
     "backToProject": "Retour au projet",
     "resetProject": "Supprimer ce projet (local)",
     "resetConfirm": "Vraiment supprimer ce projet local ? Cette action est irréversible.",
-    "progressLabel": "Avancement"
+    "progressLabel": "Avancement",
+    "synthesisSubtitle": "Power Map + Defensibility Score"
+  },
+  "synthesis": {
+    "step": "Module 9",
+    "title": "Power Map & Synthèse",
+    "subtitle": "Vue d'ensemble de ta défensibilité. Le radar montre tes 7 axes, le score global combine top 3 Powers et marché, les red flags signalent les claims fragiles.",
+    "emptyTitle": "Pas encore de synthèse",
+    "emptyBody": "Remplis au moins un Power module pour voir ton Power Map se construire. Le radar et le Defensibility Score se calculent en temps réel à partir de tes assessments.",
+    "emptyCta": "Retour au projet",
+    "radarHeading": "Power Map",
+    "radarAriaLabel": "Radar à 7 axes représentant les scores Power du projet",
+    "defensibilityHeading": "Defensibility Score",
+    "breakdownHeading": "Calcul détaillé",
+    "breakdown": {
+      "top3Avg": "Top 3 Powers (moyenne)",
+      "market": "Attractivité marché",
+      "defensibility": "Score global",
+      "formulaNote": "Formule Helmer adaptée : Defensibility = (Top 3 Powers × 0.7) + (Market × 0.3). On ne moyenne pas les 7 — Helmer dit que la plupart des projets ont 2-3 Powers, pas 7."
+    },
+    "scoreBands": {
+      "strong": "Défensibilité forte. Tu as un vrai moat sur 2-3 axes alignés avec un marché viable.",
+      "solid": "Défensibilité crédible. Quelques Powers bien identifiés mais consolidation à faire.",
+      "weak": "Défensibilité fragile. Soit le projet est jeune, soit les Powers revendiqués sont arbitrables.",
+      "absent": "Pas de défensibilité claire. Pour Helmer, ça veut dire risque d'arbitrage par le prochain concurrent bien financé.",
+      "notReady": "Remplis au moins un Power pour calculer le score."
+    },
+    "topPowersHeading": "Top 3 Powers",
+    "topPowersSubtitle": "Les Powers les plus solides selon ton scoring. Le n°1 est en doré — c'est ton moat principal.",
+    "noPowersYet": "Aucun Power scoré pour l'instant.",
+    "redFlagsHeading": "Red flags",
+    "redFlagsSubtitle": "Incohérences détectées entre tes claims et la méthodologie Helmer. Pas bloquant, mais à regarder.",
+    "redFlags": {
+      "stageMismatch": {
+        "title": "{power} hors stade",
+        "body": "Tu revendiques {power} mais ce Power se construit habituellement à un autre stade S-Curve. Branding à Origination = impossible (hysteresis 3-5 ans). Scale à Origination = trop tôt (pré-PMF). Re-vérifie le stade."
+      },
+      "unarticulated": {
+        "title": "{power} pas articulé",
+        "body": "Tu as un score >40 sur {power} mais sans description du Benefit ou de la Barrier. Un Power sans articulation, c'est un slogan. Remplis les textareas pour le crédibiliser."
+      },
+      "maxScore": {
+        "title": "{power} maxé sur tous les axes",
+        "body": "Q1 à Q5 tous à 5 sur {power} — c'est suspect. La méthodologie Helmer est sceptique par défaut : si tout est parfait, soit le projet est exceptionnel, soit tu surclaim. Re-challenger Q3 (Barrier height) en particulier."
+      },
+      "tooManyPowers": {
+        "title": "Trop de Powers revendiqués",
+        "body": "Tu as 5+ Powers à plus de 60/100. Helmer dit clairement que la plupart des entreprises durables ont 2-3 Powers, pas 7. Probablement de l'overclaim — re-challenge les plus faibles."
+      },
+      "noClearMoat": {
+        "title": "Pas de Power dominant",
+        "body": "Aucun Power au-dessus de 50/100. Selon Helmer, sans Power clair, ton projet sera arbitré dès qu'un concurrent bien financé arrive. Soit le projet est encore jeune, soit il faut creuser pour trouver le bon angle."
+      },
+      "thinMarket": {
+        "title": "Marché étroit + Powers forts",
+        "body": "Value = Market × Power. Tu as des Powers mais ton score d'attractivité marché est sous 30/100. Même un Power solide sur un micro-marché donne micro-value. Re-évalue ton SAM/SOM."
+      }
+    },
+    "stageFitHeading": "Alignement stade S-Curve",
+    "stageFitSubtitle": "Ton projet est au stade {stage}. Chaque Power se construit à un stade différent selon Helmer — voici si tes claims s'alignent.",
+    "stageFit": {
+      "expected": "Aligné",
+      "mismatch": "Hors stade"
+    },
+    "allRankedHeading": "Tous les Powers scorés"
   },
   "dashboard": {
     "kicker": "Dashboard",

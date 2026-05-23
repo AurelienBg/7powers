@@ -483,7 +483,71 @@
     "backToProject": "Back to project",
     "resetProject": "Delete this project (local)",
     "resetConfirm": "Really delete this local project? This action cannot be undone.",
-    "progressLabel": "Progress"
+    "progressLabel": "Progress",
+    "synthesisSubtitle": "Power Map + Defensibility Score"
+  },
+  "synthesis": {
+    "step": "Module 9",
+    "title": "Power Map & Synthesis",
+    "subtitle": "Overview of your defensibility. The radar shows your 7 axes, the global score combines top 3 Powers and market attractiveness, red flags surface fragile claims.",
+    "emptyTitle": "No synthesis yet",
+    "emptyBody": "Fill at least one Power module to see your Power Map build up. The radar and Defensibility Score compute in real time from your assessments.",
+    "emptyCta": "Back to project",
+    "radarHeading": "Power Map",
+    "radarAriaLabel": "7-axis radar representing the project's Power scores",
+    "defensibilityHeading": "Defensibility Score",
+    "breakdownHeading": "Detailed breakdown",
+    "breakdown": {
+      "top3Avg": "Top 3 Powers (average)",
+      "market": "Market attractiveness",
+      "defensibility": "Global score",
+      "formulaNote": "Adapted Helmer formula: Defensibility = (Top 3 Powers × 0.7) + (Market × 0.3). We don't average all 7 — Helmer says most projects have 2-3 Powers, not 7."
+    },
+    "scoreBands": {
+      "strong": "Strong defensibility. You have a real moat on 2-3 axes aligned with a viable market.",
+      "solid": "Credible defensibility. A few Powers well identified, consolidation still needed.",
+      "weak": "Fragile defensibility. Either the project is young, or the claimed Powers are arbitrable.",
+      "absent": "No clear defensibility. To Helmer, this means risk of arbitrage by the next well-funded competitor.",
+      "notReady": "Fill at least one Power to compute the score."
+    },
+    "topPowersHeading": "Top 3 Powers",
+    "topPowersSubtitle": "Your highest-scoring Powers. The #1 is shown in gold — that's your primary moat.",
+    "noPowersYet": "No Power scored yet.",
+    "redFlagsHeading": "Red flags",
+    "redFlagsSubtitle": "Inconsistencies detected between your claims and Helmer's methodology. Not blocking — but worth a look.",
+    "redFlags": {
+      "stageMismatch": {
+        "title": "{power} off-stage",
+        "body": "You're claiming {power} but this Power usually builds at a different S-Curve stage. Branding at Origination = impossible (hysteresis takes 3-5 years). Scale at Origination = too early (pre-PMF). Re-check the stage."
+      },
+      "unarticulated": {
+        "title": "{power} unarticulated",
+        "body": "You scored >40 on {power} but didn't describe the Benefit or Barrier in plain words. A Power without articulation is just a slogan. Fill the textareas to make it credible."
+      },
+      "maxScore": {
+        "title": "{power} maxed on every axis",
+        "body": "Q1 through Q5 all at 5 on {power} — that's suspicious. Helmer's methodology is skeptical by default: if everything is perfect, either the project is exceptional, or you're overclaiming. Re-challenge Q3 (Barrier height) in particular."
+      },
+      "tooManyPowers": {
+        "title": "Too many Powers claimed",
+        "body": "You have 5+ Powers above 60/100. Helmer is clear: most enduring businesses have 2-3 Powers, not 7. Likely overclaim — re-challenge the weakest ones."
+      },
+      "noClearMoat": {
+        "title": "No dominant Power",
+        "body": "No Power above 50/100. Per Helmer, without a clear Power, your project will be arbitraged as soon as a well-funded competitor shows up. Either the project is still young, or you need to dig for a better angle."
+      },
+      "thinMarket": {
+        "title": "Thin market + strong Powers",
+        "body": "Value = Market × Power. You have Powers but your market attractiveness score is below 30/100. Even a strong Power on a micro-market yields micro-value. Re-evaluate your SAM/SOM."
+      }
+    },
+    "stageFitHeading": "S-Curve stage alignment",
+    "stageFitSubtitle": "Your project is at the {stage} stage. Each Power builds at a different stage per Helmer — here's whether your claims align.",
+    "stageFit": {
+      "expected": "Aligned",
+      "mismatch": "Off-stage"
+    },
+    "allRankedHeading": "All scored Powers"
   },
   "dashboard": {
     "kicker": "Dashboard",

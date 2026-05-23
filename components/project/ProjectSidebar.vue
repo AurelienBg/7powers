@@ -280,16 +280,19 @@ watch(() => route.path, () => {
           <!-- SYNTHESIS section -->
           <div class="space-y-0.5">
             <p class="text-[10px] uppercase tracking-widest text-ink-low px-2">{{ t('sidebar.synthesisSection') }}</p>
-            <div
-              class="flex items-center justify-between px-2 py-1.5 rounded text-sm text-ink-low opacity-60 cursor-not-allowed"
-              :title="t('hub.comingSoon')"
+            <NuxtLink
+              :to="localePath(`/project/${currentProject.local_id}/synthesis`)"
+              class="flex items-center justify-between px-2 py-1.5 rounded text-sm transition-colors"
+              :class="isActive(`/project/${currentProject.local_id}/synthesis`)
+                ? 'bg-accent-blue/15 text-ink-high border-l-2 border-accent-blue'
+                : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
             >
               <span class="flex items-center gap-2">
-                <span class="text-[10px] font-mono tabular-nums">09</span>
-                <span class="glyph text-sm">✦</span>
+                <span class="text-[10px] text-ink-low font-mono tabular-nums">09</span>
+                <span class="glyph text-sm text-gold-bright">✦</span>
                 <span>{{ t('hub.moduleSynthesis') }}</span>
               </span>
-            </div>
+            </NuxtLink>
           </div>
         </div>
       </div>
