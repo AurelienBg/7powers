@@ -154,7 +154,15 @@
     "syncErrorClose": "Fermer",
     "syncErrorRetry": "Réessayer",
     "switchToLight": "Passer en mode clair",
-    "switchToDark": "Passer en mode sombre"
+    "switchToDark": "Passer en mode sombre",
+    "walletLink": "Lier wallet XRPL",
+    "walletConnecting": "Connexion…",
+    "walletConnected": "Wallet XRPL connecté · {address}",
+    "walletReconnecting": "Wallet XRPL lié (hors-ligne) · {address}",
+    "walletLinkedAddress": "Adresse XRPL liée",
+    "walletStatusConnected": "● Session active",
+    "walletStatusOffline": "● Reconnexion requise",
+    "walletUnlink": "Délier ce wallet"
   },
   "sidebar": {
     "newProject": "Nouveau projet",
@@ -257,9 +265,15 @@
   },
   "power": {
     "deepDive": {
-      "whyMatters": { "label": "Pourquoi ce Power compte" },
-      "pitfalls": { "label": "Pièges à éviter" },
-      "deepDive": { "label": "Cas d'école détaillé" }
+      "whyMatters": {
+        "label": "Pourquoi ce Power compte"
+      },
+      "pitfalls": {
+        "label": "Pièges à éviter"
+      },
+      "deepDive": {
+        "label": "Cas d'école détaillé"
+      }
     },
     "helmerDefinition": "Définition Helmer",
     "exampleFor": "Exemple pour ton secteur ({sector})",

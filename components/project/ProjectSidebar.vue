@@ -385,6 +385,8 @@ watch(() => route.path, () => {
             {{ t('nav.logout') }}
           </button>
         </div>
+        <!-- XRPL wallet status row — additional identity, opt-in -->
+        <WalletBadge variant="sidebar" />
       </template>
       <template v-else>
         <NuxtLink :to="localePath('/login')" class="text-ink-mid hover:text-ink-high transition-colors block">

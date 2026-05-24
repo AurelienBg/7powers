@@ -111,6 +111,7 @@ async function handleSignOut() {
               <span>{{ syncLabel }}</span>
             </button>
             <span class="text-xs text-ink-mid hidden md:inline">{{ user?.email }}</span>
+            <WalletBadge />
             <button type="button" class="btn-ghost !py-1.5 !px-3 text-sm" @click="handleSignOut">
               {{ t('nav.logout') }}
             </button>

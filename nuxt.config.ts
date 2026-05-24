@@ -38,6 +38,14 @@ export default defineNuxtConfig({
     typeCheck: false
   },
 
+  // xrpl-connect ships a Web Component (<xrpl-wallet-connector>) — tell Vue
+  // not to treat it as an unknown Vue component and not to emit warnings.
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag === 'xrpl-wallet-connector'
+    }
+  },
+
   app: {
     head: {
       title: '7Powers — Build defensibility, Helmer-style',
@@ -91,6 +99,12 @@ export default defineNuxtConfig({
     // Override-able via NUXT_ANTHROPIC_MODEL env var on Vercel without a rebuild.
     // Per spec § 4.3: Sonnet 4 by default. Bump when newer Sonnet ships.
     anthropicModel: process.env.ANTHROPIC_MODEL ?? 'claude-sonnet-4-20250514',
-    public: {}
+    public: {
+      // xrpl-connect / Xaman adapter. Override on Vercel via:
+      //   NUXT_PUBLIC_XAMAN_API_KEY     (Xaman / Xumm Developer Console)
+      //   NUXT_PUBLIC_XRPL_NETWORK      'mainnet' | 'testnet' | 'devnet' (defaults mainnet)
+      xamanApiKey: process.env.NUXT_PUBLIC_XAMAN_API_KEY ?? '',
+      xrplNetwork: process.env.NUXT_PUBLIC_XRPL_NETWORK ?? 'mainnet'
+    }
   }
 })

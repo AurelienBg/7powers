@@ -154,7 +154,15 @@
     "syncErrorClose": "Close",
     "syncErrorRetry": "Retry",
     "switchToLight": "Switch to light mode",
-    "switchToDark": "Switch to dark mode"
+    "switchToDark": "Switch to dark mode",
+    "walletLink": "Link XRPL wallet",
+    "walletConnecting": "Connecting…",
+    "walletConnected": "XRPL wallet connected · {address}",
+    "walletReconnecting": "XRPL wallet linked (offline) · {address}",
+    "walletLinkedAddress": "Linked XRPL address",
+    "walletStatusConnected": "● Session active",
+    "walletStatusOffline": "● Reconnect needed",
+    "walletUnlink": "Unlink this wallet"
   },
   "sidebar": {
     "newProject": "New project",
@@ -257,9 +265,15 @@
   },
   "power": {
     "deepDive": {
-      "whyMatters": { "label": "Why this Power matters" },
-      "pitfalls": { "label": "Pitfalls to avoid" },
-      "deepDive": { "label": "Detailed case study" }
+      "whyMatters": {
+        "label": "Why this Power matters"
+      },
+      "pitfalls": {
+        "label": "Pitfalls to avoid"
+      },
+      "deepDive": {
+        "label": "Detailed case study"
+      }
     },
     "helmerDefinition": "Helmer definition",
     "exampleFor": "Example for your sector ({sector})",
