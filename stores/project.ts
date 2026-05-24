@@ -31,6 +31,10 @@ interface ProjectState {
   assessmentsByProject: Record<string, AssessmentMap>
   currentProjectId: string | null
   syncedLocalIds: string[]
+  /** Map of local_id → Supabase UUID for synced projects. Needed by the
+   *  coach-message sync, which has to reference the cloud project_id (FK
+   *  on coach_messages.project_id) when inserting. */
+  cloudIdByLocalId: Record<string, string>
 }
 
 const emptyAssessments = (): AssessmentMap => ({
@@ -48,7 +52,8 @@ export const useProjectStore = defineStore('project', {
     projects: {},
     assessmentsByProject: {},
     currentProjectId: null,
-    syncedLocalIds: []
+    syncedLocalIds: [],
+    cloudIdByLocalId: {}
   }),
 
   getters: {
@@ -221,9 +226,12 @@ export const useProjectStore = defineStore('project', {
       }
     },
 
-    markSynced(localId: string) {
+    markSynced(localId: string, cloudId?: string) {
       if (!this.syncedLocalIds.includes(localId)) {
         this.syncedLocalIds.push(localId)
+      }
+      if (cloudId) {
+        this.cloudIdByLocalId[localId] = cloudId
       }
     },
 
@@ -232,11 +240,18 @@ export const useProjectStore = defineStore('project', {
       this.assessmentsByProject = {}
       this.currentProjectId = null
       this.syncedLocalIds = []
+      this.cloudIdByLocalId = {}
     }
   },
 
   persist: {
     key: 'sevenpowers:project:v2',
-    pick: ['projects', 'assessmentsByProject', 'currentProjectId', 'syncedLocalIds']
+    pick: [
+      'projects',
+      'assessmentsByProject',
+      'currentProjectId',
+      'syncedLocalIds',
+      'cloudIdByLocalId'
+    ]
   }
 })

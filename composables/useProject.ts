@@ -132,7 +132,9 @@ export function useProject() {
       if (assessmentsError) throw assessmentsError
     }
 
-    store.markSynced(current.local_id)
+    // Record the local→cloud id mapping so subsequent coach_messages pushes
+    // can target the right FK without us re-querying Supabase.
+    store.markSynced(current.local_id, created.id)
     return created.id
   }
 
@@ -227,14 +229,63 @@ export function useProject() {
       }
       store.assessmentsByProject[localId] = map
 
-      // Came from cloud → already synced.
-      store.markSynced(localId)
+      // Came from cloud → already synced. Capture the cloud id mapping
+      // so coach-message pushes have the right FK.
+      store.markSynced(localId, p.id)
     }
 
     // Most-recently-updated project becomes the active one.
     store.currentProjectId = toLocalId(projects[0].id)
 
     return projects.length
+  }
+
+  // ============================================================
+  // Coach messages — push-only backup to Supabase
+  // ============================================================
+
+  /**
+   * Push a batch of new coach messages to Supabase. No-op if:
+   *   - user is not signed in
+   *   - project is not synced (we have no cloud id to FK against)
+   *   - messages array is empty
+   *
+   * Returns the count actually inserted (0 on no-op). Errors are logged
+   * and re-thrown so the caller (useCoach) can decide whether to retry
+   * later — we never block the UI on coach-message persistence.
+   *
+   * Scope: push-only. Pulling the cloud history back into the local
+   * thread (multi-device continuity) is backlog — adds conflict-resolution
+   * complexity (interleaved local + cloud edits) that we don't need yet.
+   */
+  async function pushCoachMessages(
+    localProjectId: string,
+    powerContext: PowerType | 'general',
+    messages: Array<{ role: 'user' | 'assistant'; content: string; created_at: string }>
+  ): Promise<number> {
+    if (!user.value) return 0
+    if (messages.length === 0) return 0
+    const cloudId = store.cloudIdByLocalId[localProjectId]
+    if (!cloudId) return 0
+
+    const rows = messages.map((m) => ({
+      project_id: cloudId,
+      // power_context is NULL for general / hub conversations.
+      power_context: powerContext === 'general' ? null : powerContext,
+      role: m.role,
+      content: m.content,
+      created_at: m.created_at
+    }))
+
+    const { error: insertError } = await supabase
+      .from('coach_messages')
+      .insert(rows)
+
+    if (insertError) {
+      console.warn('[pushCoachMessages] failed:', insertError)
+      throw insertError
+    }
+    return rows.length
   }
 
   return {
@@ -261,6 +312,7 @@ export function useProject() {
     saveAssessment,
     syncToCloud,
     fetchFromCloud,
+    pushCoachMessages,
     reset: () => store.reset()
   }
 }

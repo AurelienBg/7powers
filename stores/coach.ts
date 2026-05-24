@@ -21,6 +21,9 @@ export interface CoachLocalMessage {
   role: 'user' | 'assistant'
   content: string
   created_at: string
+  /** True once this message has been pushed to Supabase's coach_messages
+   *  table. Lets us batch-push only the new turns on each sendMessage(). */
+  synced?: boolean
 }
 
 type ThreadKey = string // `${projectLocalId}::${powerContext}`
@@ -73,6 +76,17 @@ export const useCoachStore = defineStore('coach', {
 
     clearThread(projectLocalId: string, ctx: PowerContext) {
       delete this.threads[threadKey(projectLocalId, ctx)]
+    },
+
+    /** Flag a set of message ids as successfully pushed to Supabase, so
+     *  subsequent push attempts can skip them. */
+    markMessagesSynced(projectLocalId: string, ctx: PowerContext, ids: string[]) {
+      const thread = this.threads[threadKey(projectLocalId, ctx)]
+      if (!thread) return
+      const set = new Set(ids)
+      for (const m of thread) {
+        if (set.has(m.id)) m.synced = true
+      }
     },
 
     clearAllForProject(projectLocalId: string) {

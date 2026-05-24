@@ -11,7 +11,7 @@ import type { CoachProjectContext } from '~/server/utils/prompts'
 export function useCoach(powerContext: Ref<PowerContext>) {
   const { t, locale } = useI18n()
   const store = useCoachStore()
-  const { currentProject, assessments } = useProject()
+  const { currentProject, assessments, pushCoachMessages } = useProject()
 
   const isStreaming = ref(false)
   const errorMessage = ref<string | null>(null)
@@ -169,6 +169,38 @@ export function useCoach(powerContext: Ref<PowerContext>) {
     } finally {
       isStreaming.value = false
       activeController = null
+    }
+
+    // ---- Cloud backup (push-only, best-effort) ----
+    // After the stream lands cleanly, push any new (unsynced) messages in
+    // the current thread to Supabase. Failures are swallowed: cloud backup
+    // is a nice-to-have, not a hard dependency, so we never break the
+    // chat UX for it. The user already sees a sync badge in the layout
+    // header / sidebar if the parent project fails to push.
+    try {
+      const projectId = project.local_id
+      const ctx = powerContext.value
+      const unsynced = store
+        .getThread(projectId, ctx)
+        .filter((m) => !m.synced)
+        .map((m) => ({
+          id: m.id,
+          role: m.role,
+          content: m.content,
+          created_at: m.created_at
+        }))
+      if (unsynced.length > 0) {
+        const count = await pushCoachMessages(
+          projectId,
+          ctx,
+          unsynced.map(({ id: _id, ...rest }) => rest)
+        )
+        if (count > 0) {
+          store.markMessagesSynced(projectId, ctx, unsynced.map((m) => m.id))
+        }
+      }
+    } catch (e) {
+      console.warn('[useCoach] coach-message backup failed (non-blocking):', e)
     }
   }
 
