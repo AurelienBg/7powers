@@ -46,6 +46,10 @@ export function useProject() {
     store.deleteProject(localId)
   }
 
+  function duplicateProject(sourceLocalId: string, newName: string): string {
+    return store.duplicateProject(sourceLocalId, newName)
+  }
+
   // ============================================================
   // Current-project mutations
   // ============================================================
@@ -127,6 +131,7 @@ export function useProject() {
     createProject,
     switchProject,
     deleteProject,
+    duplicateProject,
     updateMarketSize,
     saveAssessment,
     syncToCloud,

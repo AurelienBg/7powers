@@ -224,7 +224,6 @@ watch(() => route.path, () => {
                 : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
             >
               <span class="flex items-center gap-2">
-                <span class="text-[10px] text-ink-low font-mono tabular-nums">00</span>
                 <span>{{ t('hub.module0') }}</span>
               </span>
               <span class="text-xs text-accent-blue-bright">✓</span>
@@ -237,7 +236,6 @@ watch(() => route.path, () => {
                 : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
             >
               <span class="flex items-center gap-2">
-                <span class="text-[10px] text-ink-low font-mono tabular-nums">01</span>
                 <span>{{ t('hub.module1') }}</span>
               </span>
               <span v-if="marketDone" class="text-xs text-accent-blue-bright tabular-nums">{{ marketScore }}</span>
@@ -257,7 +255,7 @@ watch(() => route.path, () => {
                   : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
               >
                 <span class="flex items-center gap-2">
-                  <span class="text-[10px] text-ink-low font-mono tabular-nums">{{ String(idx + 2).padStart(2, '0') }}</span>
+                  <span class="text-[10px] text-ink-low font-mono tabular-nums">{{ String(idx + 1).padStart(2, '0') }}</span>
                   <span class="glyph text-sm text-accent-blue-bright">{{ t(`powerGlyphs.${power}`) }}</span>
                   <span>{{ t(`powers.${power}`) }}</span>
                 </span>
@@ -270,7 +268,7 @@ watch(() => route.path, () => {
                 :title="t('hub.comingSoon')"
               >
                 <span class="flex items-center gap-2">
-                  <span class="text-[10px] font-mono tabular-nums">{{ String(idx + 2).padStart(2, '0') }}</span>
+                  <span class="text-[10px] font-mono tabular-nums">{{ String(idx + 1).padStart(2, '0') }}</span>
                   <span class="glyph text-sm">{{ t(`powerGlyphs.${power}`) }}</span>
                   <span>{{ t(`powers.${power}`) }}</span>
                 </span>
@@ -289,7 +287,6 @@ watch(() => route.path, () => {
                 : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
             >
               <span class="flex items-center gap-2">
-                <span class="text-[10px] text-ink-low font-mono tabular-nums">09</span>
                 <span class="glyph text-sm text-gold-bright">✦</span>
                 <span>{{ t('hub.moduleSynthesis') }}</span>
               </span>

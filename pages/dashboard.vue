@@ -6,7 +6,8 @@ definePageMeta({ layout: 'project' })
 
 const { t } = useI18n()
 const localePath = useLocalePath()
-const { projectList, deleteProject } = useProject()
+const router = useRouter()
+const { projectList, deleteProject, duplicateProject } = useProject()
 const { isAuthenticated } = useAuth()
 const projectStore = useProjectStore()
 const { compute: computePowerScore } = usePowerScore()
@@ -70,6 +71,16 @@ function executeDelete() {
   deleteProject(projectToDelete.value.local_id)
   projectToDelete.value = null
 }
+
+function handleEdit(p: LocalProject) {
+  router.push(localePath(`/project/${p.local_id}/edit`))
+}
+
+function handleDuplicate(p: LocalProject) {
+  const newName = `${p.name} ${t('dashboard.duplicateSuffix')}`
+  const newId = duplicateProject(p.local_id, newName)
+  if (newId) router.push(localePath(`/project/${newId}`))
+}
 </script>
 
 <template>
@@ -127,14 +138,32 @@ function executeDelete() {
               </p>
             </NuxtLink>
           </div>
-          <button
-            type="button"
-            class="text-ink-low hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
-            :title="t('dashboard.deleteProject')"
-            @click.stop.prevent="confirmDelete(p)"
-          >
-            <span class="glyph">×</span>
-          </button>
+          <div class="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button
+              type="button"
+              class="w-7 h-7 rounded inline-flex items-center justify-center text-ink-low hover:text-ink-high hover:bg-bg-elevated transition-colors"
+              :title="t('dashboard.editProject')"
+              @click.stop.prevent="handleEdit(p)"
+            >
+              <span class="glyph text-sm">✎</span>
+            </button>
+            <button
+              type="button"
+              class="w-7 h-7 rounded inline-flex items-center justify-center text-ink-low hover:text-ink-high hover:bg-bg-elevated transition-colors"
+              :title="t('dashboard.duplicateProject')"
+              @click.stop.prevent="handleDuplicate(p)"
+            >
+              <span class="glyph text-sm">⎘</span>
+            </button>
+            <button
+              type="button"
+              class="w-7 h-7 rounded inline-flex items-center justify-center text-ink-low hover:text-red-400 hover:bg-bg-elevated transition-colors"
+              :title="t('dashboard.deleteProject')"
+              @click.stop.prevent="confirmDelete(p)"
+            >
+              <span class="glyph text-sm">×</span>
+            </button>
+          </div>
         </div>
 
         <!-- Tags row -->

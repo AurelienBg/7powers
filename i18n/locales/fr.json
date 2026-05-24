@@ -139,7 +139,7 @@
       "absent": "Pas de Power détecté sur cet axe — c'est OK, on n'en a pas besoin sur les 7."
     },
     "scale": {
-      "step": "Module 2 · Power",
+      "step": "Power 1",
       "tagline": "Les coûts unitaires baissent quand le volume monte. Le concurrent doit grossir pour matcher.",
       "definition": "Quand tes coûts unitaires baissent avec le volume, ton prix résiste mieux qu'un concurrent plus petit. Le Benefit est mesurable. La Barrier vient du fait qu'un challenger devrait atteindre TON volume — ce qui prend des années et du capital — pour matcher tes coûts.",
       "examples": {
@@ -177,7 +177,7 @@
       }
     },
     "network": {
-      "step": "Module 3 · Power",
+      "step": "Power 2",
       "tagline": "La valeur monte pour chaque user quand plus d'users rejoignent. Le concurrent doit acquérir une masse critique.",
       "definition": "Quand chaque nouvel user augmente la valeur pour les users existants, ton service devient meilleur à mesure qu'il grandit. Le Benefit est mesurable (engagement, retention). La Barrier vient du chicken-and-egg : un concurrent doit acquérir suffisamment d'users pour offrir la même valeur — ce qui coûte cher en incentives et prend du temps.",
       "examples": {
@@ -215,7 +215,7 @@
       }
     },
     "counter": {
-      "step": "Module 4 · Power",
+      "step": "Power 3",
       "tagline": "Un modèle business que les incumbents ne peuvent pas copier sans se cannibaliser eux-mêmes.",
       "definition": "Tu adoptes un modèle économique fondamentalement différent qui te donne un avantage. Le Benefit est mesurable (prix bas, marges meilleures, distribution différente). La Barrier n'est PAS technique — c'est la cannibalisation : si l'incumbent te copie, il détruit son propre business existant.",
       "examples": {
@@ -253,7 +253,7 @@
       }
     },
     "switching": {
-      "step": "Module 5 · Power",
+      "step": "Power 4",
       "tagline": "Un coût de switch pour le user qui te permet de capturer un premium ou de tenir face à des concurrents 10x meilleurs.",
       "definition": "Une fois qu'un user adopte ton produit, le coût pour partir devient significatif (temps, données, retraining, intégrations cassées). Tu peux pricer premium tant que ce coût > le delta de valeur d'un concurrent. La Barrier croît avec l'usage — chaque mois supplémentaire renforce le lock-in.",
       "examples": {
@@ -291,7 +291,7 @@
       }
     },
     "branding": {
-      "step": "Module 6 · Power",
+      "step": "Power 5",
       "tagline": "Une marque qui commande un premium pricing par perception, construite sur des années de signaling cohérent.",
       "definition": "Ta marque évoque qualité, sécurité ou status d'une manière qui justifie un prix supérieur à l'objectivement équivalent. Le Benefit est mesurable (price premium, conversion rate sur ton nom). La Barrier est l'hysteresis : il faut 3-5 ans+ d'investissement et de consistency pour qu'une marque s'installe — un concurrent ne peut pas court-circuiter ce temps.",
       "examples": {
@@ -329,7 +329,7 @@
       }
     },
     "cornered": {
-      "step": "Module 7 · Power",
+      "step": "Power 6",
       "tagline": "Accès exclusif et durable à un actif critique — data, IP, contrat, talent, distribution.",
       "definition": "Tu détiens un actif que les autres n'ont pas et ne peuvent pas avoir : exclusivité contractuelle, propriété intellectuelle, dataset propriétaire, top talent. Sans cet actif, ton produit serait commun. La Barrier est juridique ou structurelle (propriété), pas concurrentielle (compétences).",
       "examples": {
@@ -367,7 +367,7 @@
       }
     },
     "process": {
-      "step": "Module 8 · Power",
+      "step": "Power 7",
       "tagline": "Excellence opérationnelle — un process complexe, accumulé sur des années, qu'un concurrent ne peut pas répliquer en lisant un livre.",
       "definition": "Ton organisation a développé un process opérationnel — qualité, vitesse, coût — qui surclasse les concurrents et que personne ne peut copier en lisant la documentation. Il faut des années d'apprentissage par l'erreur, de raffinement, et d'enracinement culturel. La Barrier est la complexité tacite.",
       "examples": {
@@ -406,7 +406,7 @@
     }
   },
   "module1": {
-    "step": "Module 1",
+    "step": "Setup",
     "title": "Taille de marché",
     "subtitle": "Helmer : Value = Market × Power. Sans marché, pas de valeur — même avec un Power. Trois chiffres + tes sources.",
     "liveScore": "Score d'attractivité",
@@ -437,7 +437,7 @@
     "save": "Sauvegarder et revenir au projet"
   },
   "module0": {
-    "step": "Module 0",
+    "step": "Setup",
     "title": "Le projet",
     "subtitle": "Pose les bases. Nom, secteur, stade. C'est sur ces 3 axes qu'on va stress-tester ton moat.",
     "nameLabel": "Nom du projet",
@@ -488,10 +488,20 @@
     "resetProject": "Supprimer ce projet (local)",
     "resetConfirm": "Vraiment supprimer ce projet local ? Cette action est irréversible.",
     "progressLabel": "Avancement",
-    "synthesisSubtitle": "Power Map + Defensibility Score"
+    "synthesisSubtitle": "Power Map + Defensibility Score",
+    "setupLabel": "Setup",
+    "synthesisLabel": "Synthèse",
+    "editProject": "Modifier"
+  },
+  "editProject": {
+    "kicker": "Modifier le projet",
+    "title": "Modifier les infos du projet",
+    "subtitle": "Tu peux ajuster le nom, le secteur, le stade ou la description. Les scores des Powers et la market sizing sont conservés.",
+    "save": "Enregistrer les modifications",
+    "cancel": "Annuler"
   },
   "synthesis": {
-    "step": "Module 9",
+    "step": "Synthèse",
     "title": "Power Map & Synthèse",
     "subtitle": "Vue d'ensemble de ta défensibilité. Le radar montre tes 7 axes, le score global combine top 3 Powers et marché, les red flags signalent les claims fragiles.",
     "emptyTitle": "Pas encore de synthèse",
@@ -563,6 +573,9 @@
     "cardMarket": "Market",
     "cardPowers": "Powers",
     "cardDefensibility": "Defensibility",
+    "editProject": "Modifier",
+    "duplicateProject": "Dupliquer",
+    "duplicateSuffix": "(copie)",
     "deleteProject": "Supprimer",
     "deleteConfirmTitle": "Supprimer ce projet ?",
     "deleteConfirmBody": "« {name} » sera supprimé définitivement de ce navigateur. Si ce projet a été synchronisé dans le cloud, la copie cloud reste intacte.",

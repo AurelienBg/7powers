@@ -102,6 +102,14 @@ function executeDelete() {
             </span>
           </div>
         </div>
+        <NuxtLink
+          :to="localePath(`/project/${currentProject.local_id}/edit`)"
+          class="btn-ghost !py-1.5 !px-3 text-xs inline-flex items-center gap-1.5 shrink-0"
+          :title="t('hub.editProject')"
+        >
+          <span class="glyph">✎</span>
+          <span>{{ t('hub.editProject') }}</span>
+        </NuxtLink>
       </div>
 
       <p v-if="currentProject.description" class="text-ink-mid max-w-2xl">
@@ -131,26 +139,29 @@ function executeDelete() {
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-        <!-- Module 0: done -->
-        <div class="card p-5 space-y-3 border-accent-blue/50">
+        <!-- Setup (no number) -->
+        <NuxtLink
+          :to="localePath(`/project/${currentProject.local_id}/edit`)"
+          class="card-hover p-5 space-y-3 block border-accent-blue/50"
+        >
           <div class="flex items-center justify-between">
-            <span class="text-xs text-ink-low font-mono">00</span>
+            <span class="text-[10px] uppercase tracking-wider text-ink-low">{{ t('hub.setupLabel') }}</span>
             <span class="text-xs uppercase tracking-wider text-accent-blue-bright">
-              ✓ {{ t('hub.done') }}
+              ✓ {{ t('hub.done') }} · {{ t('hub.editProject') }}
             </span>
           </div>
           <h3 class="text-base font-medium text-ink-high">{{ t('hub.module0') }}</h3>
           <p class="text-xs text-ink-mid">{{ currentProject.name }}</p>
-        </div>
+        </NuxtLink>
 
-        <!-- Module 1: market sizing -->
+        <!-- Market sizing (no number) -->
         <NuxtLink
           :to="localePath(`/project/${currentProject.local_id}/market`)"
           class="card-hover p-5 space-y-3 block"
           :class="marketDone ? 'border-accent-blue/50' : ''"
         >
           <div class="flex items-center justify-between">
-            <span class="text-xs text-ink-low font-mono">01</span>
+            <span class="text-[10px] uppercase tracking-wider text-ink-low">{{ t('hub.setupLabel') }}</span>
             <span
               v-if="marketDone"
               class="text-xs uppercase tracking-wider text-accent-blue-bright tabular-nums"
@@ -165,7 +176,7 @@ function executeDelete() {
           <p class="text-xs text-ink-mid">TAM · SAM · SOM</p>
         </NuxtLink>
 
-        <!-- Modules 2-8: the 7 Powers -->
+        <!-- 7 Powers numbered 01-07 -->
         <template v-for="(power, idx) in powers" :key="power">
           <NuxtLink
             v-if="IMPLEMENTED_POWERS.includes(power)"
@@ -174,7 +185,7 @@ function executeDelete() {
             :class="isPowerComplete(assessments[power]?.answers) ? 'border-accent-blue/50' : ''"
           >
             <div class="flex items-center justify-between">
-              <span class="text-xs text-ink-low font-mono">{{ String(idx + 2).padStart(2, '0') }}</span>
+              <span class="text-xs text-ink-low font-mono">{{ String(idx + 1).padStart(2, '0') }}</span>
               <span
                 v-if="isPowerComplete(assessments[power]?.answers)"
                 class="text-xs uppercase tracking-wider text-accent-blue-bright tabular-nums"
@@ -193,7 +204,7 @@ function executeDelete() {
 
           <div v-else class="card p-5 space-y-3 opacity-60">
             <div class="flex items-center justify-between">
-              <span class="text-xs text-ink-low font-mono">{{ String(idx + 2).padStart(2, '0') }}</span>
+              <span class="text-xs text-ink-low font-mono">{{ String(idx + 1).padStart(2, '0') }}</span>
               <span class="text-xs uppercase tracking-wider text-ink-low">
                 {{ t('hub.comingSoon') }}
               </span>
@@ -205,13 +216,13 @@ function executeDelete() {
           </div>
         </template>
 
-        <!-- Module 9: synthesis -->
+        <!-- Synthesis (no number) -->
         <NuxtLink
           :to="localePath(`/project/${currentProject.local_id}/synthesis`)"
           class="card-hover p-5 space-y-3 block border-gold/30"
         >
           <div class="flex items-center justify-between">
-            <span class="text-xs text-ink-low font-mono">09</span>
+            <span class="text-[10px] uppercase tracking-wider text-ink-low">{{ t('hub.synthesisLabel') }}</span>
             <span class="text-xs uppercase tracking-wider text-gold-bright">
               {{ t('hub.openModule') }}
             </span>

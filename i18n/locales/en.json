@@ -139,7 +139,7 @@
       "absent": "No Power detected on this axis — that's OK, you don't need all 7."
     },
     "scale": {
-      "step": "Module 2 · Power",
+      "step": "Power 1",
       "tagline": "Unit costs drop as volume rises. Competitor must scale up to match.",
       "definition": "When your unit costs fall with volume, your price beats smaller competitors. The Benefit is measurable. The Barrier comes from the fact that a challenger would need to reach YOUR volume — which takes years and capital — to match your costs.",
       "examples": {
@@ -177,7 +177,7 @@
       }
     },
     "network": {
-      "step": "Module 3 · Power",
+      "step": "Power 2",
       "tagline": "Value grows for every user when more users join. A competitor must reach critical mass.",
       "definition": "When each new user increases value for existing ones, your service gets better as it grows. The Benefit is measurable (engagement, retention). The Barrier is the chicken-and-egg problem: a competitor must acquire enough users to offer the same value — which costs heavy incentives and takes time.",
       "examples": {
@@ -215,7 +215,7 @@
       }
     },
     "counter": {
-      "step": "Module 4 · Power",
+      "step": "Power 3",
       "tagline": "A business model incumbents can't copy without cannibalizing themselves.",
       "definition": "You adopt a fundamentally different economic model that gives you an edge. The Benefit is measurable (lower price, better margins, different distribution). The Barrier is NOT technical — it's cannibalization: if the incumbent copies you, they destroy their own existing business.",
       "examples": {
@@ -253,7 +253,7 @@
       }
     },
     "switching": {
-      "step": "Module 5 · Power",
+      "step": "Power 4",
       "tagline": "A switch cost for users that lets you capture a premium or hold against 10x-better competitors.",
       "definition": "Once a user adopts your product, the cost to leave becomes significant (time, data, retraining, broken integrations). You can price at a premium as long as that cost > a competitor's value delta. The Barrier grows with usage — every additional month reinforces lock-in.",
       "examples": {
@@ -291,7 +291,7 @@
       }
     },
     "branding": {
-      "step": "Module 6 · Power",
+      "step": "Power 5",
       "tagline": "A brand that commands a price premium through perception, built on years of consistent signaling.",
       "definition": "Your brand evokes quality, security, or status in a way that justifies a price above the objectively equivalent. The Benefit is measurable (price premium, conversion on brand name). The Barrier is hysteresis: it takes 3-5+ years of investment and consistency for a brand to settle in — a competitor can't shortcut that time.",
       "examples": {
@@ -329,7 +329,7 @@
       }
     },
     "cornered": {
-      "step": "Module 7 · Power",
+      "step": "Power 6",
       "tagline": "Exclusive, durable access to a critical asset — data, IP, contract, talent, distribution.",
       "definition": "You hold an asset others don't and can't have: contractual exclusivity, intellectual property, proprietary dataset, top talent. Without that asset, your product would be commodity. The Barrier is legal or structural (ownership), not competitive (skill).",
       "examples": {
@@ -367,7 +367,7 @@
       }
     },
     "process": {
-      "step": "Module 8 · Power",
+      "step": "Power 7",
       "tagline": "Operational excellence — a complex process, accumulated over years, that a competitor can't replicate by reading a book.",
       "definition": "Your organization has developed an operational process — quality, speed, cost — that beats competitors and that no one can copy by reading documentation. It takes years of learning by mistakes, refinement, and cultural embedding. The Barrier is tacit complexity.",
       "examples": {
@@ -406,7 +406,7 @@
     }
   },
   "module1": {
-    "step": "Module 1",
+    "step": "Setup",
     "title": "Market sizing",
     "subtitle": "Helmer: Value = Market × Power. No market, no value — even with a Power. Three numbers + your sources.",
     "liveScore": "Attractiveness score",
@@ -437,7 +437,7 @@
     "save": "Save and return to project"
   },
   "module0": {
-    "step": "Module 0",
+    "step": "Setup",
     "title": "The project",
     "subtitle": "Lay the foundation. Name, sector, stage. These are the three axes we'll stress-test your moat against.",
     "nameLabel": "Project name",
@@ -488,10 +488,20 @@
     "resetProject": "Delete this project (local)",
     "resetConfirm": "Really delete this local project? This action cannot be undone.",
     "progressLabel": "Progress",
-    "synthesisSubtitle": "Power Map + Defensibility Score"
+    "synthesisSubtitle": "Power Map + Defensibility Score",
+    "setupLabel": "Setup",
+    "synthesisLabel": "Synthesis",
+    "editProject": "Edit"
+  },
+  "editProject": {
+    "kicker": "Edit project",
+    "title": "Edit project info",
+    "subtitle": "Tweak the name, sector, stage, or description. Power scores and market sizing are preserved.",
+    "save": "Save changes",
+    "cancel": "Cancel"
   },
   "synthesis": {
-    "step": "Module 9",
+    "step": "Synthesis",
     "title": "Power Map & Synthesis",
     "subtitle": "Overview of your defensibility. The radar shows your 7 axes, the global score combines top 3 Powers and market attractiveness, red flags surface fragile claims.",
     "emptyTitle": "No synthesis yet",
@@ -563,6 +573,9 @@
     "cardMarket": "Market",
     "cardPowers": "Powers",
     "cardDefensibility": "Defensibility",
+    "editProject": "Edit",
+    "duplicateProject": "Duplicate",
+    "duplicateSuffix": "(copy)",
     "deleteProject": "Delete",
     "deleteConfirmTitle": "Delete this project?",
     "deleteConfirmBody": "\"{name}\" will be permanently deleted from this browser. If this project was synced to the cloud, the cloud copy remains intact.",

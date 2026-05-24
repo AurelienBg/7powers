@@ -139,6 +139,44 @@ export const useProjectStore = defineStore('project', {
       }
     },
 
+    /**
+     * Clone an existing project + its assessments under a fresh local_id.
+     * The new project becomes the current one. Returns the new id.
+     * Caller provides the new name (typically `${source.name} (copy)` localized).
+     */
+    duplicateProject(sourceLocalId: string, newName: string): string {
+      const source = this.projects[sourceLocalId]
+      if (!source) return ''
+      const newId = `local-${crypto.randomUUID()}`
+      const now = new Date().toISOString()
+      this.projects[newId] = {
+        ...source,
+        local_id: newId,
+        name: newName,
+        created_at: now,
+        updated_at: now
+      }
+      const sourceAssessments = this.assessmentsByProject[sourceLocalId] ?? emptyAssessments()
+      const cloned = emptyAssessments()
+      for (const [power, a] of Object.entries(sourceAssessments) as [
+        PowerType,
+        LocalPowerAssessment | undefined
+      ][]) {
+        if (!a) continue
+        cloned[power] = {
+          ...a,
+          local_id: `local-${crypto.randomUUID()}`,
+          local_project_id: newId,
+          created_at: now,
+          updated_at: now
+        }
+      }
+      this.assessmentsByProject[newId] = cloned
+      // Duplicate is never synced by default (it's a fresh local entity).
+      this.currentProjectId = newId
+      return newId
+    },
+
     updateCurrentProject(patch: Partial<Omit<LocalProject, 'local_id' | 'created_at'>>) {
       if (!this.currentProjectId) return
       const existing = this.projects[this.currentProjectId]
