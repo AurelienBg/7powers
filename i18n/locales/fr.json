@@ -162,7 +162,8 @@
     "walletLinkedAddress": "Adresse XRPL liée",
     "walletStatusConnected": "● Session active",
     "walletStatusOffline": "● Reconnexion requise",
-    "walletUnlink": "Délier ce wallet"
+    "walletUnlink": "Délier ce wallet",
+    "assess": "Évaluer"
   },
   "sidebar": {
     "newProject": "Nouveau projet",

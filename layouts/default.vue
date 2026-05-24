@@ -51,6 +51,14 @@ async function handleSignOut() {
         </NuxtLink>
 
         <nav class="flex items-center gap-2">
+          <!-- Primary nav pair: Assess (the doing) + Learn (the supporting
+               material). Same styling on both so they read as siblings. -->
+          <NuxtLink
+            :to="localePath('/dashboard')"
+            class="text-xs uppercase tracking-wider text-ink-mid hover:text-ink-high px-2 py-1 transition-colors"
+          >
+            {{ t('nav.assess') }}
+          </NuxtLink>
           <NuxtLink
             :to="localePath('/learn')"
             class="text-xs uppercase tracking-wider text-ink-mid hover:text-ink-high px-2 py-1 transition-colors"
