@@ -26,8 +26,13 @@ const { t } = useI18n()
 
 const SIZE = computed(() => props.size ?? 360)
 const HALF = computed(() => SIZE.value / 2)
-const RING_MAX = 120 // radius reserved for the 0-100 ring (in viewBox units)
-const LABEL_R = 142 // radius where Power name labels sit
+// Ring radius scales with the SVG so the radar fits regardless of size.
+// Compact mode (no labels) → use most of the available radius.
+// Full mode → reserve room for axis labels around the ring.
+const RING_MAX = computed(() =>
+  props.compact ? Math.floor(HALF.value * 0.88) : Math.max(60, HALF.value - 60)
+)
+const LABEL_R = computed(() => HALF.value - 30)
 
 // Power order matters — same as the rest of the app for consistency.
 const POWERS: PowerType[] = [
@@ -63,10 +68,10 @@ const isTopPower = (power: PowerType) =>
 const axes = computed(() =>
   POWERS.map((power, i) => {
     const angle = axisAngleDeg(i)
-    const end = polar(angle, RING_MAX)
-    const label = polar(angle, LABEL_R)
+    const end = polar(angle, RING_MAX.value)
+    const label = polar(angle, LABEL_R.value)
     const score = scoreOf(power)
-    const scorePoint = polar(angle, (score / 100) * RING_MAX)
+    const scorePoint = polar(angle, (score / 100) * RING_MAX.value)
     // Anchor labels based on side they're on.
     const labelAnchor: 'start' | 'middle' | 'end' =
       label.x < -5 ? 'end' : label.x > 5 ? 'start' : 'middle'
@@ -79,7 +84,7 @@ const polygonPoints = computed(() =>
 )
 
 // Concentric grid: 25, 50, 75, 100 — visual reference for scoring.
-const gridRings = [25, 50, 75, 100].map((v) => (v / 100) * RING_MAX)
+const gridRings = computed(() => [25, 50, 75, 100].map((v) => (v / 100) * RING_MAX.value))
 
 const GLYPHS: Record<PowerType, string> = {
   scale: '⬡',
@@ -111,6 +116,7 @@ const GLYPHS: Record<PowerType, string> = {
           cy="0"
           :r="r"
           :stroke-dasharray="r === RING_MAX ? '0' : '2 3'"
+          opacity="0.8"
         />
       </g>
 
@@ -135,18 +141,27 @@ const GLYPHS: Record<PowerType, string> = {
         stroke-linejoin="round"
       />
 
-      <!-- Score dots — gold for top Powers, blue otherwise -->
+      <!-- Score dots — gold for top Powers, blue otherwise.
+           Top dots get a subtle gold halo (concentric outer circle at low
+           opacity) instead of a hard stroke — softer, more designed. -->
       <g>
-        <circle
-          v-for="a in axes"
-          :key="`dot-${a.power}`"
-          :cx="a.scorePoint.x"
-          :cy="a.scorePoint.y"
-          :r="isTopPower(a.power) ? 5 : 3"
-          :fill="isTopPower(a.power) ? '#EF9F27' : '#378ADD'"
-          :stroke="isTopPower(a.power) ? '#0a0a0f' : 'none'"
-          :stroke-width="isTopPower(a.power) ? 2 : 0"
-        />
+        <template v-for="a in axes" :key="`dot-${a.power}`">
+          <!-- Halo for top-3 only -->
+          <circle
+            v-if="isTopPower(a.power)"
+            :cx="a.scorePoint.x"
+            :cy="a.scorePoint.y"
+            r="7"
+            fill="#EF9F27"
+            opacity="0.22"
+          />
+          <circle
+            :cx="a.scorePoint.x"
+            :cy="a.scorePoint.y"
+            :r="isTopPower(a.power) ? 4 : 2.5"
+            :fill="isTopPower(a.power) ? '#F5B450' : '#378ADD'"
+          />
+        </template>
       </g>
 
       <!-- Axis labels (Power name + glyph + score) -->
