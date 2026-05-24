@@ -5,7 +5,7 @@ import type { ProjectSector, ProjectStage } from '~/types/database'
 // (lets the user switch back to an existing project mid-form).
 definePageMeta({ layout: 'project' })
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const { createProject, hasAnyProject, projectList } = useProject()
 const { isAuthenticated } = useAuth()
@@ -46,6 +46,84 @@ const form = reactive<{
 
 const errors = reactive<{ name?: string; sector?: string; stage?: string }>({})
 
+// ============================================================
+// URL import — AI-assisted Module 0 pre-fill
+// ============================================================
+//
+// The user pastes a URL (their product's homepage). We POST to
+// /api/import-url, which fetches the page server-side, sends a cleaned
+// extract to Claude with forced tool-use, and returns
+// {name, sector?, stage?, description?}. Whatever Claude could infer is
+// merged into the form — fields that were already user-edited are
+// preserved (we never overwrite). Form is "AI-prefilled but reviewable".
+//
+// Why server-side fetch: avoids CORS issues + protects ANTHROPIC_API_KEY +
+// applies a uniform SSRF / size / timeout policy. See server/api/import-url.post.ts.
+//
+// ============================================================
+const importUrl = ref('')
+const importStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const importMessage = ref<string | null>(null)
+const showImport = ref(true)
+
+interface ImportResponse {
+  name: string
+  sector: ProjectSector | null
+  stage: ProjectStage | null
+  description: string | null
+  finalUrl: string
+}
+
+async function runImport() {
+  const url = importUrl.value.trim()
+  if (!url) {
+    importStatus.value = 'error'
+    importMessage.value = t('module0.import.errorEmpty')
+    return
+  }
+  importStatus.value = 'loading'
+  importMessage.value = null
+  try {
+    const data = await $fetch<ImportResponse>('/api/import-url', {
+      method: 'POST',
+      body: { url, locale: locale.value }
+    })
+
+    // Merge: only fill blank fields, so user input always wins.
+    let filled = 0
+    if (data.name && !form.name.trim()) {
+      form.name = data.name
+      filled++
+    }
+    if (data.sector && !form.sector) {
+      form.sector = data.sector
+      filled++
+    }
+    if (data.stage && !form.stage) {
+      form.stage = data.stage
+      filled++
+    }
+    if (data.description && !form.description.trim()) {
+      form.description = data.description
+      filled++
+    }
+
+    if (filled === 0) {
+      importStatus.value = 'error'
+      importMessage.value = t('module0.import.errorNothingNew')
+    } else {
+      importStatus.value = 'success'
+      importMessage.value = t('module0.import.success', { count: filled })
+    }
+  } catch (e) {
+    importStatus.value = 'error'
+    // $fetch wraps errors — the readable message is on e.data.error for our
+    // endpoint (which returns { error: string } on failure).
+    const err = e as { data?: { error?: string }; message?: string }
+    importMessage.value = err.data?.error || err.message || t('module0.import.errorGeneric')
+  }
+}
+
 function validate(): boolean {
   errors.name = undefined
   errors.sector = undefined
@@ -84,6 +162,62 @@ async function submit() {
       <p class="text-xs uppercase tracking-widest text-accent-blue-bright">{{ t('module0.step') }}</p>
       <h1 class="text-3xl font-semibold text-ink-high">{{ t('module0.title') }}</h1>
       <p class="text-ink-mid">{{ t('module0.subtitle') }}</p>
+    </div>
+
+    <!-- AI URL import — optional shortcut to pre-fill the form -->
+    <div v-if="showImport" class="card p-5 mb-10 border-accent-blue/30 bg-accent-blue/[0.03] space-y-3 relative">
+      <button
+        type="button"
+        class="absolute top-2.5 right-2.5 text-ink-low hover:text-ink-mid transition-colors text-base leading-none"
+        :title="t('module0.import.dismiss')"
+        :aria-label="t('module0.import.dismiss')"
+        @click="showImport = false"
+      >
+        ×
+      </button>
+
+      <div class="space-y-1">
+        <p class="text-xs uppercase tracking-widest text-accent-blue-bright flex items-center gap-1.5">
+          <span class="glyph">✦</span>
+          <span>{{ t('module0.import.label') }}</span>
+        </p>
+        <h2 class="text-lg font-semibold text-ink-high">{{ t('module0.import.title') }}</h2>
+        <p class="text-sm text-ink-mid">{{ t('module0.import.subtitle') }}</p>
+      </div>
+
+      <form class="flex flex-col sm:flex-row gap-2" @submit.prevent="runImport">
+        <input
+          v-model="importUrl"
+          type="url"
+          inputmode="url"
+          autocomplete="url"
+          :disabled="importStatus === 'loading'"
+          class="flex-1 bg-bg-elevated border border-border-subtle rounded-lg px-3 py-2 text-sm
+                 text-ink-high placeholder:text-ink-low
+                 focus:outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30
+                 transition-colors disabled:opacity-50"
+          :placeholder="t('module0.import.placeholder')"
+        >
+        <button
+          type="submit"
+          class="btn-primary !px-4 !py-2 text-sm whitespace-nowrap"
+          :disabled="importStatus === 'loading'"
+        >
+          <span v-if="importStatus === 'loading'" class="inline-flex items-center gap-2">
+            <span class="glyph animate-pulse">↻</span>
+            <span>{{ t('module0.import.analyzing') }}</span>
+          </span>
+          <span v-else>{{ t('module0.import.button') }}</span>
+        </button>
+      </form>
+
+      <p
+        v-if="importMessage"
+        class="text-xs"
+        :class="importStatus === 'success' ? 'text-emerald-400' : 'text-amber-400'"
+      >
+        {{ importMessage }}
+      </p>
     </div>
 
     <form class="space-y-10" @submit.prevent="submit">

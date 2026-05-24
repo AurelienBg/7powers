@@ -634,6 +634,19 @@
       "nameRequired": "Name is required.",
       "sectorRequired": "Pick a sector.",
       "stageRequired": "Pick a stage."
+    },
+    "import": {
+      "label": "Optional",
+      "title": "Start from your URL",
+      "subtitle": "Paste your product's URL — the AI pre-fills name, sector, stage, and description. You review and adjust before continuing.",
+      "placeholder": "https://your-product.com",
+      "button": "Analyze",
+      "analyzing": "Analyzing…",
+      "success": "{count} field(s) pre-filled — review and adjust.",
+      "dismiss": "Dismiss AI import",
+      "errorEmpty": "Please enter a URL first.",
+      "errorNothingNew": "No usable info was found on that page.",
+      "errorGeneric": "Couldn't analyze that URL right now."
     }
   },
   "sectors": {

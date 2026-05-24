@@ -205,3 +205,129 @@ Walk through this in order:
 
 Now wait for the founder's question or message.`
 }
+
+// ============================================================
+// URL import — Module 0 pre-fill from a project's homepage
+// ============================================================
+
+export interface BuildUrlImportPromptInput {
+  /** UI language ('fr' | 'en'). The extracted description is written in this language. */
+  locale: 'fr' | 'en'
+  /** Final URL we actually fetched (after redirects), for grounding. */
+  finalUrl: string
+}
+
+/**
+ * System prompt for the URL → Module 0 extractor.
+ *
+ * Designed to be paired with Anthropic's tool-use: the route declares a
+ * single `record_project_info` tool with a strict schema; Claude is forced
+ * to call it (`tool_choice` = that tool), guaranteeing structured output.
+ *
+ * The page HTML is passed as the user message; this prompt just sets the
+ * extraction rules, sector / stage taxonomies, and language for the
+ * description.
+ */
+export function buildUrlImportSystemPrompt(input: BuildUrlImportPromptInput): string {
+  const descriptionLang =
+    input.locale === 'fr'
+      ? 'Write `description` in FRENCH (formal, neutral, third-person — eg. "Plateforme de…", "Outil pour…").'
+      : 'Write `description` in ENGLISH (neutral, third-person — eg. "Platform for…", "Tool that…").'
+
+  return `You analyze a project's homepage and extract structured info to pre-fill a
+"new project" form for the 7 Powers defensibility framework. You always
+respond by calling the \`record_project_info\` tool — never with free text.
+
+Source URL: ${input.finalUrl}
+
+================================================================
+EXTRACTION RULES
+================================================================
+
+NAME — the product / project name as a founder would say it, NOT the full
+company legal name. Strip taglines, "·" suffixes, "| website" patterns.
+If the homepage shows "Linear — The issue tracking tool you'll enjoy using",
+the name is "Linear".
+
+SECTOR — pick ONE of:
+  • "defi"        → DeFi / Web3 financial protocols, DEXs, lending,
+                     stablecoins, on-chain assets, MEV, restaking.
+  • "ai"          → AI / ML products, LLM apps, agents, AI coding tools,
+                     model providers, AI infrastructure.
+  • "saas"        → Classic SaaS / B2B software, productivity tools,
+                     dev tools that are NOT primarily AI, fintech that
+                     is NOT crypto, vertical SaaS, internal tools.
+  • "web3-other"  → Web3 that isn't DeFi: NFT platforms, identity, social,
+                     gaming, L1/L2 infra, data networks, DAO tooling.
+  • null          → genuinely cannot tell from the content.
+
+STAGE — pick ONE of (this is the S-Curve stage; signals come from
+language and traction proxies on the page):
+  • "origination" → pre product-market fit. Signals: "we're building",
+                     "private alpha", "waitlist", "coming soon", no
+                     customer logos, vague positioning.
+  • "takeoff"    → PMF achieved, scaling. Signals: customer logos, usage
+                     metrics ("10,000 users", "$X processed"), a clear
+                     pricing page, hiring multiple roles, fresh fundraise.
+  • "stability"  → established. Signals: marquee enterprise customers,
+                     mature feature set, references to years of operation,
+                     established competitive position.
+  • null         → cannot infer with reasonable confidence.
+
+DESCRIPTION — 1-3 sentences (max ~250 chars). What the product does and
+for whom. Concrete, not generic. Avoid marketing fluff ("revolutionary",
+"cutting-edge"). ${descriptionLang}
+
+================================================================
+RULES
+================================================================
+1. Only call \`record_project_info\` once.
+2. Use \`null\` for any field you can't confidently infer — better empty
+   than wrong. The founder reviews and adjusts.
+3. The provided HTML may be truncated or noisy (nav, footer, scripts).
+   Focus on the hero / above-the-fold content and any visible <h1>/<h2>.
+4. Do not invent traction numbers or customer names. If you can't see
+   them in the source, don't reference them.`
+}
+
+/**
+ * The JSON Schema for the tool Claude is forced to call. Kept in sync with
+ * ProjectSector and ProjectStage in types/database.ts — if those enums
+ * change, update both sides.
+ */
+export const URL_IMPORT_TOOL_SCHEMA = {
+  name: 'record_project_info',
+  description:
+    'Record the extracted project name, sector, stage, and a short description from the homepage.',
+  input_schema: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+        description:
+          'Product / project name as a founder would say it. Strip taglines and suffixes.'
+      },
+      sector: {
+        anyOf: [
+          { type: 'string', enum: ['defi', 'ai', 'saas', 'web3-other'] },
+          { type: 'null' }
+        ],
+        description: 'One of the four sectors, or null if not confidently inferable.'
+      },
+      stage: {
+        anyOf: [
+          { type: 'string', enum: ['origination', 'takeoff', 'stability'] },
+          { type: 'null' }
+        ],
+        description: 'S-Curve stage, or null if not confidently inferable.'
+      },
+      description: {
+        anyOf: [{ type: 'string' }, { type: 'null' }],
+        description:
+          '1-3 sentence neutral description (~250 chars max) in the requested locale.'
+      }
+    },
+    required: ['name', 'sector', 'stage', 'description'],
+    additionalProperties: false
+  }
+} as const

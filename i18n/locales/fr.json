@@ -634,6 +634,19 @@
       "nameRequired": "Le nom est requis.",
       "sectorRequired": "Choisis un secteur.",
       "stageRequired": "Choisis un stade."
+    },
+    "import": {
+      "label": "Optionnel",
+      "title": "Démarrer depuis ton URL",
+      "subtitle": "Colle l'URL de ton site et l'IA pré-remplit nom, secteur, stage et description. Tu valides ou ajustes ensuite.",
+      "placeholder": "https://ton-produit.com",
+      "button": "Analyser",
+      "analyzing": "Analyse en cours…",
+      "success": "{count} champ(s) pré-rempli(s) — vérifie et ajuste.",
+      "dismiss": "Masquer l'import IA",
+      "errorEmpty": "Renseigne une URL d'abord.",
+      "errorNothingNew": "Rien d'exploitable n'a été trouvé sur cette page.",
+      "errorGeneric": "Impossible d'analyser cette URL pour le moment."
     }
   },
   "sectors": {
