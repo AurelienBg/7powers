@@ -190,6 +190,15 @@ watch(() => route.path, () => {
         </span>
         <span class="text-xs text-ink-low tabular-nums">{{ projectList.length }}</span>
       </NuxtLink>
+
+      <NuxtLink
+        :to="localePath('/learn')"
+        class="flex items-center w-full px-3 py-1.5 rounded-lg text-sm
+               text-ink-mid hover:text-ink-high hover:bg-bg-card transition-colors gap-2"
+      >
+        <span class="glyph text-xs text-gold-bright">✦</span>
+        <span>{{ t('nav.learn') }}</span>
+      </NuxtLink>
     </div>
 
     <!-- Project list + current project expanded -->

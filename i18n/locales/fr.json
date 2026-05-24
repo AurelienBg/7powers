@@ -6,6 +6,92 @@
   "common": {
     "saveAndContinue": "Sauvegarder et continuer → {next}"
   },
+  "learn": {
+    "hero": {
+      "kicker": "Méthodologie Helmer",
+      "title": "La méthode Helmer, en 10 minutes",
+      "subtitle": "Hamilton Helmer a passé 35 ans à décortiquer ce qui distingue les entreprises durables des autres. Sa conclusion : il existe exactement 7 sources de défensibilité, et la plupart des projets gagnants n'en ont que 2-3."
+    },
+    "power": {
+      "heading": "Qu'est-ce qu'un Power ?",
+      "body": "Un Power n'est pas un slogan marketing ni un \"avantage compétitif\" générique. C'est un mécanisme structurel qui combine OBLIGATOIREMENT deux ingrédients. Sans les deux, c'est juste un coup d'avance que tu vas te faire arbitrer par le prochain concurrent bien financé.",
+      "benefitLabel": "Benefit (le cash-flow)",
+      "benefitBody": "Une amélioration mesurable des unit economics : prix ↑, coût ↓, ou capital requis ↓. Doit être quantifiable, pas une intuition.",
+      "benefitExample": "Ex. Uniswap V3 : à 1B$ TVL, slippage 30% plus bas que les forks. → fee premium capturable.",
+      "barrierLabel": "Barrier (l'anti-arbitrage)",
+      "barrierBody": "Le mur qui empêche un concurrent de répliquer ton Benefit. Sans Barrier, n'importe qui te copie en 6 mois.",
+      "barrierExample": "Ex. Pour matcher Uniswap, il faut attirer des milliards de TVL — incentives massifs + années de trust accumulée.",
+      "ruleHighlight": "Règle d'or",
+      "ruleBody": "Si tu peux décrire un Benefit mais pas une Barrier, ce n'est PAS un Power. C'est un avantage temporaire qui sera arbitré."
+    },
+    "sCurve": {
+      "heading": "Les 3 stades S-Curve",
+      "intro": "Helmer observe que les Powers ne se construisent pas tous au même moment. Selon le stade de ton projet, certains Powers sont accessibles, d'autres sont prématurés ou trop tardifs.",
+      "stages": {
+        "origination": "Avant le product-market fit. Tu cherches encore quoi vendre, à qui, et à quel prix.",
+        "takeoff": "PMF acquis, tu scales le go-to-market. Volume + équipe + revenue qui grossit vite.",
+        "stability": "Position de marché établie. La croissance ralentit mais la rente devient prévisible."
+      },
+      "stagePowers": {
+        "origination": "Powers cibles : Cornered Resource, Counter-Positioning",
+        "takeoff": "Powers cibles : Scale, Network Effects, Switching Costs",
+        "stability": "Powers cibles : Branding, Process Power"
+      }
+    },
+    "powers": {
+      "heading": "Les 7 Powers",
+      "intro": "Helmer a démontré (avec 35 ans de cas réels) que ces 7 mécanismes couvrent la TOTALITÉ des sources de défensibilité durable. Pas 6, pas 8 — exactement 7."
+    },
+    "value": {
+      "heading": "Value = Market × Power",
+      "body": "La formule centrale d'Helmer. La valeur d'une entreprise est le PRODUIT de la taille de son marché ET de la solidité de ses Powers. Les deux comptent — pas l'un sans l'autre. C'est pour ça qu'on score à la fois ton marché (Module 1) ET tes Powers, et qu'on les combine dans le Defensibility Score global.",
+      "example": "Un Power parfait sur un marché de 10M$ vaut peu. Un Power moyen sur un marché de 100B$ peut être énorme. Helmer disait : « petits marchés = petites entreprises, même avec les meilleurs Powers »."
+    },
+    "pitfalls": {
+      "heading": "Les pièges courants",
+      "intro": "35 ans d'observation par Helmer + des centaines d'évaluations qu'on a vues passer dans 7Powers — voici les erreurs récurrentes des founders.",
+      "items": [
+        {
+          "title": "Confondre Benefit et Power",
+          "body": "Avoir un bénéfice cash-flow ne fait PAS un Power. Sans Barrier, ton bénéfice sera arbitré dans les 18 mois par n'importe quel concurrent qui copie ton modèle."
+        },
+        {
+          "title": "Revendiquer Branding trop tôt",
+          "body": "Branding nécessite de l'hysteresis (5-10 ans). Au stade Origination ou Takeoff, tu ne peux PAS revendiquer Branding sérieusement. Tu construis peut-être les fondations, mais ce n'est pas encore un Power."
+        },
+        {
+          "title": "Maxer tous les Powers à 5/5",
+          "body": "Si tu marques 5/5 partout sur les 5 questions d'un Power, c'est probablement de l'overclaim. Le coach est sceptique par défaut, et tu devrais l'être aussi. Re-challenge la Barrier en particulier."
+        },
+        {
+          "title": "Oublier le Market dans Value = Market × Power",
+          "body": "Tu peux avoir un Power solide à 80/100 sur un marché de 10M$ — la valeur reste micro. La défensibilité est nécessaire mais pas suffisante. Le marché doit aussi être attractif."
+        }
+      ]
+    },
+    "resources": {
+      "heading": "Ressources externes",
+      "intro": "Pour aller plus loin que ce que 7Powers résume.",
+      "openLink": "Ouvrir",
+      "book": {
+        "title": "7 Powers (le livre)",
+        "body": "Hamilton Helmer, 2016. La source primaire. 200 pages, lisible en 5-6h. Le standard de l'industrie strat."
+      },
+      "talk": {
+        "title": "Talk Stanford",
+        "body": "Helmer présente le framework en 1h à Stanford. Bonne intro si tu préfères la vidéo au livre."
+      },
+      "website": {
+        "title": "7powers.com",
+        "body": "Site officiel de Helmer Strategic Insights. Articles, études de cas, et services de conseil."
+      }
+    },
+    "cta": {
+      "title": "Prêt à stress-tester ton projet ?",
+      "body": "La méthode te prend ~90 minutes pour les 7 Powers. À la fin, tu repars avec un Power Map et un plan d'action — pas juste de la théorie.",
+      "button": "Commencer mon assessment"
+    }
+  },
   "helmerTerms": {
     "close": "Fermer",
     "power": {
@@ -59,6 +145,7 @@
     "dashboard": "Mes projets",
     "login": "Connexion",
     "logout": "Déconnexion",
+    "learn": "Apprendre",
     "syncedToCloud": "Synchronisé",
     "syncingToCloud": "Synchronisation…",
     "syncFailed": "Échec sync",

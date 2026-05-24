@@ -52,6 +52,13 @@ async function handleSignOut() {
 
         <nav class="flex items-center gap-2">
           <NuxtLink
+            :to="localePath('/learn')"
+            class="text-xs uppercase tracking-wider text-ink-mid hover:text-ink-high px-2 py-1 transition-colors"
+          >
+            {{ t('nav.learn') }}
+          </NuxtLink>
+
+          <NuxtLink
             v-for="l in otherLocales"
             :key="l.code"
             :to="switchLocalePath(l.code)"
