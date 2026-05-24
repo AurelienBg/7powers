@@ -497,10 +497,13 @@
     "section": {
       "setup": "Setup",
       "setupSubtitle": "Le contexte de ton projet — change-le quand le projet évolue",
+      "setupSubtitleShort": "Contexte du projet",
       "powers": "Les 7 Powers",
       "powersSubtitle": "Le stress-test Helmer — un module par Power, avec scoring multiplicatif Benefit × Barrier",
+      "powersSubtitleShort": "Le stress-test Helmer",
       "synthesis": "Power Map",
-      "synthesisSubtitle": "Ta synthèse visuelle et ton Defensibility Score global"
+      "synthesisSubtitle": "Ta synthèse visuelle et ton Defensibility Score global",
+      "synthesisSubtitleShort": "Synthèse + score global"
     },
     "synthesisCardCta": "Voir la Power Map",
     "synthesisCardEmpty": "Remplis au moins 1 Power pour voir ta synthèse"

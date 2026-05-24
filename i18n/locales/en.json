@@ -497,10 +497,13 @@
     "section": {
       "setup": "Setup",
       "setupSubtitle": "Your project context — update it as the project evolves",
+      "setupSubtitleShort": "Project context",
       "powers": "The 7 Powers",
       "powersSubtitle": "Helmer's stress-test — one module per Power, with multiplicative Benefit × Barrier scoring",
+      "powersSubtitleShort": "Helmer's stress-test",
       "synthesis": "Power Map",
-      "synthesisSubtitle": "Your visual synthesis and global Defensibility Score"
+      "synthesisSubtitle": "Your visual synthesis and global Defensibility Score",
+      "synthesisSubtitleShort": "Synthesis + global score"
     },
     "synthesisCardCta": "Open the Power Map",
     "synthesisCardEmpty": "Fill at least 1 Power to see your synthesis"
