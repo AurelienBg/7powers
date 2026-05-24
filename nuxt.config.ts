@@ -9,7 +9,11 @@ export default defineNuxtConfig({
     'pinia-plugin-persistedstate/nuxt',
     '@nuxtjs/i18n',
     '@nuxtjs/supabase',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    // Auto page-view tracking on Vercel. Only sends data when deployed
+    // on Vercel + Analytics is enabled in the project's dashboard; no-op
+    // locally + on other hosting platforms.
+    '@vercel/analytics/nuxt'
   ],
 
   supabase: {
