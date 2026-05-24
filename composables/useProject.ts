@@ -76,9 +76,16 @@ export function useProject() {
   async function syncToCloud(): Promise<string | null> {
     if (!user.value) throw new Error('Not authenticated')
     const current = store.currentProject
-    if (!current) return null
-    if (store.syncedLocalIds.includes(current.local_id)) return current.local_id
+    if (!current) {
+      console.warn('[syncToCloud] no current project to push — skipping')
+      return null
+    }
+    if (store.syncedLocalIds.includes(current.local_id)) {
+      console.log('[syncToCloud] project already synced — skipping', current.local_id)
+      return current.local_id
+    }
 
+    console.log('[syncToCloud] inserting project:', current.name, '(user_id =', user.value.id, ')')
     const { data: created, error: projectError } = await supabase
       .from('projects')
       .insert({
@@ -92,7 +99,15 @@ export function useProject() {
       .select('id')
       .single<Pick<Project, 'id'>>()
 
-    if (projectError || !created) throw projectError ?? new Error('Failed to create project')
+    if (projectError) {
+      console.error('[syncToCloud] INSERT projects failed:', projectError)
+      throw projectError
+    }
+    if (!created) {
+      console.error('[syncToCloud] INSERT returned no row (likely RLS policy denied silently)')
+      throw new Error('Insert returned no row — check RLS policy.')
+    }
+    console.log('[syncToCloud] project inserted, cloud id =', created.id)
 
     const assessmentRows = Object.values(store.currentAssessments)
       .filter((a): a is NonNullable<typeof a> => !!a)

@@ -36,26 +36,43 @@ export function useCloudSync() {
   async function runPush(): Promise<void> {
     _status.value = 'syncing'
     _errorMessage.value = null
+    console.log('[useCloudSync] runPush starting…')
     try {
-      await syncToCloud()
+      // Hard 20s timeout. If Supabase never responds (network or auth token
+      // gone bad) we still surface a clear error to the user instead of
+      // leaving the badge stuck at ↻ forever.
+      await Promise.race([
+        syncToCloud(),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Supabase push timed out after 20s.')), 20_000)
+        )
+      ])
       _status.value = 'synced'
+      console.log('[useCloudSync] runPush OK → status=synced')
     } catch (e) {
       _status.value = 'error'
       _errorMessage.value = e instanceof Error ? e.message : 'Unknown sync error'
-      console.error('[useCloudSync] syncToCloud failed:', e)
+      console.error('[useCloudSync] runPush FAILED:', e)
     }
   }
 
   async function runPull(): Promise<void> {
     _status.value = 'syncing'
     _errorMessage.value = null
+    console.log('[useCloudSync] runPull starting…')
     try {
-      const count = await fetchFromCloud()
+      const count = await Promise.race([
+        fetchFromCloud(),
+        new Promise<number>((_, reject) =>
+          setTimeout(() => reject(new Error('Supabase pull timed out after 20s.')), 20_000)
+        )
+      ])
       _status.value = count > 0 ? 'synced' : 'idle'
+      console.log('[useCloudSync] runPull OK → count=' + count)
     } catch (e) {
       _status.value = 'error'
       _errorMessage.value = e instanceof Error ? e.message : 'Unknown fetch error'
-      console.error('[useCloudSync] fetchFromCloud failed:', e)
+      console.error('[useCloudSync] runPull FAILED:', e)
     }
   }
 
@@ -91,7 +108,13 @@ export function useCloudSync() {
           return
         }
         // Local exists but not yet pushed → push.
-        if (_status.value !== 'syncing') {
+        // CRITICAL: skip if syncing OR already errored. The watchEffect
+        // observes `_status`; without the 'error' guard, a failed push
+        // sets status='error' → effect re-fires → conditions still match
+        // → runPush() again → infinite retry loop. The user only sees
+        // ↻ flickering forever and the project never actually persists.
+        // Manual retry remains available via the badge click → retry().
+        if (_status.value !== 'syncing' && _status.value !== 'error') {
           console.log('[useCloudSync] logged in + unsynced local project → push')
           runPush()
         }
