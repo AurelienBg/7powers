@@ -18,6 +18,8 @@ const props = defineProps<{
   assessments: Record<PowerType, LocalPowerAssessment | undefined>
   topPowers?: PowerType[]
   size?: number
+  /** Compact mode: hide axis labels (used for hub preview). */
+  compact?: boolean
 }>()
 
 const { t } = useI18n()
@@ -148,7 +150,7 @@ const GLYPHS: Record<PowerType, string> = {
       </g>
 
       <!-- Axis labels (Power name + glyph + score) -->
-      <g class="text-ink-mid" font-family="Inter, system-ui, sans-serif" font-size="9">
+      <g v-if="!compact" class="text-ink-mid" font-family="Inter, system-ui, sans-serif" font-size="9">
         <g v-for="a in axes" :key="`label-${a.power}`">
           <text
             :x="a.label.x"

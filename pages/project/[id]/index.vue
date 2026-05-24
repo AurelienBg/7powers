@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { PowerType, LocalPowerAssessment } from '~/types/database'
+import type { PowerType } from '~/types/database'
 import { computeMarketAttractiveness, hasMinimumMarketData } from '~/utils/marketScore'
+import { defensibilityBreakdown, topPowers as computeTopPowers } from '~/composables/useDefensibilityAnalysis'
 
 definePageMeta({ layout: 'project' })
 
@@ -10,17 +11,6 @@ const { t } = useI18n()
 const router = useRouter()
 const localePath = useLocalePath()
 const { currentProject, deleteProject, assessments } = useProject()
-
-// All 7 Powers unlocked as of Phase 2.
-const IMPLEMENTED_POWERS: PowerType[] = [
-  'scale',
-  'network',
-  'counter',
-  'switching',
-  'branding',
-  'cornered',
-  'process'
-]
 
 const powers: PowerType[] = [
   'scale',
@@ -44,33 +34,45 @@ const marketScore = computed(() => {
 const projectInitial = computed(() => currentProject.value?.name.charAt(0).toUpperCase() ?? '·')
 
 // Progress = how many of the 9 modules are completed
-// 9 = Module 0 (always done since project exists) + Module 1 (market) + 7 Powers
-// (Module 9 Synthesis isn't counted as completable — it's a derivative view)
-const completedCount = computed(() => {
-  let done = 1 // Module 0 always done
-  if (marketDone.value) done += 1
+// 9 = Setup (always) + Market + 7 Powers. Synthesis is derivative.
+const completedPowersCount = computed(() => {
+  let n = 0
   for (const p of powers) {
-    if (isPowerComplete(assessments.value[p]?.answers)) done += 1
+    if (isPowerComplete(assessments.value[p]?.answers)) n += 1
   }
+  return n
+})
+
+const completedCount = computed(() => {
+  let done = 1 // Setup always done
+  if (marketDone.value) done += 1
+  done += completedPowersCount.value
   return done
 })
 
 const progressPercent = computed(() => Math.round((completedCount.value / 9) * 100))
 
 // ============================================================
+// Synthesis preview data
+// ============================================================
+
+const synthesisBreakdown = computed(() => {
+  if (!currentProject.value) return null
+  return defensibilityBreakdown(currentProject.value, assessments.value)
+})
+
+const top3 = computed(() => computeTopPowers(assessments.value, 3))
+const top3PowerKeys = computed(() => top3.value.map((p) => p.power))
+
+const hasAnyPowerScored = computed(() => completedPowersCount.value > 0)
+
+// ============================================================
 // Delete confirmation modal
 // ============================================================
 
 const showDeleteModal = ref(false)
-
-function openDelete() {
-  showDeleteModal.value = true
-}
-
-function cancelDelete() {
-  showDeleteModal.value = false
-}
-
+function openDelete() { showDeleteModal.value = true }
+function cancelDelete() { showDeleteModal.value = false }
 function executeDelete() {
   if (!currentProject.value) return
   deleteProject(currentProject.value.local_id)
@@ -80,9 +82,11 @@ function executeDelete() {
 </script>
 
 <template>
-  <div v-if="currentProject" class="mx-auto max-w-5xl px-6 py-10 space-y-10">
-    <!-- Project header -->
-    <header class="space-y-5">
+  <div v-if="currentProject" class="mx-auto max-w-5xl px-6 py-8 space-y-8">
+    <!-- ====================================================== -->
+    <!-- HEADER                                                  -->
+    <!-- ====================================================== -->
+    <header class="space-y-4">
       <div class="flex items-start gap-4">
         <div
           class="w-14 h-14 rounded-xl flex items-center justify-center text-xl font-semibold shrink-0
@@ -112,12 +116,12 @@ function executeDelete() {
         </NuxtLink>
       </div>
 
-      <p v-if="currentProject.description" class="text-ink-mid max-w-2xl">
+      <p v-if="currentProject.description" class="text-ink-mid max-w-2xl text-sm">
         {{ currentProject.description }}
       </p>
 
       <!-- Progress bar -->
-      <div class="space-y-2">
+      <div class="space-y-1.5">
         <div class="flex items-baseline justify-between">
           <p class="text-[10px] uppercase tracking-widest text-ink-mid">{{ t('hub.progressLabel') }}</p>
           <p class="text-xs text-ink-mid tabular-nums">{{ completedCount }} / 9</p>
@@ -132,114 +136,195 @@ function executeDelete() {
       </div>
     </header>
 
-    <!-- Modules grid -->
-    <section class="space-y-4">
-      <h2 class="text-xs uppercase tracking-widest text-ink-mid">
-        {{ t('hub.modulesHeading') }}
-      </h2>
+    <!-- ====================================================== -->
+    <!-- SECTION 1 — SETUP (project context)                     -->
+    <!-- ====================================================== -->
+    <section class="space-y-3">
+      <div class="space-y-0.5">
+        <h2 class="text-xs uppercase tracking-widest text-ink-mid">{{ t('hub.section.setup') }}</h2>
+        <p class="text-xs text-ink-low">{{ t('hub.section.setupSubtitle') }}</p>
+      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-        <!-- Setup (no number) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <!-- Setup -->
         <NuxtLink
           :to="localePath(`/project/${currentProject.local_id}/edit`)"
-          class="card-hover p-5 space-y-3 block border-accent-blue/50"
+          class="card-hover p-4 flex items-center justify-between gap-3 border-accent-blue/40"
         >
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] uppercase tracking-wider text-ink-low">{{ t('hub.setupLabel') }}</span>
-            <span class="text-xs uppercase tracking-wider text-gold-bright">
-              ✓ {{ t('hub.done') }} · {{ t('hub.editProject') }}
-            </span>
+          <div class="space-y-0.5 min-w-0 flex-1">
+            <p class="text-[10px] uppercase tracking-wider text-ink-low">{{ t('hub.module0') }}</p>
+            <p class="text-sm text-ink-high truncate">{{ currentProject.name }}</p>
           </div>
-          <h3 class="text-base font-medium text-ink-high">{{ t('hub.module0') }}</h3>
-          <p class="text-xs text-ink-mid">{{ currentProject.name }}</p>
+          <span class="text-xs uppercase tracking-wider text-gold-bright shrink-0">✓</span>
         </NuxtLink>
 
-        <!-- Market sizing (no number) -->
+        <!-- Market sizing -->
         <NuxtLink
           :to="localePath(`/project/${currentProject.local_id}/market`)"
-          class="card-hover p-5 space-y-3 block"
-          :class="marketDone ? 'border-accent-blue/50' : ''"
+          class="card-hover p-4 flex items-center justify-between gap-3"
+          :class="marketDone ? 'border-accent-blue/40' : ''"
         >
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] uppercase tracking-wider text-ink-low">{{ t('hub.setupLabel') }}</span>
-            <span
-              v-if="marketDone"
-              class="text-xs uppercase tracking-wider tabular-nums"
-              :class="marketScore >= 70 ? 'text-gold-bright' : 'text-accent-blue-bright'"
-            >
-              {{ marketScore }}/100
-            </span>
-            <span v-else class="text-xs uppercase tracking-wider text-ink-mid">
-              {{ t('hub.openModule') }}
-            </span>
+          <div class="space-y-0.5 min-w-0 flex-1">
+            <p class="text-[10px] uppercase tracking-wider text-ink-low">{{ t('hub.module1') }}</p>
+            <p class="text-sm text-ink-high">TAM · SAM · SOM</p>
           </div>
-          <h3 class="text-base font-medium text-ink-high">{{ t('hub.module1') }}</h3>
-          <p class="text-xs text-ink-mid">TAM · SAM · SOM</p>
-        </NuxtLink>
-
-        <!-- 7 Powers numbered 01-07 -->
-        <template v-for="(power, idx) in powers" :key="power">
-          <NuxtLink
-            v-if="IMPLEMENTED_POWERS.includes(power)"
-            :to="localePath(`/project/${currentProject.local_id}/power/${power}`)"
-            class="card-hover p-5 space-y-3 block"
-            :class="isPowerComplete(assessments[power]?.answers) ? 'border-accent-blue/50' : ''"
+          <span
+            v-if="marketDone"
+            class="text-sm tabular-nums shrink-0"
+            :class="marketScore >= 70 ? 'text-gold-bright' : 'text-accent-blue-bright'"
           >
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-ink-low font-mono">{{ String(idx + 1).padStart(2, '0') }}</span>
-              <span
-                v-if="isPowerComplete(assessments[power]?.answers)"
-                class="text-xs uppercase tracking-wider tabular-nums"
-                :class="computePowerScore(assessments[power]?.answers) >= 70 ? 'text-gold-bright' : 'text-accent-blue-bright'"
-              >
-                {{ computePowerScore(assessments[power]?.answers) }}/100
-              </span>
-              <span v-else class="text-xs uppercase tracking-wider text-ink-mid">
-                {{ t('hub.openModule') }}
-              </span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="glyph text-lg text-accent-blue-bright">{{ t(`powerGlyphs.${power}`) }}</span>
-              <h3 class="text-base font-medium text-ink-high">{{ t(`powers.${power}`) }}</h3>
-            </div>
-          </NuxtLink>
-
-          <div v-else class="card p-5 space-y-3 opacity-60">
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-ink-low font-mono">{{ String(idx + 1).padStart(2, '0') }}</span>
-              <span class="text-xs uppercase tracking-wider text-ink-low">
-                {{ t('hub.comingSoon') }}
-              </span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="glyph text-lg text-accent-blue-bright">{{ t(`powerGlyphs.${power}`) }}</span>
-              <h3 class="text-base font-medium text-ink-high">{{ t(`powers.${power}`) }}</h3>
-            </div>
-          </div>
-        </template>
-
-        <!-- Synthesis (no number) -->
-        <NuxtLink
-          :to="localePath(`/project/${currentProject.local_id}/synthesis`)"
-          class="card-hover p-5 space-y-3 block border-gold/30"
-        >
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] uppercase tracking-wider text-ink-low">{{ t('hub.synthesisLabel') }}</span>
-            <span class="text-xs uppercase tracking-wider text-gold-bright">
-              {{ t('hub.openModule') }}
-            </span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="glyph text-lg text-gold-bright">✦</span>
-            <h3 class="text-base font-medium text-ink-high">{{ t('hub.moduleSynthesis') }}</h3>
-          </div>
-          <p class="text-xs text-ink-mid">{{ t('hub.synthesisSubtitle') }}</p>
+            {{ marketScore }}/100
+          </span>
+          <span v-else class="text-xs uppercase tracking-wider text-ink-mid shrink-0">
+            {{ t('hub.openModule') }}
+          </span>
         </NuxtLink>
       </div>
     </section>
 
-    <!-- Danger zone -->
-    <section class="pt-8 border-t border-border-subtle">
+    <!-- ====================================================== -->
+    <!-- SECTION 2 — THE 7 POWERS (core work)                    -->
+    <!-- ====================================================== -->
+    <section class="space-y-3">
+      <div class="flex items-baseline justify-between gap-3">
+        <div class="space-y-0.5">
+          <h2 class="text-xs uppercase tracking-widest text-ink-mid">{{ t('hub.section.powers') }}</h2>
+          <p class="text-xs text-ink-low">{{ t('hub.section.powersSubtitle') }}</p>
+        </div>
+        <p class="text-xs text-ink-mid tabular-nums shrink-0">
+          <span :class="completedPowersCount === 7 ? 'text-gold-bright' : 'text-ink-high'">
+            {{ completedPowersCount }}
+          </span>
+          <span class="text-ink-low">/ 7</span>
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <NuxtLink
+          v-for="(power, idx) in powers"
+          :key="power"
+          :to="localePath(`/project/${currentProject.local_id}/power/${power}`)"
+          class="card-hover p-4 space-y-2 block"
+          :class="isPowerComplete(assessments[power]?.answers) ? 'border-accent-blue/40' : ''"
+        >
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-ink-low font-mono tabular-nums">{{ String(idx + 1).padStart(2, '0') }}</span>
+            <span
+              v-if="isPowerComplete(assessments[power]?.answers)"
+              class="text-xs tabular-nums"
+              :class="computePowerScore(assessments[power]?.answers) >= 70 ? 'text-gold-bright' : 'text-accent-blue-bright'"
+            >
+              {{ computePowerScore(assessments[power]?.answers) }}/100
+            </span>
+            <span v-else class="text-[10px] uppercase tracking-wider text-ink-mid">
+              {{ t('hub.openModule') }}
+            </span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="glyph text-base text-accent-blue-bright">{{ t(`powerGlyphs.${power}`) }}</span>
+            <h3 class="text-sm font-medium text-ink-high">{{ t(`powers.${power}`) }}</h3>
+          </div>
+        </NuxtLink>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- SECTION 3 — POWER MAP (synthesis preview)               -->
+    <!-- ====================================================== -->
+    <section class="space-y-3">
+      <div class="space-y-0.5">
+        <h2 class="text-xs uppercase tracking-widest text-ink-mid">{{ t('hub.section.synthesis') }}</h2>
+        <p class="text-xs text-ink-low">{{ t('hub.section.synthesisSubtitle') }}</p>
+      </div>
+
+      <NuxtLink
+        :to="localePath(`/project/${currentProject.local_id}/synthesis`)"
+        class="card-hover p-6 block border-gold/40 hover:shadow-glow-gold"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 items-center">
+          <!-- Mini radar OR empty-state glyph -->
+          <div class="flex justify-center md:justify-start">
+            <PowerRadar
+              v-if="hasAnyPowerScored"
+              :assessments="assessments"
+              :top-powers="top3PowerKeys"
+              :size="200"
+              compact
+            />
+            <div
+              v-else
+              class="w-[200px] h-[200px] rounded-full border-2 border-dashed border-border-subtle
+                     flex items-center justify-center text-ink-low"
+            >
+              <span class="glyph text-3xl">✦</span>
+            </div>
+          </div>
+
+          <!-- Synthesis info + CTA -->
+          <div class="space-y-4">
+            <div class="flex items-center gap-2">
+              <span class="glyph text-2xl text-gold-bright">✦</span>
+              <h3 class="text-xl font-semibold text-ink-high">{{ t('hub.moduleSynthesis') }}</h3>
+            </div>
+
+            <!-- Defensibility -->
+            <div v-if="synthesisBreakdown" class="space-y-1">
+              <p class="text-[10px] uppercase tracking-widest text-ink-low">
+                {{ t('synthesis.defensibilityHeading') }}
+              </p>
+              <div class="flex items-baseline gap-1.5">
+                <span
+                  class="text-4xl font-semibold tabular-nums"
+                  :class="synthesisBreakdown.defensibility >= 70 ? 'text-gold-bright' : 'text-accent-blue-bright'"
+                >
+                  {{ synthesisBreakdown.defensibility }}
+                </span>
+                <span class="text-sm text-ink-low">/100</span>
+              </div>
+            </div>
+            <p v-else class="text-sm text-ink-mid">
+              {{ t('hub.synthesisCardEmpty') }}
+            </p>
+
+            <!-- Top 3 inline -->
+            <div v-if="top3.length > 0" class="space-y-1">
+              <p class="text-[10px] uppercase tracking-widest text-ink-low">{{ t('synthesis.topPowersHeading') }}</p>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span
+                  v-for="(entry, idx) in top3"
+                  :key="entry.power"
+                  class="inline-flex items-center gap-1.5 text-xs"
+                >
+                  <span
+                    class="glyph text-base"
+                    :class="idx === 0 ? 'text-gold-bright' : 'text-accent-blue-bright'"
+                  >
+                    {{ t(`powerGlyphs.${entry.power}`) }}
+                  </span>
+                  <span :class="idx === 0 ? 'text-ink-high font-medium' : 'text-ink-mid'">
+                    {{ t(`powers.${entry.power}`) }}
+                    <span class="text-ink-low tabular-nums">· {{ Math.round(entry.score) }}</span>
+                  </span>
+                  <span v-if="idx < top3.length - 1" class="text-ink-low">·</span>
+                </span>
+              </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="pt-1">
+              <span class="inline-flex items-center gap-2 text-sm font-medium text-gold-bright">
+                {{ t('hub.synthesisCardCta') }} <span>→</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </NuxtLink>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- DANGER ZONE                                             -->
+    <!-- ====================================================== -->
+    <section class="pt-6 border-t border-border-subtle">
       <button
         type="button"
         class="text-xs text-ink-low hover:text-red-400 transition-colors"

@@ -493,7 +493,17 @@
     "synthesisSubtitle": "Power Map + Defensibility Score",
     "setupLabel": "Setup",
     "synthesisLabel": "Synthèse",
-    "editProject": "Modifier"
+    "editProject": "Modifier",
+    "section": {
+      "setup": "Setup",
+      "setupSubtitle": "Le contexte de ton projet — change-le quand le projet évolue",
+      "powers": "Les 7 Powers",
+      "powersSubtitle": "Le stress-test Helmer — un module par Power, avec scoring multiplicatif Benefit × Barrier",
+      "synthesis": "Power Map",
+      "synthesisSubtitle": "Ta synthèse visuelle et ton Defensibility Score global"
+    },
+    "synthesisCardCta": "Voir la Power Map",
+    "synthesisCardEmpty": "Remplis au moins 1 Power pour voir ta synthèse"
   },
   "editProject": {
     "kicker": "Modifier le projet",
