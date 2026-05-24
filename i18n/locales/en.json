@@ -177,7 +177,7 @@
     "walletInfoBullet1": "Free, no on-chain fees",
     "walletInfoBullet2": "No signature that spends funds",
     "walletInfoBullet3": "Unlink anytime",
-    "walletInfoFootnote": "Optional. Used for upcoming Web3 features (on-chain proof of scoring, public sharing by address, cohort gating…). Not into Web3? Safe to ignore.",
+    "walletInfoFootnote": "This is optional. Used for upcoming Web3 features (on-chain proof of scoring, public sharing by address, cohort gating…). Not into Web3? Safe to ignore.",
     "userMenuAria": "My account",
     "userMenuSignedInAs": "Signed in as",
     "userMenuWallet": "XRPL wallet",
