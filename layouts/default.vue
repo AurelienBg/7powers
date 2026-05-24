@@ -94,14 +94,53 @@ function isActive(target: string): boolean {
           <!-- Visual divider between primary nav and utility cluster -->
           <span class="hidden md:inline-block w-px h-4 bg-border-subtle mx-1.5" />
 
-          <!-- Group 2 — Utility cluster.
-               • Authenticated user: ONLY the cloud sync indicator (always
-                 visible, color/overlay shifts with state). Lang + theme
-                 moved to the avatar dropdown for a quieter header.
-               • Anonymous user: lang + theme stay here (no dropdown to
-                 host them in). -->
+          <!-- Group 2 — Utility cluster (always visible for both anon and
+               authed): language switcher, theme toggle, and — for authed
+               users only — the cloud sync indicator. Per user feedback,
+               lang + theme stay in the nav (not hidden behind the avatar)
+               so they're discoverable in one click. -->
           <div class="flex items-center gap-0.5">
-            <!-- Authenticated: cloud chip only -->
+            <NuxtLink
+              v-for="l in otherLocales"
+              :key="l.code"
+              :to="switchLocalePath(l.code)"
+              class="text-[10px] uppercase tracking-widest font-medium
+                     text-ink-low hover:text-ink-high
+                     px-2 py-1 rounded-md transition-colors"
+              :title="t('nav.switchLocale', { code: l.code.toUpperCase() })"
+              :aria-label="t('nav.switchLocale', { code: l.code.toUpperCase() })"
+            >
+              {{ l.code.toUpperCase() }}
+            </NuxtLink>
+
+            <button
+              type="button"
+              class="w-8 h-8 inline-flex items-center justify-center rounded-md
+                     text-ink-mid hover:text-ink-high
+                     hover:bg-bg-elevated/60 transition-colors"
+              :title="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
+              :aria-label="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
+              @click="toggleTheme"
+            >
+              <svg v-if="isDark" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="4.5" />
+                <line x1="12" y1="1.5" x2="12" y2="4" />
+                <line x1="12" y1="20" x2="12" y2="22.5" />
+                <line x1="4.22" y1="4.22" x2="5.85" y2="5.85" />
+                <line x1="18.15" y1="18.15" x2="19.78" y2="19.78" />
+                <line x1="1.5" y1="12" x2="4" y2="12" />
+                <line x1="20" y1="12" x2="22.5" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.85" y2="18.15" />
+                <line x1="18.15" y1="5.85" x2="19.78" y2="4.22" />
+              </svg>
+              <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            </button>
+
+            <!-- Cloud sync indicator (authed only). Single ☁ with discreet
+                 state overlays — never expands into a textual label so the
+                 cluster stays at the same width across states. -->
             <button
               v-if="isAuthenticated"
               type="button"
@@ -118,7 +157,6 @@ function isActive(target: string): boolean {
               @click="syncStatus === 'error' && (showSyncError = true)"
             >
               <span class="glyph text-sm">☁</span>
-              <!-- Tiny overlay for non-default states (subtle, doesn't clutter) -->
               <span
                 v-if="syncStatus === 'syncing'"
                 class="absolute bottom-0.5 right-0.5 text-[8px] text-accent-blue-bright animate-pulse leading-none"
@@ -130,46 +168,6 @@ function isActive(target: string): boolean {
                 aria-hidden="true"
               >!</span>
             </button>
-
-            <!-- Anonymous: lang + theme inline -->
-            <template v-else>
-              <NuxtLink
-                v-for="l in otherLocales"
-                :key="l.code"
-                :to="switchLocalePath(l.code)"
-                class="text-[10px] uppercase tracking-widest font-medium
-                       text-ink-low hover:text-ink-high
-                       px-2 py-1 rounded-md transition-colors"
-                :title="t('nav.switchLocale', { code: l.code.toUpperCase() })"
-                :aria-label="t('nav.switchLocale', { code: l.code.toUpperCase() })"
-              >
-                {{ l.code.toUpperCase() }}
-              </NuxtLink>
-              <button
-                type="button"
-                class="w-8 h-8 inline-flex items-center justify-center rounded-md
-                       text-ink-mid hover:text-ink-high
-                       hover:bg-bg-elevated/60 transition-colors"
-                :title="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
-                :aria-label="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
-                @click="toggleTheme"
-              >
-                <svg v-if="isDark" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <circle cx="12" cy="12" r="4.5" />
-                  <line x1="12" y1="1.5" x2="12" y2="4" />
-                  <line x1="12" y1="20" x2="12" y2="22.5" />
-                  <line x1="4.22" y1="4.22" x2="5.85" y2="5.85" />
-                  <line x1="18.15" y1="18.15" x2="19.78" y2="19.78" />
-                  <line x1="1.5" y1="12" x2="4" y2="12" />
-                  <line x1="20" y1="12" x2="22.5" y2="12" />
-                  <line x1="4.22" y1="19.78" x2="5.85" y2="18.15" />
-                  <line x1="18.15" y1="5.85" x2="19.78" y2="4.22" />
-                </svg>
-                <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
-                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                </svg>
-              </button>
-            </template>
           </div>
 
           <!-- Group 3 — Auth: user menu (avatar) or sign-in button -->
