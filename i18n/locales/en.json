@@ -288,7 +288,15 @@
     "localFirstHint": "Your work is saved locally even without an account.",
     "signInWithGoogle": "Continue with Google",
     "or": "or",
-    "redirecting": "Redirecting to Google…"
+    "redirecting": "Redirecting to Google…",
+    "signInWithXrplWallet": "Connect my XRPL wallet",
+    "walletConnecting": "Connecting to wallet…",
+    "methodInfo": "What is this?",
+    "methods": {
+      "google": "1-click via your Google account. Easy recovery if you lose access. Simplest path.",
+      "magiclink": "Link sent by email — no password. Recovery via your inbox. Standard SaaS flow.",
+      "wallet": "Identity = your XRPL address. No email required, 100 % Web3-native. ⚠ If you lose your seed phrase, your account is gone for good — no recovery option."
+    }
   },
   "confirm": {
     "verifying": "Verifying…",
