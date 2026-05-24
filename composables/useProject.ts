@@ -85,11 +85,17 @@ export function useProject() {
       return current.local_id
     }
 
-    console.log('[syncToCloud] inserting project:', current.name, '(user_id =', user.value.id, ')')
+    // Owner identity is derived server-side via the `user_id default auth.uid()`
+    // column (see migration 0002_user_id_default_auth_uid.sql). Sending
+    // user_id from the client was fragile: a stale useSupabaseUser cache,
+    // a mid-flight session refresh, or unlinked auth providers (magic-link
+    // vs Google OAuth for the same email creating two separate auth.users
+    // rows) made client.user_id diverge from JWT.sub, and the RLS check
+    // `with check (user_id = auth.uid())` rejected the INSERT with 42501.
+    console.log('[syncToCloud] inserting project:', current.name)
     const { data: created, error: projectError } = await supabase
       .from('projects')
       .insert({
-        user_id: user.value.id,
         name: current.name,
         sector: current.sector,
         stage: current.stage,
