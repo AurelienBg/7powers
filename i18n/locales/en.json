@@ -10,7 +10,11 @@
     "logout": "Sign out",
     "syncedToCloud": "Synced",
     "syncingToCloud": "Syncing…",
-    "syncFailed": "Sync failed"
+    "syncFailed": "Sync failed",
+    "syncErrorBody": "Your local project could not be pushed to Supabase. Your work is still saved in localStorage. You can retry.",
+    "syncErrorDetail": "Technical detail",
+    "syncErrorClose": "Close",
+    "syncErrorRetry": "Retry"
   },
   "sidebar": {
     "newProject": "New project",

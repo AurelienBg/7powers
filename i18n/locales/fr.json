@@ -10,7 +10,11 @@
     "logout": "Déconnexion",
     "syncedToCloud": "Synchronisé",
     "syncingToCloud": "Synchronisation…",
-    "syncFailed": "Échec sync"
+    "syncFailed": "Échec sync",
+    "syncErrorBody": "Ton projet local n'a pas pu être pushé vers Supabase. Le travail reste sauvegardé en localStorage. Tu peux réessayer.",
+    "syncErrorDetail": "Détail technique",
+    "syncErrorClose": "Fermer",
+    "syncErrorRetry": "Réessayer"
   },
   "sidebar": {
     "newProject": "Nouveau projet",

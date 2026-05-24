@@ -7,7 +7,8 @@ const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 const route = useRoute()
 const { isAuthenticated, signOut, user } = useAuth()
-const { status: syncStatus } = useCloudSync()
+const { status: syncStatus, errorMessage: syncError, retry: retrySync } = useCloudSync()
+const showSyncError = ref(false)
 const {
   projectList,
   currentProject,
@@ -340,14 +341,22 @@ watch(() => route.path, () => {
     <!-- Footer meta -->
     <div class="border-t border-border-subtle px-3 py-3 space-y-2 text-xs">
       <!-- Sync status -->
-      <div
+      <button
         v-if="isAuthenticated && syncStatus !== 'idle'"
-        class="flex items-center gap-1.5"
-        :class="syncStatus === 'error' ? 'text-amber-400' : syncStatus === 'syncing' ? 'text-accent-blue-bright' : 'text-ink-mid'"
+        type="button"
+        class="flex items-center gap-1.5 text-left w-full"
+        :class="[
+          syncStatus === 'error' ? 'text-amber-400 hover:underline cursor-pointer' : '',
+          syncStatus === 'syncing' ? 'text-accent-blue-bright cursor-default' : '',
+          syncStatus === 'synced' ? 'text-ink-mid cursor-default' : ''
+        ]"
+        :title="syncStatus === 'error' && syncError ? syncError : syncLabel"
+        :disabled="syncStatus !== 'error'"
+        @click="syncStatus === 'error' && (showSyncError = true)"
       >
         <span class="glyph">{{ syncIcon }}</span>
         <span>{{ syncLabel }}</span>
-      </div>
+      </button>
 
       <!-- Auth -->
       <template v-if="isAuthenticated">
@@ -382,4 +391,33 @@ watch(() => route.path, () => {
       </div>
     </div>
   </aside>
+
+  <!-- Sync error modal — same as default layout, scoped to project routes -->
+  <Teleport to="body">
+    <div
+      v-if="showSyncError"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-base/80 backdrop-blur-sm"
+      @click.self="showSyncError = false"
+    >
+      <div class="card p-6 max-w-lg w-full space-y-4 border-amber-500/30">
+        <div class="flex items-center gap-2">
+          <span class="glyph text-amber-400 text-xl">⚠</span>
+          <h3 class="text-lg font-semibold text-ink-high">{{ t('nav.syncFailed') }}</h3>
+        </div>
+        <p class="text-sm text-ink-mid">{{ t('nav.syncErrorBody') }}</p>
+        <div v-if="syncError" class="card p-3 border-red-500/30 bg-red-500/5 break-words">
+          <p class="text-xs uppercase tracking-wider text-red-300 mb-1">{{ t('nav.syncErrorDetail') }}</p>
+          <p class="text-xs font-mono text-red-200">{{ syncError }}</p>
+        </div>
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" class="btn-ghost !py-2 !px-4 text-sm" @click="showSyncError = false">
+            {{ t('nav.syncErrorClose') }}
+          </button>
+          <button type="button" class="btn-primary !px-4 !py-2 text-sm" @click="retrySync(); showSyncError = false">
+            {{ t('nav.syncErrorRetry') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </Teleport>
 </template>

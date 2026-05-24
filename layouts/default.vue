@@ -8,7 +8,8 @@ const { isAuthenticated, signOut, user } = useAuth()
 // Mount the cloud-sync watcher here — it runs once for the lifetime of the
 // layout (which is the lifetime of any logged session). It triggers an
 // initial push of the local project to Supabase the moment auth lands.
-const { status: syncStatus } = useCloudSync()
+const { status: syncStatus, errorMessage: syncError, retry: retrySync } = useCloudSync()
+const showSyncError = ref(false)
 
 const otherLocales = computed(() =>
   (locales.value as { code: string; name: string }[]).filter((l) => l.code !== locale.value)
@@ -60,15 +61,18 @@ async function handleSignOut() {
           <span class="w-px h-4 bg-border-subtle mx-1" />
 
           <template v-if="isAuthenticated">
-            <span
+            <button
               v-if="syncStatus !== 'idle'"
+              type="button"
               class="text-xs hidden md:inline-flex items-center gap-1 transition-colors"
-              :class="syncToneClass"
-              :title="syncLabel"
+              :class="[syncToneClass, syncStatus === 'error' ? 'cursor-pointer hover:underline' : 'cursor-default']"
+              :title="syncStatus === 'error' && syncError ? syncError : syncLabel"
+              :disabled="syncStatus !== 'error'"
+              @click="syncStatus === 'error' && (showSyncError = true)"
             >
               <span class="glyph">{{ syncStatus === 'error' ? '⚠' : syncStatus === 'syncing' ? '↻' : '☁' }}</span>
               <span>{{ syncLabel }}</span>
-            </span>
+            </button>
             <span class="text-xs text-ink-mid hidden md:inline">{{ user?.email }}</span>
             <button type="button" class="btn-ghost !py-1.5 !px-3 text-sm" @click="handleSignOut">
               {{ t('nav.logout') }}
@@ -93,5 +97,34 @@ async function handleSignOut() {
         <Logo :size="18" mode="dark" :show-seven="false" />
       </div>
     </footer>
+
+    <!-- Sync error modal — opens when the user clicks the ⚠ badge -->
+    <Teleport to="body">
+      <div
+        v-if="showSyncError"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-base/80 backdrop-blur-sm"
+        @click.self="showSyncError = false"
+      >
+        <div class="card p-6 max-w-lg w-full space-y-4 border-amber-500/30">
+          <div class="flex items-center gap-2">
+            <span class="glyph text-amber-400 text-xl">⚠</span>
+            <h3 class="text-lg font-semibold text-ink-high">{{ t('nav.syncFailed') }}</h3>
+          </div>
+          <p class="text-sm text-ink-mid">{{ t('nav.syncErrorBody') }}</p>
+          <div v-if="syncError" class="card p-3 border-red-500/30 bg-red-500/5 break-words">
+            <p class="text-xs uppercase tracking-wider text-red-300 mb-1">{{ t('nav.syncErrorDetail') }}</p>
+            <p class="text-xs font-mono text-red-200">{{ syncError }}</p>
+          </div>
+          <div class="flex items-center justify-end gap-2 pt-2">
+            <button type="button" class="btn-ghost !py-2 !px-4 text-sm" @click="showSyncError = false">
+              {{ t('nav.syncErrorClose') }}
+            </button>
+            <button type="button" class="btn-primary !px-4 !py-2 text-sm" @click="retrySync(); showSyncError = false">
+              {{ t('nav.syncErrorRetry') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>

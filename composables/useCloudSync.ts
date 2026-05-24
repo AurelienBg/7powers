@@ -9,46 +9,59 @@
  *   4. Subsequent local edits in this session stay local — full bidirectional
  *      sync is Phase 2+. The user can re-sync manually via a UI action (future).
  *
- * The watcher is scoped to the active component (typically the default layout),
- * so it follows the app's lifecycle. Idempotent: re-runs of the effect skip
- * when syncedToCloud is already true.
+ * The watcher is scoped to the active component (typically the default layout
+ * or the project layout's sidebar), so it follows the app's lifecycle.
+ * Idempotent: re-runs of the effect skip when syncedToCloud is already true.
  */
+
+const _status = ref<'idle' | 'syncing' | 'synced' | 'error'>('idle')
+const _errorMessage = ref<string | null>(null)
+const _watcherInstalled = ref(false)
+
 export function useCloudSync() {
   const user = useSupabaseUser()
   const { syncToCloud, hasProject, syncedToCloud } = useProject()
 
-  const status = ref<'idle' | 'syncing' | 'synced' | 'error'>('idle')
-  const errorMessage = ref<string | null>(null)
-
   // Initial state reflects whatever the persisted store says.
-  if (syncedToCloud.value) status.value = 'synced'
+  if (syncedToCloud.value && _status.value === 'idle') _status.value = 'synced'
 
-  watchEffect(async () => {
-    // SSR has no localStorage and no auth state worth syncing — skip.
-    if (typeof window === 'undefined') return
-    if (!user.value) {
-      // User signed out → reset visible status. The store's syncedToCloud
-      // flag is preserved (their cloud-side data still exists).
-      if (status.value === 'synced' || status.value === 'error') status.value = 'idle'
-      return
-    }
-    if (!hasProject.value) return
-    if (syncedToCloud.value) {
-      status.value = 'synced'
-      return
-    }
-    // Conditions met: authenticated + local project + not yet synced.
-    status.value = 'syncing'
-    errorMessage.value = null
+  async function runSync(): Promise<void> {
+    _status.value = 'syncing'
+    _errorMessage.value = null
     try {
       await syncToCloud()
-      status.value = 'synced'
+      _status.value = 'synced'
     } catch (e) {
-      status.value = 'error'
-      errorMessage.value = e instanceof Error ? e.message : 'Unknown sync error'
+      _status.value = 'error'
+      _errorMessage.value = e instanceof Error ? e.message : 'Unknown sync error'
       console.error('[useCloudSync] syncToCloud failed:', e)
     }
-  })
+  }
 
-  return { status, errorMessage }
+  // Mount the auto-watcher only once across the app, even if multiple
+  // components call useCloudSync() (sidebar + header could both subscribe).
+  if (!_watcherInstalled.value) {
+    _watcherInstalled.value = true
+    watchEffect(() => {
+      if (typeof window === 'undefined') return
+      if (!user.value) {
+        if (_status.value === 'synced' || _status.value === 'error') _status.value = 'idle'
+        return
+      }
+      if (!hasProject.value) return
+      if (syncedToCloud.value) {
+        _status.value = 'synced'
+        return
+      }
+      // Conditions met → trigger an auto-sync (only once per state transition).
+      if (_status.value !== 'syncing') runSync()
+    })
+  }
+
+  return {
+    status: _status,
+    errorMessage: _errorMessage,
+    /** Manually re-trigger a sync attempt (used by the Retry button). */
+    retry: runSync
+  }
 }
