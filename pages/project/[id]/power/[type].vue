@@ -96,6 +96,36 @@ const scoreBand = computed(() => {
 })
 
 // ============================================================
+// Methodology flow — Save & continue → next Power, or → Synthesis after Process
+// ============================================================
+
+const POWER_ORDER: PowerType[] = [
+  'scale', 'network', 'counter', 'switching', 'branding', 'cornered', 'process'
+]
+
+const nextDestination = computed(() => {
+  if (!powerType.value) {
+    return {
+      path: localePath(`/project/${route.params.id}`),
+      label: t('hub.backToProject')
+    }
+  }
+  const idx = POWER_ORDER.indexOf(powerType.value)
+  if (idx >= 0 && idx < POWER_ORDER.length - 1) {
+    const next = POWER_ORDER[idx + 1]
+    return {
+      path: localePath(`/project/${route.params.id}/power/${next}`),
+      label: t(`powers.${next}`)
+    }
+  }
+  // Last Power (process) → go to Synthesis / Power Map
+  return {
+    path: localePath(`/project/${route.params.id}/synthesis`),
+    label: t('hub.moduleSynthesis')
+  }
+})
+
+// ============================================================
 // Save
 // ============================================================
 
@@ -108,7 +138,7 @@ function save() {
   saveAssessment(powerType.value, { ...form }, score)
   const store = useProjectStore()
   store.setActionItems(powerType.value, cleanedActions)
-  navigateTo(localePath(`/project/${route.params.id}`))
+  navigateTo(nextDestination.value.path)
 }
 </script>
 
@@ -308,7 +338,7 @@ function save() {
           ← {{ t('hub.backToProject') }}
         </NuxtLink>
         <button type="submit" class="btn-primary !px-6 !py-3">
-          {{ t('power.save') }}
+          {{ t('common.saveAndContinue', { next: nextDestination.label }) }}
         </button>
       </div>
     </form>

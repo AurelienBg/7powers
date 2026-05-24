@@ -52,6 +52,10 @@ function applyQuickValue(field: 'tam' | 'sam' | 'som', value: number) {
   form[field] = value
 }
 
+// Methodology flow: Market → Scale Economies → … → Power Map.
+const nextLabel = computed(() => t('powers.scale'))
+const nextPath = computed(() => localePath(`/project/${route.params.id}/power/scale`))
+
 function save() {
   // Parse sources textarea into array (one per line, trimmed)
   form.sources = sourcesText.value
@@ -59,7 +63,7 @@ function save() {
     .map((s) => s.trim())
     .filter((s) => s.length > 0)
   updateMarketSize({ ...form })
-  navigateTo(localePath(`/project/${route.params.id}`))
+  navigateTo(nextPath.value)
 }
 </script>
 
@@ -262,7 +266,7 @@ function save() {
           class="btn-primary !px-6 !py-3"
           :disabled="!canSave"
         >
-          {{ t('module1.save') }}
+          {{ t('common.saveAndContinue', { next: nextLabel }) }}
         </button>
       </div>
     </form>

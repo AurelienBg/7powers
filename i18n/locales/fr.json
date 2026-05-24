@@ -3,6 +3,9 @@
     "name": "7Powers",
     "tagline": "Construisez la défensibilité de votre projet — comme Helmer"
   },
+  "common": {
+    "saveAndContinue": "Sauvegarder et continuer → {next}"
+  },
   "nav": {
     "home": "Accueil",
     "dashboard": "Mes projets",
