@@ -310,9 +310,21 @@ export default defineEventHandler(async (event): Promise<ImportUrlResponse | { e
     }
     toolInput = toolUseBlock.input as typeof toolInput
   } catch (e) {
-    const msg = e instanceof Error ? e.message : 'Claude extraction failed'
+    const rawMessage = e instanceof Error ? e.message : 'Claude extraction failed'
+    // Same billing/rate-limit/auth detection as the coach endpoint, so the
+    // /project/new UI can show "out of credits → top up" instead of a raw
+    // JSON dump from Anthropic.
+    const lower = rawMessage.toLowerCase()
+    if (lower.includes('credit balance') || lower.includes('insufficient_funds')) {
+      setResponseStatus(event, 402)
+      return { error: 'Anthropic API credits exhausted — top up at https://console.anthropic.com/settings/billing' }
+    }
+    if (lower.includes('rate_limit') || lower.includes('rate limit')) {
+      setResponseStatus(event, 429)
+      return { error: 'Anthropic rate limit hit — try again in a few seconds.' }
+    }
     setResponseStatus(event, 502)
-    return { error: msg }
+    return { error: rawMessage }
   }
 
   // ---- Validate the extracted fields against our enums ----

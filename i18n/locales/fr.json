@@ -892,7 +892,17 @@
       ]
     },
     "errors": {
-      "generic": "Erreur lors de l'appel au coach. Vérifie ta connexion et réessaie."
+      "generic": "Erreur lors de l'appel au coach. Vérifie ta connexion et réessaie.",
+      "billingTitle": "Crédits Anthropic épuisés",
+      "billingBody": "Le compte Anthropic associé à cette app n'a plus de crédits. Le Coach et l'import URL ne fonctionneront plus tant que le solde n'a pas été rechargé.",
+      "billingCta": "Recharger sur console.anthropic.com",
+      "rate_limitTitle": "Trop de requêtes",
+      "rate_limitBody": "Anthropic limite temporairement les appels. Réessaie dans quelques secondes.",
+      "authTitle": "Clé API Anthropic invalide",
+      "authBody": "La clé API configurée sur le serveur est invalide ou révoquée. Contacte l'administrateur.",
+      "genericTitle": "Erreur Coach",
+      "genericBody": "Une erreur inattendue est survenue côté serveur. Réessaie ou ouvre le détail technique.",
+      "technicalDetail": "Voir le détail technique"
     },
     "stopStreaming": "Stop",
     "tokenUsage": "{n} tokens",

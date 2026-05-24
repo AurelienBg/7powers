@@ -30,6 +30,7 @@ const {
   messages,
   isStreaming,
   errorMessage,
+  errorCode,
   lastUsage,
   sendMessage,
   abortStream,
@@ -222,9 +223,43 @@ async function useSuggestedPrompt(prompt: string) {
           :streaming="isStreaming && idx === messages.length - 1 && msg.role === 'assistant'"
         />
 
-        <!-- Error -->
-        <div v-if="errorMessage" class="card p-3 border-red-500/30 bg-red-500/5">
-          <p class="text-xs text-red-300">{{ errorMessage }}</p>
+        <!-- Error: structured display per error code, with raw message
+             hidden behind a "show technical detail" toggle. Specific codes
+             (billing / rate-limit / auth) get a clear human title + CTA. -->
+        <div
+          v-if="errorMessage"
+          class="card p-3 space-y-2"
+          :class="errorCode === 'billing' ? 'border-amber-500/40 bg-amber-500/[0.04]' : 'border-red-500/30 bg-red-500/5'"
+        >
+          <div class="flex items-start gap-2">
+            <span class="glyph shrink-0" :class="errorCode === 'billing' ? 'text-amber-400' : 'text-red-400'">
+              {{ errorCode === 'billing' ? '⏸' : '⚠' }}
+            </span>
+            <div class="space-y-1 min-w-0">
+              <p class="text-xs font-medium" :class="errorCode === 'billing' ? 'text-amber-200' : 'text-red-300'">
+                {{ t(`coach.errors.${errorCode || 'generic'}Title`) }}
+              </p>
+              <p class="text-xs text-ink-mid leading-relaxed">
+                {{ t(`coach.errors.${errorCode || 'generic'}Body`) }}
+              </p>
+              <a
+                v-if="errorCode === 'billing'"
+                href="https://console.anthropic.com/settings/billing"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-xs text-amber-300 hover:text-amber-200 underline-offset-2 hover:underline inline-flex items-center gap-1 pt-1"
+              >
+                <span>{{ t('coach.errors.billingCta') }}</span>
+                <span class="glyph">↗</span>
+              </a>
+              <details class="pt-1">
+                <summary class="text-[10px] text-ink-low cursor-pointer hover:text-ink-mid">
+                  {{ t('coach.errors.technicalDetail') }}
+                </summary>
+                <p class="text-[10px] font-mono text-ink-low break-words mt-1">{{ errorMessage }}</p>
+              </details>
+            </div>
+          </div>
         </div>
       </div>
 

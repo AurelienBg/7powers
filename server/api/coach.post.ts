@@ -115,8 +115,22 @@ export default defineEventHandler(async (event) => {
       stop_reason: finalMessage.stop_reason
     })
   } catch (e) {
-    const message = e instanceof Error ? e.message : 'Unknown Anthropic error'
-    sendSseEvent('error', { message })
+    const rawMessage = e instanceof Error ? e.message : 'Unknown Anthropic error'
+    // Detect specific failure modes so the client UI can render a useful
+    // message + actionable CTA instead of the raw Anthropic JSON dump.
+    // The error.message comes from the @anthropic-ai/sdk and includes the
+    // full server response on non-2xx (eg. 400 invalid_request_error or
+    // 429 rate_limit_error).
+    let code: 'billing' | 'rate_limit' | 'auth' | 'generic' = 'generic'
+    const lower = rawMessage.toLowerCase()
+    if (lower.includes('credit balance') || lower.includes('insufficient_funds')) {
+      code = 'billing'
+    } else if (lower.includes('rate_limit') || lower.includes('rate limit')) {
+      code = 'rate_limit'
+    } else if (lower.includes('authentication') || lower.includes('invalid x-api-key')) {
+      code = 'auth'
+    }
+    sendSseEvent('error', { message: rawMessage, code })
   } finally {
     res.end()
   }

@@ -892,7 +892,17 @@
       ]
     },
     "errors": {
-      "generic": "Error calling the coach. Check your connection and try again."
+      "generic": "Error calling the coach. Check your connection and try again.",
+      "billingTitle": "Anthropic credits exhausted",
+      "billingBody": "The Anthropic account backing this app has run out of credits. Coach and URL import won't work until the balance is topped up.",
+      "billingCta": "Top up on console.anthropic.com",
+      "rate_limitTitle": "Too many requests",
+      "rate_limitBody": "Anthropic is rate-limiting requests temporarily. Try again in a few seconds.",
+      "authTitle": "Invalid Anthropic API key",
+      "authBody": "The API key configured on the server is invalid or revoked. Contact the administrator.",
+      "genericTitle": "Coach error",
+      "genericBody": "An unexpected server error occurred. Retry or open the technical detail below.",
+      "technicalDetail": "Show technical detail"
     },
     "stopStreaming": "Stop",
     "tokenUsage": "{n} tokens",

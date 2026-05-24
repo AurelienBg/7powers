@@ -15,6 +15,10 @@ export function useCoach(powerContext: Ref<PowerContext>) {
 
   const isStreaming = ref(false)
   const errorMessage = ref<string | null>(null)
+  // Structured error code from the server when the failure is a known
+  // category (Anthropic billing, rate limit, auth). UI uses this to render
+  // a tailored CTA instead of the raw error string.
+  const errorCode = ref<'billing' | 'rate_limit' | 'auth' | 'generic' | null>(null)
   // Token usage from the most recent assistant response — surfaced in the UI
   // footer so power users can see how expensive their conversations are.
   const lastUsage = ref<{ input_tokens?: number; output_tokens?: number } | null>(null)
@@ -57,6 +61,7 @@ export function useCoach(powerContext: Ref<PowerContext>) {
     if (!project) return
 
     errorMessage.value = null
+    errorCode.value = null
 
     // 1) Append the user message immediately for snappy UI.
     const userMsg: CoachLocalMessage = {
@@ -146,7 +151,9 @@ export function useCoach(powerContext: Ref<PowerContext>) {
           if (eventName === 'token' && typeof parsed.text === 'string') {
             store.appendChunkToLast(project.local_id, powerContext.value, parsed.text)
           } else if (eventName === 'error') {
-            errorMessage.value = parsed.message ?? t('coach.errors.generic')
+            const e = parsed as { message?: string; code?: 'billing' | 'rate_limit' | 'auth' | 'generic' }
+            errorCode.value = e.code ?? 'generic'
+            errorMessage.value = e.message ?? t('coach.errors.generic')
             break
           } else if (eventName === 'done') {
             // Stream finished cleanly. The server side emits the Anthropic
@@ -219,6 +226,7 @@ export function useCoach(powerContext: Ref<PowerContext>) {
     messages,
     isStreaming: readonly(isStreaming),
     errorMessage: readonly(errorMessage),
+    errorCode: readonly(errorCode),
     lastUsage: readonly(lastUsage),
     sendMessage,
     abortStream,
