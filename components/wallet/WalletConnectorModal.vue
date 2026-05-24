@@ -39,12 +39,25 @@ onBeforeUnmount(() => {
 
 <template>
   <ClientOnly>
-    <!-- The connector renders its own modal/overlay; we only need to mount
-         the element somewhere stable. background-color matches our dark theme. -->
-    <xrpl-wallet-connector
-      ref="connectorEl"
-      primary-wallet="xaman"
-      background-color="#0a0a0f"
-    />
+    <!-- The <xrpl-wallet-connector> web component renders its OWN default
+         button + dropdown UI when present in the DOM. We don't want that
+         here — we trigger the modal programmatically via .open() from
+         useXrplWallet().connect(). The default button was hovering in the
+         page and intercepting clicks on adjacent nav links (e.g. clicking
+         "Apprendre" landed on the wallet modal instead).
+         Solution: position the element 1×1px off-screen with pointer-events
+         disabled, so the JS interface stays live but the rendered UI can't
+         catch any pointer events. The .open() call portals the modal to
+         fixed positioning on top of everything when actually needed. -->
+    <div
+      aria-hidden="true"
+      style="position: fixed; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; pointer-events: none;"
+    >
+      <xrpl-wallet-connector
+        ref="connectorEl"
+        primary-wallet="xaman"
+        background-color="#0a0a0f"
+      />
+    </div>
   </ClientOnly>
 </template>

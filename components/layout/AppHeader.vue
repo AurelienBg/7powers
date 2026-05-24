@@ -50,16 +50,20 @@ const primaryNav: PrimaryNavItem[] = [
   { to: '/examples',  labelKey: 'nav.examples' }
 ]
 
-// Match the current route against a primary-nav target. The route path is
-// locale-prefixed (e.g. /en/learn) while the nav targets are bare paths;
-// we compare via localePath() so this works on either locale. /dashboard
-// stays active also on /project/* routes since Assess = the assessing flow.
+// Strip the locale prefix from route.path so comparisons work the same
+// in FR (default locale → NO prefix in URL) and EN (/en/...). Previously
+// we compared `route.path` to `localePath(target)`, which worked in EN
+// but in FR `localePath('/learn')` could resolve to either '/learn' or
+// '/fr/learn' depending on Nuxt i18n internals — and `route.path` could
+// land on either form too, so the active state silently failed.
+const LOCALE_RE = /^\/(fr|en)(?=\/|$)/
 function isActive(target: string): boolean {
-  const resolved = localePath(target)
+  const bare = route.path.replace(LOCALE_RE, '') || '/'
   if (target === '/dashboard') {
-    return route.path === resolved || route.path.startsWith(localePath('/project'))
+    // Assess covers /dashboard AND every /project/* route.
+    return bare === '/dashboard' || bare.startsWith('/project')
   }
-  return route.path === resolved || route.path.startsWith(resolved + '/')
+  return bare === target || bare.startsWith(target + '/')
 }
 </script>
 
