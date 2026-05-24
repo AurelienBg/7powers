@@ -33,6 +33,13 @@ export function useAuth() {
   }
 
   async function signOut() {
+    // CRITICAL: clear all per-user local state BEFORE we sign out, so the
+    // next account that logs in on this browser doesn't inherit the previous
+    // user's projects / coach threads via localStorage.
+    if (typeof window !== 'undefined') {
+      useProjectStore().$reset()
+      useCoachStore().$reset()
+    }
     const { error } = await supabase.auth.signOut()
     if (error) throw error
   }

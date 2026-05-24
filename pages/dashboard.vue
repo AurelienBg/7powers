@@ -114,7 +114,7 @@ function handleDuplicate(p: LocalProject) {
       <div
         v-for="p in projectList"
         :key="p.local_id"
-        class="card-hover p-5 space-y-4 group relative"
+        class="card-hover p-5 group relative flex flex-col gap-4"
       >
         <!-- Card head -->
         <div class="flex items-start gap-3">
@@ -161,7 +161,13 @@ function handleDuplicate(p: LocalProject) {
               :title="t('dashboard.deleteProject')"
               @click.stop.prevent="confirmDelete(p)"
             >
-              <span class="glyph text-sm">×</span>
+              <!-- Trash icon (Feather Icons style, inline SVG to follow currentColor) -->
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                <line x1="10" y1="11" x2="10" y2="17" />
+                <line x1="14" y1="11" x2="14" y2="17" />
+              </svg>
             </button>
           </div>
         </div>
@@ -182,11 +188,14 @@ function handleDuplicate(p: LocalProject) {
           </span>
         </div>
 
-        <!-- Description -->
-        <p v-if="p.description" class="text-sm text-ink-mid line-clamp-2">{{ p.description }}</p>
+        <!-- Description (takes remaining vertical space so the score row stays
+             flush at the bottom even when description is absent). -->
+        <p class="text-sm text-ink-mid line-clamp-2 flex-1 min-h-[1.25rem]">
+          {{ p.description || '' }}
+        </p>
 
         <!-- Score row -->
-        <div class="flex items-center justify-between pt-3 border-t border-border-subtle">
+        <div class="flex items-center justify-between pt-3 border-t border-border-subtle mt-auto">
           <div class="flex gap-4">
             <div class="space-y-0.5">
               <p class="text-[10px] uppercase tracking-widest text-ink-low">{{ t('dashboard.cardMarket') }}</p>
