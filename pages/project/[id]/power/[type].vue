@@ -23,9 +23,6 @@ const ALL_POWERS: PowerType[] = [
   'process'
 ]
 
-// All 7 Powers fully wired as of Phase 2. The dynamic [type].vue route
-// resolves i18n keys per Power via power.{type}.* — adding a new Power is
-// just an i18n addition plus listing it here.
 const IMPLEMENTED_POWERS: PowerType[] = [
   'scale',
   'network',
@@ -41,17 +38,12 @@ const powerType = computed<PowerType | null>(() => {
   return ALL_POWERS.includes(t as PowerType) ? (t as PowerType) : null
 })
 
-// Guard 1: invalid power type → hub
 if (!powerType.value) {
   await navigateTo(localePath(`/project/${route.params.id}`))
 }
-
-// Guard 2: not-yet-implemented power → hub (will be removed in Phase 2)
 if (powerType.value && !IMPLEMENTED_POWERS.includes(powerType.value)) {
   await navigateTo(localePath(`/project/${route.params.id}`))
 }
-
-// Project existence + URL ↔ store sync is handled by layouts/project.vue.
 
 // ============================================================
 // State
@@ -110,12 +102,10 @@ const scoreBand = computed(() => {
 function save() {
   if (!powerType.value) return
   const score = allAnswered.value ? liveScore.value : null
-  // Strip empty action items
   const cleanedActions = actionItems
     .map((a) => ({ ...a, title: a.title.trim() }))
     .filter((a) => a.title.length > 0)
   saveAssessment(powerType.value, { ...form }, score)
-  // also persist action items via the store (small extension)
   const store = useProjectStore()
   store.setActionItems(powerType.value, cleanedActions)
   navigateTo(localePath(`/project/${route.params.id}`))
@@ -125,10 +115,10 @@ function save() {
 <template>
   <main
     v-if="currentProject && powerType"
-    class="mx-auto max-w-3xl px-6 py-12"
+    class="mx-auto max-w-5xl px-6 py-10"
   >
     <!-- Header -->
-    <div class="space-y-2 mb-2">
+    <div class="space-y-2 mb-6">
       <p class="text-xs uppercase tracking-widest text-accent-blue-bright">
         {{ t(`power.${powerType}.step`) }}
       </p>
@@ -136,27 +126,36 @@ function save() {
         <span class="glyph text-3xl text-accent-blue-bright">{{ t(`powerGlyphs.${powerType}`) }}</span>
         <h1 class="text-3xl font-semibold text-ink-high">{{ t(`powers.${powerType}`) }}</h1>
       </div>
-      <p class="text-ink-mid max-w-2xl">{{ t(`power.${powerType}.tagline`) }}</p>
+      <p class="text-ink-mid max-w-3xl">{{ t(`power.${powerType}.tagline`) }}</p>
     </div>
 
-    <!-- Definition card -->
-    <section class="card p-5 my-8 space-y-4">
-      <div class="space-y-2">
-        <p class="text-xs uppercase tracking-wider text-ink-mid">{{ t('power.helmerDefinition') }}</p>
-        <p class="text-ink-high">{{ t(`power.${powerType}.definition`) }}</p>
-      </div>
-      <div class="space-y-2 pt-2 border-t border-border-subtle">
-        <p class="text-xs uppercase tracking-wider text-ink-mid">
-          {{ t('power.exampleFor', { sector: t(`sectors.${sector}`) }) }}
-        </p>
-        <p class="text-ink-mid text-sm leading-relaxed">
-          {{ t(`power.${powerType}.examples.${sector}`) }}
-        </p>
+    <!-- Definition + Example side-by-side -->
+    <section class="card p-5 my-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="space-y-2">
+          <p class="text-[10px] uppercase tracking-widest text-ink-mid">
+            {{ t('power.helmerDefinition') }}
+          </p>
+          <p class="text-ink-high text-sm leading-relaxed">
+            {{ t(`power.${powerType}.definition`) }}
+          </p>
+        </div>
+        <div
+          class="space-y-2 pt-5 border-t border-border-subtle
+                 lg:pt-0 lg:pl-5 lg:border-t-0 lg:border-l"
+        >
+          <p class="text-[10px] uppercase tracking-widest text-ink-mid">
+            {{ t('power.exampleFor', { sector: t(`sectors.${sector}`) }) }}
+          </p>
+          <p class="text-ink-mid text-sm leading-relaxed">
+            {{ t(`power.${powerType}.examples.${sector}`) }}
+          </p>
+        </div>
       </div>
     </section>
 
     <!-- Live score -->
-    <div class="card p-5 mb-8 flex items-center justify-between gap-6">
+    <div class="card p-5 mb-6 flex items-center justify-between gap-6">
       <div class="space-y-1">
         <p class="text-xs uppercase tracking-wider text-ink-mid">{{ t('power.powerScore') }}</p>
         <p class="text-xs text-ink-low">{{ scoreBand.label }}</p>
@@ -172,44 +171,59 @@ function save() {
       </div>
     </div>
 
-    <form class="space-y-12" @submit.prevent="save">
-      <!-- 5 questions -->
-      <section class="space-y-10">
-        <h2 class="text-xs uppercase tracking-widest text-ink-mid">{{ t('power.questionsHeading') }}</h2>
-
-        <div
-          v-for="key in questionKeys"
-          :key="key"
-          class="space-y-3"
-        >
-          <div class="space-y-1">
-            <div class="flex items-baseline gap-3">
-              <span class="text-xs text-ink-low font-mono uppercase">{{ key }}</span>
-              <span class="text-sm font-medium text-ink-high">
-                {{ t(`power.${powerType}.${key}.label`) }}
-              </span>
-            </div>
-            <p class="text-xs text-ink-mid pl-8">{{ t(`power.${powerType}.${key}.hint`) }}</p>
+    <form class="space-y-10" @submit.prevent="save">
+      <!-- Questions table — compact horizontal layout -->
+      <section class="space-y-3">
+        <div class="flex items-baseline justify-between">
+          <h2 class="text-xs uppercase tracking-widest text-ink-mid">
+            {{ t('power.questionsHeading') }}
+          </h2>
+          <!-- Scale rail (visible md+ only — mobile stacks buttons under each row) -->
+          <div class="hidden md:flex items-baseline gap-2 text-[10px] text-ink-low tabular-nums">
+            <span>{{ t('power.scaleLabels.none') }}</span>
+            <span class="text-ink-low/40">→</span>
+            <span>{{ t('power.scaleLabels.totally') }}</span>
           </div>
+        </div>
 
-          <div class="pl-8 space-y-2">
-            <div class="flex gap-2">
+        <!-- Column headers for the score buttons (md+ only) -->
+        <div class="hidden md:flex justify-end pr-4">
+          <div class="grid grid-cols-6 gap-1.5 w-[280px] text-center">
+            <span v-for="n in scale" :key="`hdr-${n}`" class="text-[10px] text-ink-low tabular-nums">{{ n }}</span>
+          </div>
+        </div>
+
+        <div class="card divide-y divide-border-subtle">
+          <div
+            v-for="key in questionKeys"
+            :key="key"
+            class="p-4 flex flex-col md:flex-row md:items-center gap-3 md:gap-5"
+          >
+            <!-- Question label + hint (left, takes remaining width) -->
+            <div class="flex-1 min-w-0 space-y-0.5">
+              <p class="text-sm font-medium text-ink-high">
+                <span class="text-[10px] text-ink-low font-mono uppercase mr-2 tabular-nums">{{ key }}</span>
+                {{ t(`power.${powerType}.${key}.label`) }}
+              </p>
+              <p class="text-xs text-ink-mid">{{ t(`power.${powerType}.${key}.hint`) }}</p>
+            </div>
+
+            <!-- Score buttons (right column, fixed width on md+) -->
+            <div class="grid grid-cols-6 gap-1.5 w-full md:w-[280px] shrink-0">
               <button
                 v-for="n in scale"
                 :key="n"
                 type="button"
-                class="w-11 h-11 rounded-lg border transition-colors text-sm font-medium tabular-nums"
+                class="h-10 rounded-lg border transition-colors text-sm font-medium tabular-nums"
                 :class="form[key] === n
                   ? 'bg-accent-blue text-white border-accent-blue shadow-glow-blue'
                   : 'bg-bg-elevated text-ink-mid border-border-subtle hover:border-accent-blue hover:text-ink-high'"
+                :aria-label="`${key.toUpperCase()} = ${n}`"
+                :aria-pressed="form[key] === n"
                 @click="setAnswer(key, n)"
               >
                 {{ n }}
               </button>
-            </div>
-            <div class="flex justify-between text-xs text-ink-low">
-              <span>{{ t('power.scaleLabels.none') }}</span>
-              <span>{{ t('power.scaleLabels.totally') }}</span>
             </div>
           </div>
         </div>
@@ -219,38 +233,40 @@ function save() {
       <section class="space-y-6 pt-4 border-t border-border-subtle">
         <h2 class="text-xs uppercase tracking-widest text-ink-mid">{{ t('power.qualitativeHeading') }}</h2>
 
-        <div class="space-y-2">
-          <label for="benefit" class="text-sm font-medium text-ink-high">
-            {{ t('power.benefitLabel') }}
-          </label>
-          <p class="text-xs text-ink-mid">{{ t('power.benefitHint') }}</p>
-          <textarea
-            id="benefit"
-            v-model="form.benefit"
-            rows="3"
-            class="w-full bg-bg-elevated border border-border-subtle rounded-lg px-4 py-3
-                   text-ink-high placeholder:text-ink-low
-                   focus:outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30
-                   transition-colors resize-y"
-            :placeholder="t(`power.${powerType}.benefitPlaceholder`)"
-          />
-        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <div class="space-y-2">
+            <label for="benefit" class="text-sm font-medium text-ink-high">
+              {{ t('power.benefitLabel') }}
+            </label>
+            <p class="text-xs text-ink-mid">{{ t('power.benefitHint') }}</p>
+            <textarea
+              id="benefit"
+              v-model="form.benefit"
+              rows="4"
+              class="w-full bg-bg-elevated border border-border-subtle rounded-lg px-4 py-3
+                     text-ink-high placeholder:text-ink-low text-sm
+                     focus:outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30
+                     transition-colors resize-y"
+              :placeholder="t(`power.${powerType}.benefitPlaceholder`)"
+            />
+          </div>
 
-        <div class="space-y-2">
-          <label for="barrier" class="text-sm font-medium text-ink-high">
-            {{ t('power.barrierLabel') }}
-          </label>
-          <p class="text-xs text-ink-mid">{{ t('power.barrierHint') }}</p>
-          <textarea
-            id="barrier"
-            v-model="form.barrier"
-            rows="3"
-            class="w-full bg-bg-elevated border border-border-subtle rounded-lg px-4 py-3
-                   text-ink-high placeholder:text-ink-low
-                   focus:outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30
-                   transition-colors resize-y"
-            :placeholder="t(`power.${powerType}.barrierPlaceholder`)"
-          />
+          <div class="space-y-2">
+            <label for="barrier" class="text-sm font-medium text-ink-high">
+              {{ t('power.barrierLabel') }}
+            </label>
+            <p class="text-xs text-ink-mid">{{ t('power.barrierHint') }}</p>
+            <textarea
+              id="barrier"
+              v-model="form.barrier"
+              rows="4"
+              class="w-full bg-bg-elevated border border-border-subtle rounded-lg px-4 py-3
+                     text-ink-high placeholder:text-ink-low text-sm
+                     focus:outline-none focus:border-accent-blue focus:ring-2 focus:ring-accent-blue/30
+                     transition-colors resize-y"
+              :placeholder="t(`power.${powerType}.barrierPlaceholder`)"
+            />
+          </div>
         </div>
       </section>
 
