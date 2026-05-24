@@ -239,80 +239,76 @@ function executeDelete() {
 
       <NuxtLink
         :to="localePath(`/project/${currentProject.local_id}/synthesis`)"
-        class="card-hover p-6 block border-gold/40 hover:shadow-glow-gold"
+        class="card-hover p-4 block border-gold/40 hover:shadow-glow-gold"
       >
-        <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 items-center">
+        <div class="flex items-center gap-4">
           <!-- Mini radar OR empty-state glyph -->
-          <div class="flex justify-center md:justify-start">
+          <div class="shrink-0">
             <PowerRadar
               v-if="hasAnyPowerScored"
               :assessments="assessments"
               :top-powers="top3PowerKeys"
-              :size="200"
+              :size="120"
               compact
             />
             <div
               v-else
-              class="w-[200px] h-[200px] rounded-full border-2 border-dashed border-border-subtle
+              class="w-[120px] h-[120px] rounded-full border-2 border-dashed border-border-subtle
                      flex items-center justify-center text-ink-low"
             >
-              <span class="glyph text-3xl">✦</span>
+              <span class="glyph text-2xl">✦</span>
             </div>
           </div>
 
           <!-- Synthesis info + CTA -->
-          <div class="space-y-4">
+          <div class="flex-1 min-w-0 space-y-2">
             <div class="flex items-center gap-2">
-              <span class="glyph text-2xl text-gold-bright">✦</span>
-              <h3 class="text-xl font-semibold text-ink-high">{{ t('hub.moduleSynthesis') }}</h3>
+              <span class="glyph text-lg text-gold-bright">✦</span>
+              <h3 class="text-base font-semibold text-ink-high">{{ t('hub.moduleSynthesis') }}</h3>
             </div>
 
-            <!-- Defensibility -->
-            <div v-if="synthesisBreakdown" class="space-y-1">
-              <p class="text-[10px] uppercase tracking-widest text-ink-low">
-                {{ t('synthesis.defensibilityHeading') }}
-              </p>
-              <div class="flex items-baseline gap-1.5">
+            <!-- Defensibility + Top 3 — inline, compact -->
+            <div v-if="synthesisBreakdown" class="flex items-baseline gap-4 flex-wrap">
+              <div class="flex items-baseline gap-1">
                 <span
-                  class="text-4xl font-semibold tabular-nums"
+                  class="text-2xl font-semibold tabular-nums"
                   :class="synthesisBreakdown.defensibility >= 70 ? 'text-gold-bright' : 'text-accent-blue-bright'"
                 >
                   {{ synthesisBreakdown.defensibility }}
                 </span>
-                <span class="text-sm text-ink-low">/100</span>
-              </div>
-            </div>
-            <p v-else class="text-sm text-ink-mid">
-              {{ t('hub.synthesisCardEmpty') }}
-            </p>
-
-            <!-- Top 3 inline -->
-            <div v-if="top3.length > 0" class="space-y-1">
-              <p class="text-[10px] uppercase tracking-widest text-ink-low">{{ t('synthesis.topPowersHeading') }}</p>
-              <div class="flex items-center gap-2 flex-wrap">
-                <span
-                  v-for="(entry, idx) in top3"
-                  :key="entry.power"
-                  class="inline-flex items-center gap-1.5 text-xs"
-                >
-                  <span
-                    class="glyph text-base"
-                    :class="idx === 0 ? 'text-gold-bright' : 'text-accent-blue-bright'"
-                  >
-                    {{ t(`powerGlyphs.${entry.power}`) }}
-                  </span>
-                  <span :class="idx === 0 ? 'text-ink-high font-medium' : 'text-ink-mid'">
-                    {{ t(`powers.${entry.power}`) }}
-                    <span class="text-ink-low tabular-nums">· {{ Math.round(entry.score) }}</span>
-                  </span>
-                  <span v-if="idx < top3.length - 1" class="text-ink-low">·</span>
+                <span class="text-xs text-ink-low">/100</span>
+                <span class="text-[10px] uppercase tracking-wider text-ink-mid ml-1">
+                  {{ t('synthesis.defensibilityHeading') }}
                 </span>
               </div>
             </div>
+            <p v-else class="text-xs text-ink-mid">{{ t('hub.synthesisCardEmpty') }}</p>
+
+            <!-- Top 3 inline (truncates on small screens) -->
+            <div v-if="top3.length > 0" class="flex items-center gap-2 flex-wrap text-xs">
+              <span class="text-[10px] uppercase tracking-wider text-ink-low">{{ t('synthesis.topPowersHeading') }}:</span>
+              <span
+                v-for="(entry, idx) in top3"
+                :key="entry.power"
+                class="inline-flex items-center gap-1"
+              >
+                <span
+                  class="glyph"
+                  :class="idx === 0 ? 'text-gold-bright' : 'text-accent-blue-bright'"
+                >
+                  {{ t(`powerGlyphs.${entry.power}`) }}
+                </span>
+                <span :class="idx === 0 ? 'text-ink-high font-medium' : 'text-ink-mid'">
+                  {{ t(`powers.${entry.power}`) }}
+                </span>
+                <span class="text-ink-low tabular-nums">{{ Math.round(entry.score) }}</span>
+                <span v-if="idx < top3.length - 1" class="text-ink-low">·</span>
+              </span>
+            </div>
 
             <!-- CTA -->
-            <div class="pt-1">
-              <span class="inline-flex items-center gap-2 text-sm font-medium text-gold-bright">
+            <div class="pt-0.5">
+              <span class="inline-flex items-center gap-1 text-xs font-medium text-gold-bright">
                 {{ t('hub.synthesisCardCta') }} <span>→</span>
               </span>
             </div>
