@@ -181,7 +181,8 @@
     "userMenuAria": "Mon compte",
     "userMenuSignedInAs": "Connecté en tant que",
     "userMenuWallet": "Wallet XRPL",
-    "switchLocale": "Passer en {code}"
+    "switchLocale": "Passer en {code}",
+    "userMenuLanguage": "Langue"
   },
   "sidebar": {
     "newProject": "Nouveau projet",
