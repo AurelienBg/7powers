@@ -181,7 +181,7 @@ function cancel() {
         <button type="button" class="text-sm text-ink-mid hover:text-ink-high transition-colors" @click="cancel">
           {{ t('editProject.cancel') }}
         </button>
-        <button type="submit" class="btn-primary text-base !px-6 !py-3">
+        <button type="submit" class="btn-primary !px-4 !py-2 text-sm">
           {{ t('editProject.save') }}
         </button>
       </div>

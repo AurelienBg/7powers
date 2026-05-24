@@ -339,7 +339,7 @@ function save() {
         >
           ← {{ t('hub.backToProject') }}
         </NuxtLink>
-        <button type="submit" class="btn-primary !px-6 !py-3">
+        <button type="submit" class="btn-primary !px-4 !py-2 text-sm">
           {{ t('common.saveAndContinue', { next: nextDestination.label }) }}
         </button>
       </div>

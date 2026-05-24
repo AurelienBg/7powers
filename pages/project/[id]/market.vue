@@ -265,7 +265,7 @@ function save() {
         </NuxtLink>
         <button
           type="submit"
-          class="btn-primary !px-6 !py-3"
+          class="btn-primary !px-4 !py-2 text-sm"
           :disabled="!canSave"
         >
           {{ t('common.saveAndContinue', { next: nextLabel }) }}
