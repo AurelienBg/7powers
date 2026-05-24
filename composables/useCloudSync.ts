@@ -1,31 +1,39 @@
 /**
  * useCloudSync — bridges local-first Pinia state to Supabase on login.
  *
- * Gameframe-style flow (per spec § 12):
- *   1. Anonymous user works locally — everything in Pinia + localStorage.
- *   2. User opts in to login (magic-link or OAuth in Phase 1.5+).
- *   3. On first login WITH a local project that hasn't been synced yet,
- *      we push the project + assessments to Supabase via useProject().syncToCloud().
- *   4. Subsequent local edits in this session stay local — full bidirectional
- *      sync is Phase 2+. The user can re-sync manually via a UI action (future).
+ * Bidirectional sync at the login boundary:
  *
- * The watcher is scoped to the active component (typically the default layout
- * or the project layout's sidebar), so it follows the app's lifecycle.
- * Idempotent: re-runs of the effect skip when syncedToCloud is already true.
+ *   1. User logs in with NO local projects     → fetchFromCloud()
+ *      (e.g. new browser, post-logout, multi-device)
+ *
+ *   2. User logs in WITH local unsynced project → syncToCloud()
+ *      (anonymous work being persisted upstream for the first time)
+ *
+ *   3. User logs in WITH local synced project   → noop
+ *      (continuation of the same session, nothing to do)
+ *
+ *   4. User signs out                            → store.$reset()
+ *      (handled in useAuth — clears local state so the next user starts clean)
+ *
+ * The watcher is mounted via useCloudSync() in components that care to
+ * surface the status (default layout header + project sidebar footer).
+ * Module-scoped refs keep the state shared across both mount points.
  */
 
 const _status = ref<'idle' | 'syncing' | 'synced' | 'error'>('idle')
 const _errorMessage = ref<string | null>(null)
 const _watcherInstalled = ref(false)
+// Tracks whether we've already done a one-shot pull for the current session,
+// so we don't re-fetch on every reactive tick.
+const _pullAttempted = ref(false)
 
 export function useCloudSync() {
   const user = useSupabaseUser()
-  const { syncToCloud, hasProject, syncedToCloud } = useProject()
+  const { syncToCloud, fetchFromCloud, hasProject, hasAnyProject, syncedToCloud } = useProject()
 
-  // Initial state reflects whatever the persisted store says.
   if (syncedToCloud.value && _status.value === 'idle') _status.value = 'synced'
 
-  async function runSync(): Promise<void> {
+  async function runPush(): Promise<void> {
     _status.value = 'syncing'
     _errorMessage.value = null
     try {
@@ -38,30 +46,66 @@ export function useCloudSync() {
     }
   }
 
-  // Mount the auto-watcher only once across the app, even if multiple
-  // components call useCloudSync() (sidebar + header could both subscribe).
+  async function runPull(): Promise<void> {
+    _status.value = 'syncing'
+    _errorMessage.value = null
+    try {
+      const count = await fetchFromCloud()
+      _status.value = count > 0 ? 'synced' : 'idle'
+    } catch (e) {
+      _status.value = 'error'
+      _errorMessage.value = e instanceof Error ? e.message : 'Unknown fetch error'
+      console.error('[useCloudSync] fetchFromCloud failed:', e)
+    }
+  }
+
+  /** Manually re-trigger a sync (used by the Retry button on the error modal). */
+  async function retry(): Promise<void> {
+    if (!user.value) return
+    if (hasProject.value && !syncedToCloud.value) {
+      await runPush()
+    } else if (!hasAnyProject.value) {
+      _pullAttempted.value = false
+      await runPull()
+    }
+  }
+
+  // Install the auto-watcher once. Decides push vs pull based on current state.
   if (!_watcherInstalled.value) {
     _watcherInstalled.value = true
     watchEffect(() => {
       if (typeof window === 'undefined') return
+
+      // Signed out → reset visible status + the pull guard so the next
+      // login can do a fresh fetch.
       if (!user.value) {
         if (_status.value === 'synced' || _status.value === 'error') _status.value = 'idle'
+        _pullAttempted.value = false
         return
       }
-      if (!hasProject.value) return
-      if (syncedToCloud.value) {
-        _status.value = 'synced'
+
+      // Logged in. Decide what to do based on local state.
+      if (hasAnyProject.value) {
+        if (syncedToCloud.value) {
+          _status.value = 'synced'
+          return
+        }
+        // Local exists but not yet pushed → push.
+        if (_status.value !== 'syncing') runPush()
         return
       }
-      // Conditions met → trigger an auto-sync (only once per state transition).
-      if (_status.value !== 'syncing') runSync()
+
+      // Logged in + empty local store → pull from cloud once per session.
+      if (!_pullAttempted.value && _status.value !== 'syncing') {
+        _pullAttempted.value = true
+        runPull()
+      }
     })
   }
 
   return {
     status: _status,
     errorMessage: _errorMessage,
-    /** Manually re-trigger a sync attempt (used by the Retry button). */
-    retry: runSync
+    retry
   }
 }
