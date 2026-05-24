@@ -256,6 +256,11 @@
     }
   },
   "power": {
+    "deepDive": {
+      "whyMatters": { "label": "Pourquoi ce Power compte" },
+      "pitfalls": { "label": "Pièges à éviter" },
+      "deepDive": { "label": "Cas d'école détaillé" }
+    },
     "helmerDefinition": "Définition Helmer",
     "exampleFor": "Exemple pour ton secteur ({sector})",
     "powerScore": "Power Strength Score",
@@ -314,7 +319,10 @@
         "0": "Mesurer précisément l'écart de coût unitaire vs. top 3 concurrents",
         "1": "Documenter publiquement les unit economics pour signaler la Barrier",
         "2": "Accélérer l'acquisition de volume sur le segment où la courbe est la plus pentue"
-      }
+      },
+      "whyMatters": "C'est le Power le plus fort historiquement. Quand tes coûts unitaires baissent avec le volume, tu crées une asymétrie structurelle : tu peux baisser les prix là où ton concurrent ne peut pas, sans détruire ta marge. Walmart, Amazon, AWS — tous bâtis là-dessus.",
+      "pitfalls": "Le piège classique : revendiquer Scale sans avoir le volume. Helmer dit qu'avant 10x ton concurrent le plus proche, ton avantage de coût est marginal. Mesure ton coût unitaire vs top 3 concurrents — si l'écart est <15%, ce n'est pas encore un vrai Power, juste une économie d'échelle naissante.",
+      "deepDive": "AWS : Bezos a construit Scale Economies sur 15 ans avant la concurrence sérieuse. Investissements massifs en data centers (~$25B avant le premier $1B de revenue). Quand GCP / Azure se sont lancés, AWS avait déjà 50%+ d'écart de coût unitaire. Aujourd'hui encore, ils ne peuvent pas matcher sans cramer du cash sur 10 ans."
     },
     "network": {
       "step": "Power 2",
@@ -352,7 +360,10 @@
         "0": "Identifier le KPI précis du réseau (engagement, retention, ARPU per user) à tracker mensuellement",
         "1": "Réduire le CAC du segment où le réseau s'auto-renforce le plus rapidement",
         "2": "Verrouiller une primitive du réseau (format de données, intégration) que les concurrents ne peuvent pas répliquer facilement"
-      }
+      },
+      "whyMatters": "Le Power le plus difficile à briser une fois activé. Chaque user supplémentaire renforce la valeur pour TOUS les autres, ce qui crée un cycle vertueux que les incentives marketing ne peuvent pas casser. Facebook, LinkedIn, Visa — des décennies de Network qui survivent à toutes les attaques.",
+      "pitfalls": "Confondre 'avoir des users' avec 'Network Effect activé'. Beaucoup de produits ont des users sans aucune valeur cross-user (chaque user a son expérience isolée). Pour un vrai Network Effect, demande-toi : à 10x users, qu'est-ce qui s'améliore CONCRÈTEMENT pour chaque user ? Si rien, ce n'est pas du Network.",
+      "deepDive": "Visa : un cardholder rejoint le réseau parce qu'il est accepté chez 70M+ marchands. Un marchand accepte Visa parce que 4B+ cardholders le portent. Cycle vertueux verrouillé sur 60+ ans. Mastercard a son propre Network distinct — duopole soutenu par des Network Effects mutuellement renforçants, jamais brisé malgré des centaines de challengers."
     },
     "counter": {
       "step": "Power 3",
@@ -390,7 +401,10 @@
         "0": "Articuler par écrit le dilemme cannibal exact de chaque incumbent face à ton modèle",
         "1": "Verrouiller le différentiel de valeur tant que les incumbents ne peuvent pas répondre",
         "2": "Identifier le segment d'incumbent le plus exposé et accélérer l'acquisition là-dessus"
-      }
+      },
+      "whyMatters": "Le seul Power qui peut tuer un incumbent dominant. L'incumbent voit ton modèle, le considère, et CHOISIT volontairement de ne pas te suivre — parce que te copier le détruirait. Tu gagnes par défaut, pas par compétition directe. Le seul mécanisme où l'incumbent collabore à sa propre défaite.",
+      "pitfalls": "Penser que 'mon modèle est différent' suffit. Pour un vrai Counter-Positioning, l'incumbent doit avoir un revenue stream à PROTÉGER qui disparaîtrait s'il te copiait. Si l'incumbent peut te suivre sans douleur, ce n'est pas un Power — juste une innovation que tout le monde adopte.",
+      "deepDive": "Vanguard vs les fonds actifs : John Bogle a lancé l'index fund passif dans les années 70 avec des fees à 0.05%. Les incumbents (Fidelity, Goldman) avaient des fees actives à 1.5%+. Adopter le passif aurait cannibalisé leur revenue de plusieurs milliards. Vanguard a grandi à $7T+ AUM avant que les incumbents pivotent — trop tard."
     },
     "switching": {
       "step": "Power 4",
@@ -428,7 +442,10 @@
         "0": "Mesurer le coût de switch concret (temps, $, data perdue) pour ton user moyen et le rendre visible",
         "1": "Ajouter des features qui augmentent l'investissement du user (templates custom, intégrations, données accumulées)",
         "2": "Lever des switching costs spécifiques sur les segments les plus à risque de churn"
-      }
+      },
+      "whyMatters": "Le Power le plus mesurable : tu peux quantifier le coût du switch en heures, $, données perdues. Une fois élevé, il te permet de pricer 20-50% au-dessus du marché sans churn. Salesforce, Oracle, Workday — l'enterprise SaaS entière bâtie sur ce Power.",
+      "pitfalls": "Ne pas confondre 'mon user me trouve pratique' avec 'switching cost réel'. Test ultime : demande à un user de te quitter pour un concurrent gratuit + 2x meilleur. S'il le fait → tu n'as pas de switching costs. S'il dit 'trop de boulot, je reste' → là tu as un vrai Power.",
+      "deepDive": "Salesforce : un client moyen a 50+ intégrations actives (Slack, Marketo, Zendesk, etc.) après 2 ans. Migrer = repenser tous les workflows + perdre les données historiques + retraining équipes. Coût estimé : $200k-$2M par client mid-market. Résultat : 90%+ retention sur 10+ ans malgré des concurrents agressifs (HubSpot, Pipedrive)."
     },
     "branding": {
       "step": "Power 5",
@@ -466,7 +483,10 @@
         "0": "Mesurer le price premium réel vs concurrents équivalents (controlled comparison)",
         "1": "Investir dans le signal qualité le plus distinctif sur ton segment (sécurité, design, ingénierie, ton)",
         "2": "Protéger la marque sur ses points cardinaux — un brand miss coûte 10x plus à fixer qu'à éviter"
-      }
+      },
+      "whyMatters": "Le seul Power qui survit même quand le produit objectivement perd. La marque crée une perception qui dépasse les specs. Apple, Hermès, Coca-Cola, Stripe — décennies de premium pricing sans avantage technique mesurable. Tu vends de la confiance, pas une feature.",
+      "pitfalls": "Revendiquer Branding au stade Origination ou Takeoff. Helmer est explicite : Branding nécessite 5-10 ans d'investissement cohérent (hysteresis). Avant ce délai, ton 'cool brand' est juste un avantage de message qu'un concurrent peut copier en 6 mois avec un budget marketing.",
+      "deepDive": "Hermès : marque construite sur 180+ ans. Marges 60%+ sur les sacs Birkin alors que le coût matières/main d'œuvre est <$5k. Une nouvelle maison de couture peut produire un sac techniquement supérieur à $500 — elle ne capturera jamais le même prix car la brand IS le produit, pas le contenant. Impossible à répliquer en moins de 50 ans."
     },
     "cornered": {
       "step": "Power 6",
@@ -504,7 +524,10 @@
         "0": "Verrouiller juridiquement les exclusivités les plus stratégiques (audit IP, NDA, clauses non-circumvent)",
         "1": "Identifier le top talent dont la perte serait fatale et le protéger (equity, conditions)",
         "2": "Construire un moat 2nd order autour de l'asset (workflow, data architecture qui rend l'asset plus utile chez toi qu'ailleurs)"
-      }
+      },
+      "whyMatters": "Le Power le plus binaire : soit tu as l'asset, soit non. Pas de gradation. Quand tu l'as, tu es littéralement irremplaçable sur ce vertical. Brevets pharma, mines exclusives, licences réglementaires, talents irremplaçables — Cornered Resource sous différentes formes.",
+      "pitfalls": "Confondre 'cher à acquérir' avec 'cornered'. Un asset n'est pas cornered s'il est juste cher — il est cornered s'il est juridiquement ou structurellement UNIQUE. Un concurrent avec $100M peut acquérir un asset cher. Un concurrent avec $1B ne peut pas dupliquer un asset cornered (contrat exclusif signé hier).",
+      "deepDive": "Pixar avant Disney : John Lasseter + équipe créative ne pouvaient pas être 'embauchés ailleurs' — Steve Jobs les a verrouillés avec equity, culture, et leadership. Quand Disney a essayé de répliquer Pixar en interne, leurs propres films ont raté (Treasure Planet, etc.). La Cornered Resource = le talent humain dans une configuration culturelle non-réplicable."
     },
     "process": {
       "step": "Power 7",
@@ -542,7 +565,10 @@
         "0": "Documenter le process clé en interne (mais protéger les détails sensibles — éviter la fuite IP)",
         "1": "Mesurer le gap de performance vs concurrents sur 2-3 métriques clés et publier en marketing",
         "2": "Renforcer la transmission du process tacite (mentorat, post-mortems systématiques, culture engineering)"
-      }
+      },
+      "whyMatters": "Le Power le plus invisible et le plus durable. Le concurrent peut lire ta documentation, embaucher ton VP Eng — et continuer à échouer. Toyota, Aave, Anthropic — des décennies d'itérations qui s'accumulent en savoir tacite non-transférable, distribué sur des centaines de personnes.",
+      "pitfalls": "Penser que documenter le process = transférer le Power. Helmer insiste : si tu peux écrire ton process dans un manuel transmissible, ce n'est PAS du Process Power. Le vrai Process Power est la partie qui résiste à la documentation — la culture, l'intuition collective, les milliers de décisions micro qu'on prend sans réfléchir.",
+      "deepDive": "Toyota Production System : le livre est public depuis 30 ans. GM a embauché des ex-Toyota cadres dans les années 2000 pour copier. Résultat : ils ont implémenté les rituels (kaizen, andon cord) mais sans l'âme. Toyota produit toujours moins de défauts par véhicule, à 30%+ de marge supérieure. Le Process Power = la complexité tacite, pas les SOPs."
     }
   },
   "module1": {

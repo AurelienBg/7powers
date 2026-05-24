@@ -256,6 +256,11 @@
     }
   },
   "power": {
+    "deepDive": {
+      "whyMatters": { "label": "Why this Power matters" },
+      "pitfalls": { "label": "Pitfalls to avoid" },
+      "deepDive": { "label": "Detailed case study" }
+    },
     "helmerDefinition": "Helmer definition",
     "exampleFor": "Example for your sector ({sector})",
     "powerScore": "Power Strength Score",
@@ -314,7 +319,10 @@
         "0": "Precisely measure unit-cost gap vs. top 3 competitors",
         "1": "Publicly document unit economics to signal the Barrier",
         "2": "Accelerate volume acquisition on the steepest segment of the curve"
-      }
+      },
+      "whyMatters": "Historically the strongest Power. When your unit costs drop with volume, you create a structural asymmetry: you can lower prices where your competitor can't, without destroying your margin. Walmart, Amazon, AWS — all built on this.",
+      "pitfalls": "The classic trap: claiming Scale without the volume. Helmer says that before 10x your closest competitor, your cost advantage is marginal. Measure your unit cost vs top 3 competitors — if the gap is <15%, it's not yet a real Power, just a nascent economy of scale.",
+      "deepDive": "AWS: Bezos built Scale Economies over 15 years before serious competition. Massive data-center investments (~$25B before the first $1B in revenue). When GCP / Azure launched, AWS already had 50%+ unit-cost advantage. Even today, they can't match without burning cash for 10 years."
     },
     "network": {
       "step": "Power 2",
@@ -352,7 +360,10 @@
         "0": "Identify the precise network KPI (engagement, retention, per-user ARPU) and track it monthly",
         "1": "Reduce CAC on the segment where the network self-reinforces fastest",
         "2": "Lock down a network primitive (data format, integration) competitors can't easily replicate"
-      }
+      },
+      "whyMatters": "The hardest Power to break once activated. Each additional user reinforces value for ALL others, creating a virtuous cycle marketing incentives can't break. Facebook, LinkedIn, Visa — decades of Network surviving every attack.",
+      "pitfalls": "Confusing 'having users' with 'Network Effect activated'. Many products have users without any cross-user value (each user has their isolated experience). For a real Network Effect, ask yourself: at 10x users, what CONCRETELY improves for each user? If nothing, it's not Network.",
+      "deepDive": "Visa: a cardholder joins the network because it's accepted at 70M+ merchants. A merchant accepts Visa because 4B+ cardholders carry it. Virtuous cycle locked over 60+ years. Mastercard has its own distinct Network — a duopoly sustained by mutually-reinforcing Network Effects, never broken despite hundreds of challengers."
     },
     "counter": {
       "step": "Power 3",
@@ -390,7 +401,10 @@
         "0": "Articulate in writing the exact cannibalization dilemma each incumbent faces vs your model",
         "1": "Lock in the value differential while incumbents can't respond",
         "2": "Identify the most exposed incumbent segment and accelerate acquisition there"
-      }
+      },
+      "whyMatters": "The only Power that can kill a dominant incumbent. The incumbent sees your model, considers it, and VOLUNTARILY chooses not to follow you — because copying you would destroy them. You win by default, not by direct competition. The only mechanism where the incumbent collaborates in its own defeat.",
+      "pitfalls": "Thinking 'my model is different' is enough. For real Counter-Positioning, the incumbent must have a revenue stream to PROTECT that would disappear if they copied you. If the incumbent can follow you painlessly, it's not a Power — just an innovation everyone adopts.",
+      "deepDive": "Vanguard vs active funds: John Bogle launched the passive index fund in the '70s with fees at 0.05%. Incumbents (Fidelity, Goldman) had active fees at 1.5%+. Adopting passive would have cannibalized billions in revenue. Vanguard grew to $7T+ AUM before incumbents pivoted — too late."
     },
     "switching": {
       "step": "Power 4",
@@ -428,7 +442,10 @@
         "0": "Measure concrete switch cost (time, $, lost data) for your average user and surface it",
         "1": "Add features that grow user investment (custom templates, integrations, accumulated data)",
         "2": "Raise switching costs specifically on segments most at risk of churn"
-      }
+      },
+      "whyMatters": "The most measurable Power: you can quantify the switch cost in hours, $, lost data. Once high, it lets you price 20-50% above market without churn. Salesforce, Oracle, Workday — the entire enterprise SaaS built on this Power.",
+      "pitfalls": "Don't confuse 'my user finds me practical' with 'real switching cost'. Ultimate test: ask a user to leave you for a free + 2x-better competitor. If they do → no switching costs. If they say 'too much work, I'll stay' → there's a real Power.",
+      "deepDive": "Salesforce: average client has 50+ active integrations (Slack, Marketo, Zendesk, etc.) after 2 years. Migrating = rethinking all workflows + losing historical data + retraining teams. Estimated cost: $200k-$2M per mid-market client. Result: 90%+ retention over 10+ years despite aggressive competitors (HubSpot, Pipedrive)."
     },
     "branding": {
       "step": "Power 5",
@@ -466,7 +483,10 @@
         "0": "Measure the real price premium vs equivalent competitors (controlled comparison)",
         "1": "Invest in the most distinctive quality signal for your segment (security, design, engineering, tone)",
         "2": "Protect the brand on its cardinal points — a brand miss costs 10x more to fix than to avoid"
-      }
+      },
+      "whyMatters": "The only Power that survives even when the product objectively loses. The brand creates a perception that exceeds specs. Apple, Hermès, Coca-Cola, Stripe — decades of premium pricing without measurable technical advantage. You sell trust, not a feature.",
+      "pitfalls": "Claiming Branding at Origination or Takeoff stage. Helmer is explicit: Branding requires 5-10 years of consistent investment (hysteresis). Before that delay, your 'cool brand' is just a messaging advantage a competitor can copy in 6 months with a marketing budget.",
+      "deepDive": "Hermès: brand built over 180+ years. 60%+ margins on Birkin bags while materials/labor cost is <$5k. A new fashion house can produce a technically superior bag at $500 — it will never capture the same price because the brand IS the product, not the container. Impossible to replicate in under 50 years."
     },
     "cornered": {
       "step": "Power 6",
@@ -504,7 +524,10 @@
         "0": "Lock down the most strategic exclusivities legally (IP audit, NDA, non-circumvent clauses)",
         "1": "Identify top talent whose loss would be fatal and protect them (equity, terms)",
         "2": "Build a 2nd-order moat around the asset (workflow, data architecture that makes the asset more useful at your shop than elsewhere)"
-      }
+      },
+      "whyMatters": "The most binary Power: either you have the asset, or you don't. No gradation. When you have it, you're literally irreplaceable on that vertical. Pharma patents, exclusive mines, regulatory licenses, irreplaceable talent — Cornered Resource in different forms.",
+      "pitfalls": "Confusing 'expensive to acquire' with 'cornered'. An asset isn't cornered if it's just expensive — it's cornered if it's legally or structurally UNIQUE. A $100M competitor can acquire an expensive asset. A $1B competitor cannot duplicate a cornered asset (exclusive contract signed yesterday).",
+      "deepDive": "Pixar before Disney: John Lasseter + creative team couldn't be 'hired elsewhere' — Steve Jobs locked them in with equity, culture, and leadership. When Disney tried to replicate Pixar internally, their own films failed (Treasure Planet, etc.). The Cornered Resource = human talent in a culturally non-replicable configuration."
     },
     "process": {
       "step": "Power 7",
@@ -542,7 +565,10 @@
         "0": "Document the key process internally (but protect sensitive details — avoid IP leakage)",
         "1": "Measure the performance gap vs competitors on 2-3 key metrics and publish in marketing",
         "2": "Strengthen tacit-process transmission (mentorship, systematic post-mortems, engineering culture)"
-      }
+      },
+      "whyMatters": "The most invisible and most durable Power. A competitor can read your documentation, hire your VP Eng — and still fail. Toyota, Aave, Anthropic — decades of iterations accumulating into non-transferable tacit knowledge, distributed across hundreds of people.",
+      "pitfalls": "Thinking that documenting the process = transferring the Power. Helmer insists: if you can write your process in a transferable manual, it's NOT Process Power. Real Process Power is the part that resists documentation — the culture, the collective intuition, the thousands of micro-decisions made unconsciously.",
+      "deepDive": "Toyota Production System: the book has been public for 30 years. GM hired ex-Toyota executives in the 2000s to copy. Result: they implemented the rituals (kaizen, andon cord) but without the soul. Toyota still produces fewer defects per vehicle, at 30%+ higher margin. Process Power = tacit complexity, not the SOPs."
     }
   },
   "module1": {

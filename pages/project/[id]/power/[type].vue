@@ -160,11 +160,11 @@ function save() {
     </div>
 
     <!-- Definition + Example side-by-side -->
-    <section class="card p-4 mb-3">
+    <section class="card p-4 mb-3 space-y-3">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <div class="space-y-2">
           <p class="text-[10px] uppercase tracking-widest text-ink-mid">
-            {{ t('power.helmerDefinition') }}
+            <HelmerTooltip term="power">{{ t('power.helmerDefinition') }}</HelmerTooltip>
           </p>
           <p class="text-ink-high text-sm leading-relaxed">
             {{ t(`power.${powerType}.definition`) }}
@@ -181,6 +181,31 @@ function save() {
             {{ t(`power.${powerType}.examples.${sector}`) }}
           </p>
         </div>
+      </div>
+
+      <!-- Collapsible deep-dives -->
+      <div class="pt-3 border-t border-border-subtle space-y-1.5">
+        <details
+          v-for="key in ['whyMatters', 'pitfalls', 'deepDive']"
+          :key="key"
+          class="group"
+        >
+          <summary
+            class="flex items-center justify-between cursor-pointer
+                   px-2 py-1.5 rounded-md
+                   text-xs uppercase tracking-widest text-ink-mid
+                   hover:bg-bg-elevated transition-colors list-none"
+          >
+            <span class="flex items-center gap-2">
+              <span class="text-gold-bright">{{ key === 'whyMatters' ? '✦' : key === 'pitfalls' ? '!' : '◆' }}</span>
+              {{ t(`power.deepDive.${key}.label`) }}
+            </span>
+            <span class="text-ink-low transition-transform group-open:rotate-180">▾</span>
+          </summary>
+          <p class="text-sm text-ink-mid leading-relaxed px-2 pt-2 pb-1">
+            {{ t(`power.${powerType}.${key}`) }}
+          </p>
+        </details>
       </div>
     </section>
 
