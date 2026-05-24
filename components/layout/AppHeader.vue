@@ -93,7 +93,7 @@ function isActive(target: string): boolean {
             :to="localePath(item.to)"
             class="text-xs uppercase tracking-wider px-3 py-1.5 rounded-md transition-colors"
             :class="isActive(item.to)
-              ? 'text-ink-high bg-bg-elevated border border-border-subtle'
+              ? 'text-ink-high bg-accent-blue/10 border border-accent-blue/40'
               : 'text-ink-mid hover:text-ink-high hover:bg-bg-elevated/60'"
           >
             {{ t(item.labelKey) }}
