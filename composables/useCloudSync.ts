@@ -91,12 +91,16 @@ export function useCloudSync() {
           return
         }
         // Local exists but not yet pushed → push.
-        if (_status.value !== 'syncing') runPush()
+        if (_status.value !== 'syncing') {
+          console.log('[useCloudSync] logged in + unsynced local project → push')
+          runPush()
+        }
         return
       }
 
       // Logged in + empty local store → pull from cloud once per session.
       if (!_pullAttempted.value && _status.value !== 'syncing') {
+        console.log('[useCloudSync] logged in + empty local → pull from cloud')
         _pullAttempted.value = true
         runPull()
       }

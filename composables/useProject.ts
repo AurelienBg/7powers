@@ -135,13 +135,21 @@ export function useProject() {
   async function fetchFromCloud(): Promise<number> {
     if (!user.value) throw new Error('Not authenticated')
 
+    // Belt + suspenders: RLS already filters by user_id, but adding the
+    // explicit `.eq` here means a misconfigured policy can't silently
+    // return another user's projects.
     const { data: projects, error: pErr } = await supabase
       .from('projects')
       .select('id, name, sector, stage, description, market_size, created_at, updated_at')
+      .eq('user_id', user.value.id)
       .order('updated_at', { ascending: false })
       .returns<Pick<Project, 'id' | 'name' | 'sector' | 'stage' | 'description' | 'market_size' | 'created_at' | 'updated_at'>[]>()
 
-    if (pErr) throw pErr
+    if (pErr) {
+      console.error('[fetchFromCloud] projects query failed:', pErr)
+      throw pErr
+    }
+    console.log('[fetchFromCloud] received', projects?.length ?? 0, 'project(s) from Supabase')
     if (!projects || projects.length === 0) return 0
 
     // Stable local_id derived from the Supabase UUID so re-fetching the same
