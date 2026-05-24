@@ -187,7 +187,14 @@
       "title": "Votre moat est-il un Power, ou juste un head-start ?",
       "subtitle": "Helmer : Power = Benefit + Barrier. Sans Barrier, vous serez arbitré par le prochain concurrent bien financé. 7Powers stress-teste votre défensibilité en 90 minutes, par secteur et par stade. Pas de workshop. Pas de consultant.",
       "cta": "Commencer un assessment",
-      "continueExisting": "Reprendre mon projet"
+      "continueExisting": "Reprendre mon projet",
+      "secondaryCta": "Voir des exemples",
+      "trust": {
+        "time": "~30 min de bout en bout",
+        "noSignup": "Sans inscription",
+        "bilingual": "FR / EN",
+        "localFirst": "Local-first, sync optionnelle"
+      }
     },
     "how": {
       "heading": "Comment ça marche",
@@ -236,6 +243,21 @@
     "powersGrid": {
       "heading": "Les 7 Powers d'Helmer",
       "subheading": "Chaque Power = un mécanisme spécifique de défensibilité durable. La plupart des projets n'en ont que 2-3, et c'est normal."
+    },
+    "bridge": {
+      "examplesEyebrow": "Cas pratiques",
+      "examplesTitle": "12 entreprises décortiquées",
+      "examplesBody": "Netflix, Uniswap, Anthropic, Linear… Vois où se logent les vrais Powers, où les founders se trompent, et compare ton scoring.",
+      "examplesLink": "Parcourir la bibliothèque",
+      "learnEyebrow": "Méthodologie",
+      "learnTitle": "Les 7 Powers en détail",
+      "learnBody": "Lis la méthode complète : pourquoi Benefit+Barrier, le test 'Me too won\\'t do', le S-Curve, les pièges classiques.",
+      "learnLink": "Approfondir Helmer"
+    },
+    "bottomCta": {
+      "title": "Stress-teste ton moat maintenant",
+      "body": "30 minutes. Pas de workshop. Pas de consultant. Un radar défensibilité honnête.",
+      "secondary": "Voir d'abord des exemples"
     }
   },
   "login": {

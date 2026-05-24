@@ -59,10 +59,39 @@ const powers = [
         {{ t('landing.hero.subtitle') }}
       </p>
 
-      <div>
+      <!-- Dual CTA: primary action + low-friction "just browsing" path.
+           Reduces bounce from visitors who aren't ready to commit yet. -->
+      <div class="flex flex-wrap items-center gap-3">
         <NuxtLink :to="ctaTarget" class="btn-primary text-base !px-6 !py-3">
           {{ ctaLabel }}
         </NuxtLink>
+        <NuxtLink
+          :to="localePath('/examples')"
+          class="btn-ghost text-base !px-6 !py-3 inline-flex items-center gap-2"
+        >
+          <span>{{ t('landing.hero.secondaryCta') }}</span>
+          <span class="glyph">→</span>
+        </NuxtLink>
+      </div>
+
+      <!-- Trust strip — friction reducers visible above the fold -->
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-ink-low pt-2">
+        <span class="inline-flex items-center gap-1.5">
+          <span class="glyph text-accent-blue-bright">⏱</span>
+          {{ t('landing.hero.trust.time') }}
+        </span>
+        <span class="inline-flex items-center gap-1.5">
+          <span class="glyph text-accent-blue-bright">◇</span>
+          {{ t('landing.hero.trust.noSignup') }}
+        </span>
+        <span class="inline-flex items-center gap-1.5">
+          <span class="glyph text-accent-blue-bright">◐</span>
+          {{ t('landing.hero.trust.bilingual') }}
+        </span>
+        <span class="inline-flex items-center gap-1.5">
+          <span class="glyph text-accent-blue-bright">⬢</span>
+          {{ t('landing.hero.trust.localFirst') }}
+        </span>
       </div>
     </section>
 
@@ -131,25 +160,74 @@ const powers = [
       </div>
 
       <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-        <div
+        <NuxtLink
           v-for="power in powers"
           :key="power.key"
+          :to="localePath('/learn')"
           class="card-hover p-5 flex flex-col items-center gap-3 text-center"
         >
           <span class="glyph text-2xl text-accent-blue-bright">{{ power.glyph }}</span>
           <span class="text-xs text-ink-mid leading-tight">{{ t(`powers.${power.key}`) }}</span>
-        </div>
+        </NuxtLink>
       </div>
     </section>
 
-    <!-- BOTTOM CTA -->
-    <section class="card p-8 space-y-4 text-center">
+    <!-- ============================================================ -->
+    <!-- LEARN + EXAMPLES bridge — directly reuse the content built in -->
+    <!-- /learn and /examples. Two-card row for visual symmetry.       -->
+    <!-- ============================================================ -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <NuxtLink
+        :to="localePath('/examples')"
+        class="card p-6 hover:border-accent-blue/50 transition-colors space-y-2 block"
+      >
+        <p class="text-[10px] uppercase tracking-widest text-accent-blue-bright">
+          {{ t('landing.bridge.examplesEyebrow') }}
+        </p>
+        <h3 class="text-lg font-semibold text-ink-high">
+          {{ t('landing.bridge.examplesTitle') }}
+        </h3>
+        <p class="text-sm text-ink-mid">
+          {{ t('landing.bridge.examplesBody') }}
+        </p>
+        <p class="text-xs text-accent-blue-bright pt-1">→ {{ t('landing.bridge.examplesLink') }}</p>
+      </NuxtLink>
+
+      <NuxtLink
+        :to="localePath('/learn')"
+        class="card p-6 hover:border-gold/50 transition-colors space-y-2 block border-gold/20"
+      >
+        <p class="text-[10px] uppercase tracking-widest text-gold-bright">
+          {{ t('landing.bridge.learnEyebrow') }}
+        </p>
+        <h3 class="text-lg font-semibold text-ink-high">
+          {{ t('landing.bridge.learnTitle') }}
+        </h3>
+        <p class="text-sm text-ink-mid">
+          {{ t('landing.bridge.learnBody') }}
+        </p>
+        <p class="text-xs text-gold-bright pt-1">→ {{ t('landing.bridge.learnLink') }}</p>
+      </NuxtLink>
+    </section>
+
+    <!-- BOTTOM CTA — dual button (primary + secondary), no longer just
+         a flat repeat of the hero title. -->
+    <section class="card p-8 space-y-4 text-center border-accent-blue/30">
       <h2 class="text-xl font-semibold text-ink-high">
-        {{ t('landing.hero.title') }}
+        {{ t('landing.bottomCta.title') }}
       </h2>
-      <div class="pt-2">
+      <p class="text-sm text-ink-mid max-w-md mx-auto">
+        {{ t('landing.bottomCta.body') }}
+      </p>
+      <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
         <NuxtLink :to="ctaTarget" class="btn-primary text-base !px-6 !py-3">
           {{ ctaLabel }}
+        </NuxtLink>
+        <NuxtLink
+          :to="localePath('/examples')"
+          class="text-sm text-ink-mid hover:text-ink-high transition-colors underline-offset-2 hover:underline"
+        >
+          {{ t('landing.bottomCta.secondary') }}
         </NuxtLink>
       </div>
     </section>
