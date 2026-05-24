@@ -64,31 +64,19 @@ async function handleWallet() {
 }
 
 // ============================================================
-// Method-comparison tooltip — single popover shared by all three (?).
-// State holds which method's tooltip is open, or null.
+// Method-comparison tooltip — shows on HOVER over the (?) icon.
+// `hovered` holds which method (if any) is currently being inspected,
+// or null. Switched from click→toggle to mouseenter/mouseleave per
+// user feedback: clicking required two clicks to dismiss, while a
+// simple hover is the standard tooltip affordance.
 // ============================================================
 type Method = 'google' | 'magiclink' | 'wallet'
-const tooltipOpen = ref<Method | null>(null)
-
-function toggleTooltip(m: Method) {
-  tooltipOpen.value = tooltipOpen.value === m ? null : m
-}
-
-// Close on outside click.
-const rootEl = ref<HTMLElement | null>(null)
-function onDocClick(e: MouseEvent) {
-  if (!tooltipOpen.value) return
-  if (rootEl.value && !rootEl.value.contains(e.target as Node)) {
-    tooltipOpen.value = null
-  }
-}
-onMounted(() => document.addEventListener('click', onDocClick))
-onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
+const hovered = ref<Method | null>(null)
 </script>
 
 <template>
   <main class="mx-auto max-w-md px-6 py-24">
-    <div ref="rootEl" class="card p-8 space-y-6">
+    <div class="card p-8 space-y-6">
       <div class="flex items-center gap-3 text-ink-mid">
         <Logo :size="40" />
         <span class="tracking-widest text-xs uppercase">{{ t('app.name') }}</span>
@@ -135,13 +123,16 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
                      border border-border-subtle hover:border-accent-blue/40
                      text-xs font-semibold transition-colors shrink-0"
               :aria-label="t('login.methodInfo')"
-              @click.stop="toggleTooltip('google')"
+              @mouseenter="hovered = 'google'"
+              @mouseleave="hovered = null"
+              @focus="hovered = 'google'"
+              @blur="hovered = null"
             >
               ?
             </button>
           </div>
           <p
-            v-if="tooltipOpen === 'google'"
+            v-if="hovered === 'google'"
             class="mt-2 text-xs text-ink-mid leading-relaxed bg-bg-elevated border border-accent-blue/30 rounded-md px-3 py-2"
           >
             {{ t('login.methods.google') }}
@@ -169,13 +160,16 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
                        border border-border-subtle hover:border-accent-blue/40
                        text-[10px] font-semibold transition-colors shrink-0"
                 :aria-label="t('login.methodInfo')"
-                @click.stop="toggleTooltip('magiclink')"
+                @mouseenter="hovered = 'magiclink'"
+                @mouseleave="hovered = null"
+                @focus="hovered = 'magiclink'"
+                @blur="hovered = null"
               >
                 ?
               </button>
             </div>
             <p
-              v-if="tooltipOpen === 'magiclink'"
+              v-if="hovered === 'magiclink'"
               class="text-xs text-ink-mid leading-relaxed bg-bg-elevated border border-accent-blue/30 rounded-md px-3 py-2"
             >
               {{ t('login.methods.magiclink') }}
@@ -237,13 +231,16 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
                      border border-border-subtle hover:border-accent-blue/40
                      text-xs font-semibold transition-colors shrink-0"
               :aria-label="t('login.methodInfo')"
-              @click.stop="toggleTooltip('wallet')"
+              @mouseenter="hovered = 'wallet'"
+              @mouseleave="hovered = null"
+              @focus="hovered = 'wallet'"
+              @blur="hovered = null"
             >
               ?
             </button>
           </div>
           <p
-            v-if="tooltipOpen === 'wallet'"
+            v-if="hovered === 'wallet'"
             class="mt-2 text-xs text-ink-mid leading-relaxed bg-bg-elevated border border-accent-blue/30 rounded-md px-3 py-2"
           >
             {{ t('login.methods.wallet') }}

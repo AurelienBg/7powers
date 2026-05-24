@@ -39,25 +39,23 @@ onBeforeUnmount(() => {
 
 <template>
   <ClientOnly>
-    <!-- The <xrpl-wallet-connector> web component renders its OWN default
-         button + dropdown UI when present in the DOM. We don't want that
-         here — we trigger the modal programmatically via .open() from
-         useXrplWallet().connect(). The default button was hovering in the
-         page and intercepting clicks on adjacent nav links (e.g. clicking
-         "Apprendre" landed on the wallet modal instead).
-         Solution: position the element 1×1px off-screen with pointer-events
-         disabled, so the JS interface stays live but the rendered UI can't
-         catch any pointer events. The .open() call portals the modal to
-         fixed positioning on top of everything when actually needed. -->
-    <div
-      aria-hidden="true"
-      style="position: fixed; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; pointer-events: none;"
-    >
-      <xrpl-wallet-connector
-        ref="connectorEl"
-        primary-wallet="xaman"
-        background-color="#0a0a0f"
-      />
-    </div>
+    <!-- We hide the connector's default visible button via `display: none`
+         on the element itself. The Web Component's lifecycle still fires
+         (connectedCallback runs because the element is in the DOM tree),
+         JS APIs like .open() / .setWalletManager() remain callable, and
+         the modal it spawns on .open() is portaled to <body> with its
+         own fixed positioning so it's visible despite the element being
+         display:none.
+         Why we DON'T use a position:fixed wrapper anymore: that wrapper
+         created a containing block for descendant position:fixed elements,
+         which clamped the wallet picker modal AND broke the runtime
+         detection of installed extensions (Crossmark, GemWallet) — they
+         disappeared from the picker even when installed. -->
+    <xrpl-wallet-connector
+      ref="connectorEl"
+      primary-wallet="xaman"
+      background-color="#0a0a0f"
+      style="display: none"
+    />
   </ClientOnly>
 </template>
