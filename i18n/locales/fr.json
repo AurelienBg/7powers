@@ -576,7 +576,10 @@
       "expected": "Aligné",
       "mismatch": "Hors stade"
     },
-    "allRankedHeading": "Tous les Powers scorés"
+    "allRankedHeading": "Tous les Powers scorés",
+    "exportPdf": "Exporter en PDF",
+    "exportInProgress": "Génération…",
+    "exportFailed": "L'export PDF a échoué"
   },
   "dashboard": {
     "kicker": "Dashboard",

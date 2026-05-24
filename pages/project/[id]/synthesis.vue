@@ -49,16 +49,105 @@ const stageFitTable = computed(() => {
 const hasAnyAssessment = computed(() =>
   Object.values(assessments.value).some((a) => a && typeof a.score === 'number')
 )
+
+// ============================================================
+// PDF export
+// ============================================================
+
+const { locale } = useI18n()
+const isExporting = ref(false)
+const exportError = ref<string | null>(null)
+
+async function exportPdf() {
+  if (!currentProject.value || isExporting.value) return
+  isExporting.value = true
+  exportError.value = null
+
+  try {
+    // Build the payload: same project shape the server expects (sans local-only fields).
+    const payload = {
+      project: {
+        name: currentProject.value.name,
+        sector: currentProject.value.sector,
+        stage: currentProject.value.stage,
+        description: currentProject.value.description,
+        market_size: currentProject.value.market_size
+      },
+      assessments: Object.fromEntries(
+        Object.entries(assessments.value)
+          .filter(([, a]) => !!a)
+          .map(([k, a]) => [
+            k,
+            {
+              answers: a!.answers,
+              score: a!.score,
+              action_items: a!.action_items
+            }
+          ])
+      ),
+      locale: (locale.value as 'fr' | 'en') ?? 'fr',
+      generatedAt: new Date().toISOString()
+    }
+
+    const response = await fetch('/api/export-pdf', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+
+    if (!response.ok) {
+      const text = await response.text().catch(() => '')
+      throw new Error(`PDF export failed (${response.status}): ${text || response.statusText}`)
+    }
+
+    // Download the blob.
+    const blob = await response.blob()
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `7powers-${currentProject.value.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 60) || 'report'}.pdf`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  } catch (e) {
+    exportError.value = e instanceof Error ? e.message : 'Unknown export error'
+  } finally {
+    isExporting.value = false
+  }
+}
 </script>
 
 <template>
   <div v-if="currentProject" class="mx-auto max-w-6xl px-6 py-10 space-y-10">
     <!-- Header -->
-    <header class="space-y-2">
-      <p class="text-xs uppercase tracking-widest text-accent-blue-bright">{{ t('synthesis.step') }}</p>
-      <h1 class="text-3xl font-semibold text-ink-high">{{ t('synthesis.title') }}</h1>
-      <p class="text-ink-mid max-w-2xl">{{ t('synthesis.subtitle') }}</p>
+    <header class="flex items-start justify-between gap-4 flex-wrap">
+      <div class="space-y-2">
+        <p class="text-xs uppercase tracking-widest text-accent-blue-bright">{{ t('synthesis.step') }}</p>
+        <h1 class="text-3xl font-semibold text-ink-high">{{ t('synthesis.title') }}</h1>
+        <p class="text-ink-mid max-w-2xl">{{ t('synthesis.subtitle') }}</p>
+      </div>
+      <button
+        v-if="hasAnyAssessment"
+        type="button"
+        class="btn-primary !px-4 !py-2.5 text-sm inline-flex items-center gap-2 shrink-0"
+        :disabled="isExporting"
+        @click="exportPdf"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        <span>{{ isExporting ? t('synthesis.exportInProgress') : t('synthesis.exportPdf') }}</span>
+      </button>
     </header>
+
+    <!-- Export error (if any) -->
+    <div v-if="exportError" class="card p-3 border-red-500/30 bg-red-500/5">
+      <p class="text-xs text-red-300 mb-1">{{ t('synthesis.exportFailed') }}</p>
+      <p class="text-xs font-mono text-red-200 break-words">{{ exportError }}</p>
+    </div>
 
     <!-- Empty state -->
     <section v-if="!hasAnyAssessment" class="card p-10 text-center space-y-3">

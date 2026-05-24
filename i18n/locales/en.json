@@ -576,7 +576,10 @@
       "expected": "Aligned",
       "mismatch": "Off-stage"
     },
-    "allRankedHeading": "All scored Powers"
+    "allRankedHeading": "All scored Powers",
+    "exportPdf": "Export as PDF",
+    "exportInProgress": "Generating…",
+    "exportFailed": "PDF export failed"
   },
   "dashboard": {
     "kicker": "Dashboard",
