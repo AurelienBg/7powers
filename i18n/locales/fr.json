@@ -169,7 +169,15 @@
     "walletStatusOffline": "● Reconnexion requise",
     "walletUnlink": "Délier ce wallet",
     "assess": "Évaluer",
-    "examples": "Exemples"
+    "examples": "Exemples",
+    "walletLinkTooltip": "Connecte ton wallet XRPL pour l'associer à ton compte 7Powers",
+    "walletWhatIsThis": "Qu'est-ce que c'est ?",
+    "walletInfoTitle": "Lier un wallet XRPL — c'est quoi ?",
+    "walletInfoBody": "L'XRP Ledger (XRPL) est un protocole blockchain. Lier ton wallet attache ton adresse à ton compte 7Powers (rien de plus, pas de transaction signée).",
+    "walletInfoBullet1": "Gratuit, aucun frais on-chain",
+    "walletInfoBullet2": "Aucune signature qui dépense des fonds",
+    "walletInfoBullet3": "Tu peux délier à tout moment",
+    "walletInfoFootnote": "Optionnel. Sert pour les features Web3 à venir (signe ton scoring on-chain, partage public via adresse, gating de cohortes…). Pas Web3 ? Ignore en toute sérénité."
   },
   "sidebar": {
     "newProject": "Nouveau projet",

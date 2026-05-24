@@ -4,8 +4,16 @@
  * inside a <ClientOnly> guard (the element registers itself at import time
  * and would crash SSR otherwise).
  *
- * Mounted once globally from the default layout. UI surfaces (the header
- * chip, eventual /account page) trigger it via useXrplWallet().connect().
+ * Mounted once globally from app.vue. UI surfaces (the header chip, the
+ * sidebar footer chip, eventual /account page) trigger it via
+ * useXrplWallet().connect().
+ *
+ * ⚠ Mount timing: <ClientOnly> defers its children's render until AFTER
+ * the parent's onMounted fires. So `connectorEl.value` is still null in
+ * onMounted. We watch the ref instead so registration happens the moment
+ * the custom element actually lands in the DOM. Calling registerConnector
+ * too early (before the element exists) is the root cause of the
+ * "click 'Link wallet' does nothing" bug.
  */
 const { registerConnector } = useXrplWallet()
 
@@ -13,10 +21,16 @@ const { registerConnector } = useXrplWallet()
 // doesn't know about the connector's custom methods (open/close/setWalletManager).
 const connectorEl = ref<HTMLElement | null>(null)
 
-onMounted(() => {
-  // Re-cast to the specific shape via unknown to satisfy TS strict mode.
-  registerConnector(connectorEl.value as unknown as Parameters<typeof registerConnector>[0])
-})
+// Wait for the ref to become non-null (post-ClientOnly hydration) instead
+// of binding in onMounted. Triggers immediately if the element is already
+// present at watch-creation time.
+watch(connectorEl, (el) => {
+  if (el) {
+    registerConnector(el as unknown as Parameters<typeof registerConnector>[0])
+  } else {
+    registerConnector(null)
+  }
+}, { immediate: true })
 
 onBeforeUnmount(() => {
   registerConnector(null)

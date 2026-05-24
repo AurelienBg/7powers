@@ -60,21 +60,33 @@ export function useXrplWallet() {
     _connectorEl.value = el
     if (el && state?.manager) {
       el.setWalletManager(state.manager)
+      console.log('[useXrplWallet] connector element registered + wallet manager attached')
+    } else if (!el) {
+      console.log('[useXrplWallet] connector element unregistered')
     }
   }
 
   /** Open the wallet selection modal. */
   function connect() {
-    if (!state) return
+    if (!state) {
+      console.warn('[useXrplWallet] no state — plugin not initialized (server-side?)')
+      return
+    }
     state.connecting = true
     state.error = null
     if (!_connectorEl.value) {
       // The layout always mounts the connector — if we get here, something
       // upstream is broken. Reset the spinner so the UI isn't stuck.
       state.connecting = false
-      console.warn('[useXrplWallet] connector element not mounted yet')
+      console.warn('[useXrplWallet] connector element not mounted yet — click was a no-op')
       return
     }
+    if (typeof _connectorEl.value.open !== 'function') {
+      state.connecting = false
+      console.error('[useXrplWallet] connector element has no .open() method', _connectorEl.value)
+      return
+    }
+    console.log('[useXrplWallet] opening wallet picker…')
     _connectorEl.value.open()
   }
 

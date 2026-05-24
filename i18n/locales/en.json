@@ -169,7 +169,15 @@
     "walletStatusOffline": "● Reconnect needed",
     "walletUnlink": "Unlink this wallet",
     "assess": "Assess",
-    "examples": "Examples"
+    "examples": "Examples",
+    "walletLinkTooltip": "Connect your XRPL wallet to associate it with your 7Powers account",
+    "walletWhatIsThis": "What's this?",
+    "walletInfoTitle": "Link an XRPL wallet — what is it?",
+    "walletInfoBody": "XRP Ledger (XRPL) is a blockchain protocol. Linking your wallet attaches your address to your 7Powers account (nothing more — no transaction is signed).",
+    "walletInfoBullet1": "Free, no on-chain fees",
+    "walletInfoBullet2": "No signature that spends funds",
+    "walletInfoBullet3": "Unlink anytime",
+    "walletInfoFootnote": "Optional. Used for upcoming Web3 features (on-chain proof of scoring, public sharing by address, cohort gating…). Not into Web3? Safe to ignore."
   },
   "sidebar": {
     "newProject": "New project",
