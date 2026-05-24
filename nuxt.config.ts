@@ -100,10 +100,13 @@ export default defineNuxtConfig({
     // Per spec § 4.3: Sonnet 4 by default. Bump when newer Sonnet ships.
     anthropicModel: process.env.ANTHROPIC_MODEL ?? 'claude-sonnet-4-20250514',
     public: {
-      // xrpl-connect / Xaman adapter. Override on Vercel via:
-      //   NUXT_PUBLIC_XAMAN_API_KEY     (Xaman / Xumm Developer Console)
-      //   NUXT_PUBLIC_XRPL_NETWORK      'mainnet' | 'testnet' | 'devnet' (defaults mainnet)
+      // xrpl-connect — Xaman + Crossmark + GemWallet (no keys) +
+      // WalletConnect (optional). Override on Vercel via:
+      //   NUXT_PUBLIC_XAMAN_API_KEY              Xaman Developer Console
+      //   NUXT_PUBLIC_WALLETCONNECT_PROJECT_ID   https://cloud.walletconnect.com
+      //   NUXT_PUBLIC_XRPL_NETWORK               'mainnet' | 'testnet' | 'devnet' (defaults mainnet)
       xamanApiKey: process.env.NUXT_PUBLIC_XAMAN_API_KEY ?? '',
+      walletConnectProjectId: process.env.NUXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? '',
       xrplNetwork: process.env.NUXT_PUBLIC_XRPL_NETWORK ?? 'mainnet'
     }
   }

@@ -13,8 +13,14 @@
  * See composables/useXrplWallet.ts for the reactive façade consumed by
  * components, and components/wallet/* for the UI.
  */
-import { WalletManager, XamanAdapter } from 'xrpl-connect'
-import type { AccountInfo, WalletError } from 'xrpl-connect'
+import {
+  WalletManager,
+  XamanAdapter,
+  CrossmarkAdapter,
+  GemWalletAdapter,
+  WalletConnectAdapter
+} from 'xrpl-connect'
+import type { AccountInfo, WalletError, WalletAdapter } from 'xrpl-connect'
 
 export interface XrplWalletState {
   manager: WalletManager | null
@@ -29,6 +35,7 @@ export interface XrplWalletState {
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
   const xamanApiKey = config.public.xamanApiKey as string
+  const walletConnectProjectId = config.public.walletConnectProjectId as string
   const network = config.public.xrplNetwork as 'mainnet' | 'testnet' | 'devnet'
 
   // Reactive state shared via provide(). Components read this through
@@ -41,11 +48,28 @@ export default defineNuxtPlugin(() => {
     connecting: false
   })
 
-  // If no API key is configured (eg. local dev without .env), still build the
-  // manager so the rest of the UI doesn't crash — but the Xaman flow will
-  // fail loudly at connect time, which is the correct behavior.
+  // Build the adapter list. The four wallets supported by xrpl-connect:
+  //   - Xaman      : mobile-first, dominant XRPL wallet → QR flow, needs API key
+  //   - Crossmark  : Chrome extension, fast desktop UX, no key
+  //   - GemWallet  : Chrome extension, smaller user base, no key
+  //   - WalletConnect : standard cross-wallet, needs a project id from
+  //                     https://cloud.walletconnect.com — only included if
+  //                     the env var is set (otherwise the connector would
+  //                     show a broken option in the modal).
+  const adapters: WalletAdapter[] = [
+    new XamanAdapter({ apiKey: xamanApiKey || '' }),
+    new CrossmarkAdapter(),
+    new GemWalletAdapter()
+  ]
+  if (walletConnectProjectId) {
+    adapters.push(new WalletConnectAdapter({ projectId: walletConnectProjectId }))
+  }
+
+  // If no Xaman API key is configured (eg. local dev without .env), still
+  // build the manager so the rest of the UI doesn't crash — the Xaman flow
+  // will fail loudly at connect time, which is the correct behavior.
   const manager = new WalletManager({
-    adapters: [new XamanAdapter({ apiKey: xamanApiKey || '' })],
+    adapters,
     network,
     // Auto-restore the previous wallet session from localStorage on page
     // load. Listeners MUST be attached before this fires (the manager emits
