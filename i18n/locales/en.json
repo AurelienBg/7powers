@@ -6,6 +6,54 @@
   "common": {
     "saveAndContinue": "Save and continue → {next}"
   },
+  "helmerTerms": {
+    "close": "Close",
+    "power": {
+      "title": "Power (per Helmer)",
+      "body": "A Power is a defensibility mechanism that MANDATORILY combines both a Benefit (cash-flow ↑) AND a Barrier (anti-arbitrage). Without both, it's just a temporary advantage.",
+      "example": "Aave has a Benefit (premium pricing on lending) AND a Barrier (Process Power + Switching Costs on LP positions). → it's a real Power."
+    },
+    "benefit": {
+      "title": "Benefit",
+      "body": "The measurable cash-flow improvement: price ↑, cost ↓, or investment ↓. Must be quantifiable, not just intuition.",
+      "example": "Uniswap: at $1B TVL, slippage is 30% lower than competitors → capturable premium fee."
+    },
+    "barrier": {
+      "title": "Barrier",
+      "body": "The wall that prevents a competitor from arbitraging your Benefit. This is what turns a simple advantage into a durable Power.",
+      "example": "Branding: it takes 5-10 years + millions $ to match Anthropic's brand. A challenger can't shortcut that time."
+    },
+    "sCurve": {
+      "title": "S-Curve (3 stages)",
+      "body": "Helmer distinguishes 3 life stages of a company: Origination (pre-PMF), Takeoff (PMF + scaling), Stability (mature). Each Power builds at a different stage.",
+      "example": "Branding builds at Stability (hysteresis). Counter-Positioning at Origination. Scale at Takeoff."
+    },
+    "meToo": {
+      "title": "Me-too test",
+      "body": "The ultimate test: 'would an identical, well-funded competitor ($50M) fail to match in 18 months?' If yes, your Barrier holds. If no, it's not a Power.",
+      "example": "A Uniswap fork can copy the code, but can't match the TVL — the Scale Economies Power holds."
+    },
+    "hysteresis": {
+      "title": "Hysteresis",
+      "body": "The inevitable delay between investment and effect. Central concept for Branding and Process Power: it takes 5-10+ years for a brand to settle in or a process to take root.",
+      "example": "Stripe invested in developer trust for 10 years before being perceived as the reference. A competitor spending $50M in marketing tomorrow can't replicate that perception instantly."
+    },
+    "top3": {
+      "title": "Top 3 Powers",
+      "body": "Helmer is clear: durable businesses have 2-3 Powers, not 7. Defensibility depends on your strongest Powers, not your average.",
+      "example": "Microsoft has Scale + Switching + Process. Apple has Branding + Switching + Cornered Resource (talent + supply chain)."
+    },
+    "defensibility": {
+      "title": "Defensibility Score",
+      "body": "Global score 0-100 = (top 3 Powers × 0.7) + (Market × 0.3). Market is weighted because Value = Market × Power: a strong Power on a micro-market yields micro-value.",
+      "example": "Top 3 at 80/100 + Market at 60/100 = 80×0.7 + 60×0.3 = 74/100."
+    },
+    "valueFormula": {
+      "title": "Value = Market × Power",
+      "body": "Helmer's central formula. A company's value is the product of its market size AND the strength of its Powers. Both matter — not one without the other.",
+      "example": "A perfect Power on a $10M market is worth little. An average Power on a $100B market can be huge."
+    }
+  },
   "nav": {
     "home": "Home",
     "dashboard": "My projects",

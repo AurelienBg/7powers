@@ -6,6 +6,54 @@
   "common": {
     "saveAndContinue": "Sauvegarder et continuer → {next}"
   },
+  "helmerTerms": {
+    "close": "Fermer",
+    "power": {
+      "title": "Power (selon Helmer)",
+      "body": "Un Power est un mécanisme de défensibilité qui combine OBLIGATOIREMENT un Benefit (cash-flow ↑) ET une Barrier (anti-arbitrage). Sans les deux, c'est juste un avantage temporaire.",
+      "example": "Aave a un Benefit (premium pricing sur le lending) ET une Barrier (Process Power + Switching Costs sur les positions LP). → c'est un vrai Power."
+    },
+    "benefit": {
+      "title": "Benefit",
+      "body": "Le bénéfice cash-flow mesurable : prix ↑, coût ↓, ou investissement ↓. Doit être quantifiable, pas une intuition.",
+      "example": "Uniswap : à 1B$ TVL, slippage 30% plus bas que les concurrents → premium fee capturable."
+    },
+    "barrier": {
+      "title": "Barrier",
+      "body": "Le mur qui empêche un concurrent d'arbitrer ton Benefit. C'est ce qui transforme un simple avantage en Power durable.",
+      "example": "Branding : il faut 5-10 ans + millions $ pour égaler la marque Anthropic. Un challenger ne peut pas court-circuiter ce temps."
+    },
+    "sCurve": {
+      "title": "S-Curve (3 stades)",
+      "body": "Helmer distingue 3 stades de vie d'une entreprise : Origination (pré-PMF), Takeoff (PMF + scaling), Stability (mature). Chaque Power se construit à un stade différent.",
+      "example": "Branding se construit en Stability (hysteresis). Counter-Positioning en Origination. Scale en Takeoff."
+    },
+    "meToo": {
+      "title": "Me-too test",
+      "body": "Le test ultime : « un concurrent identique-bien-financé (50M$) échouerait-il à matcher en 18 mois ? » Si oui, ta Barrier tient. Si non, ce n'est pas un Power.",
+      "example": "Un fork de Uniswap peut copier le code, mais pas matcher la TVL — le Power Scale Economies tient."
+    },
+    "hysteresis": {
+      "title": "Hysteresis",
+      "body": "Le délai inéluctable qui sépare l'investissement de l'effet. Concept central pour Branding et Process Power : il faut 5-10+ ans pour qu'une marque s'installe ou qu'un process s'enracine.",
+      "example": "Stripe a investi en developer trust pendant 10 ans avant d'être perçu comme la référence. Un concurrent qui paie 50M$ en marketing demain ne réplique pas instantanément cette perception."
+    },
+    "top3": {
+      "title": "Top 3 Powers",
+      "body": "Helmer dit clairement : les entreprises durables ont 2-3 Powers, pas 7. La défensibilité dépend de tes Powers les plus solides, pas de ta moyenne.",
+      "example": "Microsoft a Scale + Switching + Process. Apple a Branding + Switching + Cornered Resource (talent + supply chain)."
+    },
+    "defensibility": {
+      "title": "Defensibility Score",
+      "body": "Score global 0-100 = (top 3 Powers × 0.7) + (Market × 0.3). On pondère le marché car Value = Market × Power : un Power fort sur un micro-marché donne micro-value.",
+      "example": "Top 3 à 80/100 + Market à 60/100 = 80×0.7 + 60×0.3 = 74/100."
+    },
+    "valueFormula": {
+      "title": "Value = Market × Power",
+      "body": "La formule centrale d'Helmer. La valeur d'une entreprise est le produit de la taille de son marché ET de la solidité de ses Powers. Les deux comptent — pas l'un sans l'autre.",
+      "example": "Un Power parfait sur un marché de 10M$ vaut peu. Un Power moyen sur un marché de 100B$ peut être énorme."
+    }
+  },
   "nav": {
     "home": "Accueil",
     "dashboard": "Mes projets",

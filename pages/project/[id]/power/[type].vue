@@ -187,7 +187,9 @@ function save() {
     <!-- Live score -->
     <div class="card p-4 mb-4 flex items-center justify-between gap-6">
       <div class="space-y-1">
-        <p class="text-xs uppercase tracking-wider text-ink-mid">{{ t('power.powerScore') }}</p>
+        <p class="text-xs uppercase tracking-wider text-ink-mid">
+          <HelmerTooltip term="power">{{ t('power.powerScore') }}</HelmerTooltip>
+        </p>
         <p class="text-xs text-ink-low">{{ scoreBand.label }}</p>
       </div>
       <div class="flex items-baseline gap-2">
@@ -266,7 +268,7 @@ function save() {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <div class="space-y-2">
             <label for="benefit" class="text-sm font-medium text-ink-high">
-              {{ t('power.benefitLabel') }}
+              <HelmerTooltip term="benefit">{{ t('power.benefitLabel') }}</HelmerTooltip>
             </label>
             <p class="text-xs text-ink-mid">{{ t('power.benefitHint') }}</p>
             <textarea
@@ -283,7 +285,7 @@ function save() {
 
           <div class="space-y-2">
             <label for="barrier" class="text-sm font-medium text-ink-high">
-              {{ t('power.barrierLabel') }}
+              <HelmerTooltip term="barrier">{{ t('power.barrierLabel') }}</HelmerTooltip>
             </label>
             <p class="text-xs text-ink-mid">{{ t('power.barrierHint') }}</p>
             <textarea

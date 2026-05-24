@@ -181,7 +181,9 @@ async function exportPdf() {
       <!-- Top Powers -->
       <section class="space-y-4">
         <div class="space-y-1">
-          <h2 class="text-xs uppercase tracking-widest text-ink-mid">{{ t('synthesis.topPowersHeading') }}</h2>
+          <h2 class="text-xs uppercase tracking-widest text-ink-mid">
+            <HelmerTooltip term="top3">{{ t('synthesis.topPowersHeading') }}</HelmerTooltip>
+          </h2>
           <p class="text-xs text-ink-low max-w-2xl">{{ t('synthesis.topPowersSubtitle') }}</p>
         </div>
         <div v-if="top3.length > 0" class="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -257,7 +259,9 @@ async function exportPdf() {
       <!-- Stage fit table -->
       <section class="space-y-4">
         <div class="space-y-1">
-          <h2 class="text-xs uppercase tracking-widest text-ink-mid">{{ t('synthesis.stageFitHeading') }}</h2>
+          <h2 class="text-xs uppercase tracking-widest text-ink-mid">
+            <HelmerTooltip term="sCurve">{{ t('synthesis.stageFitHeading') }}</HelmerTooltip>
+          </h2>
           <p class="text-xs text-ink-low max-w-2xl">
             {{ t('synthesis.stageFitSubtitle', { stage: t(`stages.${currentProject.stage}`) }) }}
           </p>

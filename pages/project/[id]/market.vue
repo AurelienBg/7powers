@@ -71,7 +71,9 @@ function save() {
   <main v-if="currentProject" class="mx-auto max-w-3xl px-6 py-12">
     <div class="space-y-2 mb-2">
       <p class="text-xs uppercase tracking-widest text-accent-blue-bright">{{ t('module1.step') }}</p>
-      <h1 class="text-3xl font-semibold text-ink-high">{{ t('module1.title') }}</h1>
+      <h1 class="text-3xl font-semibold text-ink-high">
+        <HelmerTooltip term="valueFormula">{{ t('module1.title') }}</HelmerTooltip>
+      </h1>
       <p class="text-ink-mid max-w-2xl">{{ t('module1.subtitle') }}</p>
     </div>
 

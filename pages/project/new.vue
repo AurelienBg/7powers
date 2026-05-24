@@ -136,7 +136,7 @@ async function submit() {
       <div class="space-y-3">
         <div class="space-y-1">
           <label class="text-xs uppercase tracking-wider text-ink-mid">
-            {{ t('module0.stageLabel') }}
+            <HelmerTooltip term="sCurve">{{ t('module0.stageLabel') }}</HelmerTooltip>
           </label>
           <p class="text-xs text-ink-low">{{ t('module0.stageHint') }}</p>
         </div>

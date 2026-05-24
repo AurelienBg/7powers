@@ -34,7 +34,9 @@ const bandLabel = computed(() => {
 <template>
   <div class="card p-6 space-y-5">
     <div class="space-y-1">
-      <p class="text-xs uppercase tracking-widest text-ink-mid">{{ t('synthesis.defensibilityHeading') }}</p>
+      <p class="text-xs uppercase tracking-widest text-ink-mid">
+        <HelmerTooltip term="defensibility">{{ t('synthesis.defensibilityHeading') }}</HelmerTooltip>
+      </p>
       <p class="text-xs text-ink-low">{{ bandLabel }}</p>
     </div>
 
