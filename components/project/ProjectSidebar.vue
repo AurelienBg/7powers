@@ -131,11 +131,10 @@ watch(() => route.path, () => {
            transition-transform duration-200 ease-out"
     :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
   >
-    <!-- "New project" — primary action that belongs in the project
-         context (the topbar's "Assess" link lands on /dashboard which
-         already exposes its own +new button). Kept here for one-click
-         access from inside an existing project. -->
-    <div class="px-3 pt-3 pb-1.5">
+    <!-- Top actions: New project (primary CTA) + Dashboard (back-to-list).
+         The topbar already has 'Assess → /dashboard' but inside a project
+         users expect a sidebar shortcut too — keeps them in-context. -->
+    <div class="px-3 pt-3 pb-1.5 space-y-1">
       <NuxtLink
         :to="localePath('/project/new')"
         class="flex items-center justify-center gap-2 w-full px-3 py-1.5 rounded-lg
@@ -144,6 +143,17 @@ watch(() => route.path, () => {
       >
         <span>+</span>
         <span>{{ t('sidebar.newProject') }}</span>
+      </NuxtLink>
+      <NuxtLink
+        :to="localePath('/dashboard')"
+        class="flex items-center justify-between w-full px-3 py-1.5 rounded-lg text-sm
+               text-ink-mid hover:text-ink-high hover:bg-bg-card transition-colors"
+      >
+        <span class="flex items-center gap-2">
+          <span class="glyph text-xs">▦</span>
+          <span>{{ t('sidebar.allProjects') }}</span>
+        </span>
+        <span class="text-xs text-ink-low tabular-nums">{{ projectList.length }}</span>
       </NuxtLink>
     </div>
 

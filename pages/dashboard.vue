@@ -194,21 +194,22 @@ function handleDuplicate(p: LocalProject) {
           <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-bg-elevated text-ink-mid border border-border-subtle">
             {{ t(`stages.${p.stage}`) }}
           </span>
-          <!-- Sync status: small cloud glyph with a custom hover tooltip.
-               Native `title` was too easy to miss / too terse — users had
-               no idea what the cloud meant. The CSS-only popover below
-               appears reliably on hover/focus and explains in plain words. -->
+          <!-- Sync status: small cloud glyph with a hover tooltip.
+               Uses a NAMED group (group/sync) so the tooltip only triggers
+               on the cloud span itself, not on the card-wide .group ancestor
+               that also exists on this card. Without the name, group-hover
+               was matching the card and the tooltip popped on any card hover. -->
           <span
             v-if="isProjectSynced(p)"
-            class="relative group text-[10px] text-ink-low ml-0.5 select-none
+            class="relative group/sync text-[10px] text-ink-low ml-0.5 select-none
                    cursor-help focus:outline-none"
             tabindex="0"
             :aria-label="t('dashboard.syncTooltip')"
           >
             ☁
             <span
-              class="invisible opacity-0 group-hover:visible group-hover:opacity-100
-                     group-focus:visible group-focus:opacity-100
+              class="invisible opacity-0 group-hover/sync:visible group-hover/sync:opacity-100
+                     group-focus/sync:visible group-focus/sync:opacity-100
                      transition-opacity duration-150
                      absolute left-1/2 -translate-x-1/2 top-full mt-1.5 z-20
                      w-56 px-2.5 py-1.5 rounded-md
