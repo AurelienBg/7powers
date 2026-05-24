@@ -159,18 +159,18 @@ watch(() => route.path, () => {
     :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
   >
     <!-- Brand -->
-    <div class="px-5 py-4 border-b border-border-subtle">
+    <div class="px-5 py-3 border-b border-border-subtle">
       <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5">
-        <Logo :size="24" />
+        <Logo :size="22" />
         <span class="font-semibold tracking-tight">{{ t('app.name') }}</span>
       </NuxtLink>
     </div>
 
     <!-- New project + All projects -->
-    <div class="px-3 pt-3 pb-2 space-y-1">
+    <div class="px-3 pt-2 pb-1.5 space-y-0.5">
       <NuxtLink
         :to="localePath('/project/new')"
-        class="flex items-center justify-center gap-2 w-full px-3 py-2 rounded-lg
+        class="flex items-center justify-center gap-2 w-full px-3 py-1.5 rounded-lg
                bg-accent-blue text-white text-sm font-medium
                hover:bg-accent-blue-bright transition-colors"
       >
@@ -181,7 +181,7 @@ watch(() => route.path, () => {
       <NuxtLink
         v-if="isAuthenticated"
         :to="localePath('/dashboard')"
-        class="flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm
+        class="flex items-center justify-between w-full px-3 py-1.5 rounded-lg text-sm
                text-ink-mid hover:text-ink-high hover:bg-bg-card transition-colors"
       >
         <span class="flex items-center gap-2">
@@ -193,10 +193,10 @@ watch(() => route.path, () => {
     </div>
 
     <!-- Project list + current project expanded -->
-    <div class="flex-1 overflow-y-auto px-3 py-2 space-y-1">
+    <div class="flex-1 overflow-y-auto px-3 py-1.5 space-y-1">
       <!-- Current project: expanded with modules nav -->
-      <div v-if="currentProject" class="space-y-1">
-        <div class="flex items-center gap-2 px-2 py-1.5">
+      <div v-if="currentProject" class="space-y-0.5">
+        <div class="flex items-center gap-2 px-2 py-1">
           <span
             class="w-6 h-6 rounded flex items-center justify-center text-xs font-medium
                    bg-accent-blue/20 text-accent-blue-bright"
@@ -213,13 +213,13 @@ watch(() => route.path, () => {
         </div>
 
         <!-- Module nav (3 sections) -->
-        <div class="pl-2 space-y-3 pt-1">
+        <div class="pl-2 space-y-2 pt-0.5">
           <!-- SETUP section -->
           <div class="space-y-0.5">
             <p class="text-[10px] uppercase tracking-widest text-ink-low px-2">{{ t('sidebar.setupSection') }}</p>
             <NuxtLink
               :to="localePath(`/project/${currentProject.local_id}`)"
-              class="flex items-center justify-between px-2 py-1.5 rounded text-sm transition-colors"
+              class="flex items-center justify-between px-2 py-1 rounded text-sm transition-colors"
               :class="isActive(`/project/${currentProject.local_id}`)
                 ? 'bg-accent-blue/15 text-ink-high border-l-2 border-accent-blue'
                 : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
@@ -231,7 +231,7 @@ watch(() => route.path, () => {
             </NuxtLink>
             <NuxtLink
               :to="localePath(`/project/${currentProject.local_id}/market`)"
-              class="flex items-center justify-between px-2 py-1.5 rounded text-sm transition-colors"
+              class="flex items-center justify-between px-2 py-1 rounded text-sm transition-colors"
               :class="isActive(`/project/${currentProject.local_id}/market`)
                 ? 'bg-accent-blue/15 text-ink-high border-l-2 border-accent-blue'
                 : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
@@ -254,7 +254,7 @@ watch(() => route.path, () => {
               <NuxtLink
                 v-if="IMPLEMENTED_POWERS.includes(power)"
                 :to="localePath(`/project/${currentProject.local_id}/power/${power}`)"
-                class="flex items-center justify-between px-2 py-1.5 rounded text-sm transition-colors"
+                class="flex items-center justify-between px-2 py-1 rounded text-sm transition-colors"
                 :class="isActive(`/project/${currentProject.local_id}/power/${power}`)
                   ? 'bg-accent-blue/15 text-ink-high border-l-2 border-accent-blue'
                   : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
@@ -273,7 +273,7 @@ watch(() => route.path, () => {
 
               <div
                 v-else
-                class="flex items-center justify-between px-2 py-1.5 rounded text-sm text-ink-low opacity-60 cursor-not-allowed"
+                class="flex items-center justify-between px-2 py-1 rounded text-sm text-ink-low opacity-60 cursor-not-allowed"
                 :title="t('hub.comingSoon')"
               >
                 <span class="flex items-center gap-2">
@@ -290,7 +290,7 @@ watch(() => route.path, () => {
             <p class="text-[10px] uppercase tracking-widest text-ink-low px-2">{{ t('sidebar.synthesisSection') }}</p>
             <NuxtLink
               :to="localePath(`/project/${currentProject.local_id}/synthesis`)"
-              class="flex items-center justify-between px-2 py-1.5 rounded text-sm transition-colors"
+              class="flex items-center justify-between px-2 py-1 rounded text-sm transition-colors"
               :class="isActive(`/project/${currentProject.local_id}/synthesis`)
                 ? 'bg-accent-blue/15 text-ink-high border-l-2 border-accent-blue'
                 : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
@@ -305,13 +305,13 @@ watch(() => route.path, () => {
       </div>
 
       <!-- Other projects: collapsed -->
-      <div v-if="otherProjects.length > 0" class="pt-4 space-y-0.5 border-t border-border-subtle mt-3">
+      <div v-if="otherProjects.length > 0" class="pt-3 space-y-0.5 border-t border-border-subtle mt-2">
         <p class="text-[10px] uppercase tracking-widest text-ink-low px-2 mb-1">{{ t('sidebar.otherProjects') }}</p>
         <button
           v-for="p in otherProjects"
           :key="p.local_id"
           type="button"
-          class="flex items-center gap-2 w-full px-2 py-1.5 rounded text-sm
+          class="flex items-center gap-2 w-full px-2 py-1 rounded text-sm
                  text-ink-mid hover:text-ink-high hover:bg-bg-card transition-colors text-left"
           @click="handleProjectSwitch(p)"
         >
@@ -329,7 +329,7 @@ watch(() => route.path, () => {
     <!-- Defensibility score (bottom of nav, above meta footer) -->
     <div
       v-if="defensibilityScore !== null"
-      class="px-5 py-3 border-t border-border-subtle"
+      class="px-5 py-2.5 border-t border-border-subtle"
     >
       <div class="flex items-baseline justify-between">
         <span class="text-[10px] uppercase tracking-widest text-ink-low">
@@ -345,7 +345,7 @@ watch(() => route.path, () => {
     </div>
 
     <!-- Footer meta -->
-    <div class="border-t border-border-subtle px-3 py-3 space-y-2 text-xs">
+    <div class="border-t border-border-subtle px-3 py-2 space-y-1.5 text-xs">
       <!-- Sync status -->
       <button
         v-if="isAuthenticated && syncStatus !== 'idle'"

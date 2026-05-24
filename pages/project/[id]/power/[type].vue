@@ -115,10 +115,10 @@ function save() {
 <template>
   <main
     v-if="currentProject && powerType"
-    class="mx-auto max-w-5xl px-6 py-10"
+    class="mx-auto max-w-5xl px-6 py-6"
   >
     <!-- Header -->
-    <div class="space-y-2 mb-6">
+    <div class="space-y-1.5 mb-4">
       <p class="text-xs uppercase tracking-widest text-accent-blue-bright">
         {{ t(`power.${powerType}.step`) }}
       </p>
@@ -130,7 +130,7 @@ function save() {
     </div>
 
     <!-- Definition + Example side-by-side -->
-    <section class="card p-5 my-6">
+    <section class="card p-4 mb-3">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <div class="space-y-2">
           <p class="text-[10px] uppercase tracking-widest text-ink-mid">
@@ -155,14 +155,14 @@ function save() {
     </section>
 
     <!-- Live score -->
-    <div class="card p-5 mb-6 flex items-center justify-between gap-6">
+    <div class="card p-4 mb-4 flex items-center justify-between gap-6">
       <div class="space-y-1">
         <p class="text-xs uppercase tracking-wider text-ink-mid">{{ t('power.powerScore') }}</p>
         <p class="text-xs text-ink-low">{{ scoreBand.label }}</p>
       </div>
       <div class="flex items-baseline gap-2">
         <span
-          class="text-5xl font-semibold tabular-nums"
+          class="text-4xl font-semibold tabular-nums"
           :class="scoreBand.tone === 'strong' ? 'text-gold-bright' : 'text-accent-blue-bright'"
         >
           {{ liveScore }}
@@ -171,7 +171,7 @@ function save() {
       </div>
     </div>
 
-    <form class="space-y-10" @submit.prevent="save">
+    <form class="space-y-6" @submit.prevent="save">
       <!-- Questions table — compact horizontal layout -->
       <section class="space-y-3">
         <div class="flex items-baseline justify-between">
@@ -193,11 +193,11 @@ function save() {
           </div>
         </div>
 
-        <div class="card divide-y divide-border-subtle">
+        <div class="card py-1.5">
           <div
             v-for="key in questionKeys"
             :key="key"
-            class="p-4 flex flex-col md:flex-row md:items-center gap-3 md:gap-5"
+            class="px-4 py-2 flex flex-col md:flex-row md:items-center gap-2 md:gap-5"
           >
             <!-- Question label + hint (left, takes remaining width) -->
             <div class="flex-1 min-w-0 space-y-0.5">
@@ -214,7 +214,7 @@ function save() {
                 v-for="n in scale"
                 :key="n"
                 type="button"
-                class="h-10 rounded-lg border transition-colors text-sm font-medium tabular-nums"
+                class="h-9 rounded-lg border transition-colors text-sm font-medium tabular-nums"
                 :class="form[key] === n
                   ? 'bg-accent-blue text-white border-accent-blue shadow-glow-blue'
                   : 'bg-bg-elevated text-ink-mid border-border-subtle hover:border-accent-blue hover:text-ink-high'"
