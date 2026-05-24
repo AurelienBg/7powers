@@ -158,13 +158,15 @@ export function useProject() {
   async function fetchFromCloud(): Promise<number> {
     if (!user.value) throw new Error('Not authenticated')
 
-    // Belt + suspenders: RLS already filters by user_id, but adding the
-    // explicit `.eq` here means a misconfigured policy can't silently
-    // return another user's projects.
+    // RLS handles owner filtering server-side via auth.uid() against the JWT.
+    // Do NOT add an explicit .eq('user_id', user.value.id) here — that
+    // proved fragile: if useSupabaseUser's cached value lags the actual
+    // session JWT (token refresh in flight, multi-tab race, etc.), the
+    // filter rejects ALL the user's own rows, leading to "my projects
+    // disappeared!". The RLS policy is the source of truth for ownership.
     const { data: projects, error: pErr } = await supabase
       .from('projects')
       .select('id, name, sector, stage, description, market_size, created_at, updated_at')
-      .eq('user_id', user.value.id)
       .order('updated_at', { ascending: false })
       .returns<Pick<Project, 'id' | 'name' | 'sector' | 'stage' | 'description' | 'market_size' | 'created_at' | 'updated_at'>[]>()
 
