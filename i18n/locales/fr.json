@@ -832,7 +832,8 @@
     "timeJustNow": "à l'instant",
     "timeMinutesAgo": "il y a {n} min",
     "timeHoursAgo": "il y a {n} h",
-    "timeDaysAgo": "il y a {n} j"
+    "timeDaysAgo": "il y a {n} j",
+    "syncTooltip": "Sauvegardé dans le cloud (Supabase). Ce projet est restauré automatiquement si tu te reconnectes sur un autre navigateur."
   },
   "coach": {
     "title": "Coach Helmer",

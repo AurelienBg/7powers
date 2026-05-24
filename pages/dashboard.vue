@@ -194,15 +194,31 @@ function handleDuplicate(p: LocalProject) {
           <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-bg-elevated text-ink-mid border border-border-subtle">
             {{ t(`stages.${p.stage}`) }}
           </span>
-          <!-- Sync status: just the cloud glyph, no label. The "synced" state
-               is the happy default — showing a full tag for every card was
-               visually noisy. Tooltip keeps the info discoverable. -->
+          <!-- Sync status: small cloud glyph with a custom hover tooltip.
+               Native `title` was too easy to miss / too terse — users had
+               no idea what the cloud meant. The CSS-only popover below
+               appears reliably on hover/focus and explains in plain words. -->
           <span
             v-if="isProjectSynced(p)"
-            class="text-[10px] text-ink-low ml-0.5 select-none"
-            :title="t('nav.syncedToCloud')"
-            :aria-label="t('nav.syncedToCloud')"
-          >☁</span>
+            class="relative group text-[10px] text-ink-low ml-0.5 select-none
+                   cursor-help focus:outline-none"
+            tabindex="0"
+            :aria-label="t('dashboard.syncTooltip')"
+          >
+            ☁
+            <span
+              class="invisible opacity-0 group-hover:visible group-hover:opacity-100
+                     group-focus:visible group-focus:opacity-100
+                     transition-opacity duration-150
+                     absolute left-1/2 -translate-x-1/2 top-full mt-1.5 z-20
+                     w-56 px-2.5 py-1.5 rounded-md
+                     bg-bg-elevated border border-border-subtle shadow-lg
+                     text-[10px] text-ink-mid leading-snug normal-case tracking-normal
+                     pointer-events-none text-left"
+            >
+              {{ t('dashboard.syncTooltip') }}
+            </span>
+          </span>
         </div>
 
         <!-- Description (takes remaining vertical space so the score row stays

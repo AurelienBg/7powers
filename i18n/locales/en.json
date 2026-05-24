@@ -832,7 +832,8 @@
     "timeJustNow": "just now",
     "timeMinutesAgo": "{n} min ago",
     "timeHoursAgo": "{n} h ago",
-    "timeDaysAgo": "{n} d ago"
+    "timeDaysAgo": "{n} d ago",
+    "syncTooltip": "Backed up to the cloud (Supabase). This project will be restored automatically if you sign in from another browser."
   },
   "coach": {
     "title": "Helmer Coach",
