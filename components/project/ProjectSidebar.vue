@@ -1,15 +1,20 @@
 <script setup lang="ts">
+/**
+ * ProjectSidebar — project-context navigation only.
+ *
+ * Stripped of every control that's now in <AppHeader />: brand row,
+ * lang/theme switchers, sync badge, email + sign-out, wallet badge, the
+ * Learn link, the All-projects link. Those all live in the topbar (shared
+ * across both layouts). What remains here is purely contextual to a
+ * /project/* route: new project, current project + modules, other
+ * projects, defensibility score.
+ */
 import type { PowerType, LocalProject } from '~/types/database'
 import { computeMarketAttractiveness, hasMinimumMarketData } from '~/utils/marketScore'
 
-const { t, locale, locales } = useI18n()
+const { t } = useI18n()
 const localePath = useLocalePath()
-const switchLocalePath = useSwitchLocalePath()
 const route = useRoute()
-const { isAuthenticated, signOut, user } = useAuth()
-const { status: syncStatus, errorMessage: syncError, retry: retrySync } = useCloudSync()
-const showSyncError = ref(false)
-const { isDark, toggle: toggleTheme } = useTheme()
 const {
   projectList,
   currentProject,
@@ -112,38 +117,6 @@ const defensibilityScore = computed<number | null>(() => {
 
 const defensibilityIsHigh = computed(() => (defensibilityScore.value ?? 0) >= 70)
 
-// ============================================================
-// Auth + meta
-// ============================================================
-
-const otherLocales = computed(() =>
-  (locales.value as { code: string; name: string }[]).filter((l) => l.code !== locale.value)
-)
-
-const syncIcon = computed(() => {
-  switch (syncStatus.value) {
-    case 'syncing': return '↻'
-    case 'synced':  return '☁'
-    case 'error':   return '⚠'
-    default:        return ''
-  }
-})
-
-const syncLabel = computed(() => {
-  switch (syncStatus.value) {
-    case 'syncing': return t('nav.syncingToCloud')
-    case 'synced':  return t('nav.syncedToCloud')
-    case 'error':   return t('nav.syncFailed')
-    default:        return ''
-  }
-})
-
-async function handleSignOut() {
-  await signOut()
-  await navigateTo(localePath('/'))
-  closeSidebar()
-}
-
 // Auto-close drawer on route change (mobile UX — user clicks a module link).
 watch(() => route.path, () => {
   if (isSidebarOpen.value) closeSidebar()
@@ -153,21 +126,16 @@ watch(() => route.path, () => {
 <template>
   <aside
     class="w-72 shrink-0 border-r border-border-subtle flex flex-col bg-bg-base
-           md:sticky md:top-0 md:h-screen md:translate-x-0
-           fixed top-0 left-0 h-screen z-40
+           md:sticky md:top-14 md:h-[calc(100vh-3.5rem)] md:translate-x-0
+           fixed top-14 left-0 h-[calc(100vh-3.5rem)] z-40
            transition-transform duration-200 ease-out"
     :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
   >
-    <!-- Brand -->
-    <div class="px-5 py-3 border-b border-border-subtle">
-      <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5">
-        <Logo :size="22" />
-        <span class="font-semibold tracking-tight">{{ t('app.name') }}</span>
-      </NuxtLink>
-    </div>
-
-    <!-- New project + All projects -->
-    <div class="px-3 pt-2 pb-1.5 space-y-0.5">
+    <!-- "New project" — primary action that belongs in the project
+         context (the topbar's "Assess" link lands on /dashboard which
+         already exposes its own +new button). Kept here for one-click
+         access from inside an existing project. -->
+    <div class="px-3 pt-3 pb-1.5">
       <NuxtLink
         :to="localePath('/project/new')"
         class="flex items-center justify-center gap-2 w-full px-3 py-1.5 rounded-lg
@@ -176,28 +144,6 @@ watch(() => route.path, () => {
       >
         <span>+</span>
         <span>{{ t('sidebar.newProject') }}</span>
-      </NuxtLink>
-
-      <NuxtLink
-        v-if="isAuthenticated"
-        :to="localePath('/dashboard')"
-        class="flex items-center justify-between w-full px-3 py-1.5 rounded-lg text-sm
-               text-ink-mid hover:text-ink-high hover:bg-bg-card transition-colors"
-      >
-        <span class="flex items-center gap-2">
-          <span class="glyph text-xs">▦</span>
-          <span>{{ t('sidebar.allProjects') }}</span>
-        </span>
-        <span class="text-xs text-ink-low tabular-nums">{{ projectList.length }}</span>
-      </NuxtLink>
-
-      <NuxtLink
-        :to="localePath('/learn')"
-        class="flex items-center w-full px-3 py-1.5 rounded-lg text-sm
-               text-ink-mid hover:text-ink-high hover:bg-bg-card transition-colors gap-2"
-      >
-        <span class="glyph text-xs text-gold-bright">✦</span>
-        <span>{{ t('nav.learn') }}</span>
       </NuxtLink>
     </div>
 
@@ -353,114 +299,5 @@ watch(() => route.path, () => {
       </div>
     </div>
 
-    <!-- Footer meta -->
-    <div class="border-t border-border-subtle px-3 py-2 space-y-1.5 text-xs">
-      <!-- Sync status -->
-      <button
-        v-if="isAuthenticated && syncStatus !== 'idle'"
-        type="button"
-        class="flex items-center gap-1.5 text-left w-full"
-        :class="[
-          syncStatus === 'error' ? 'text-amber-400 hover:underline cursor-pointer' : '',
-          syncStatus === 'syncing' ? 'text-accent-blue-bright cursor-default' : '',
-          syncStatus === 'synced' ? 'text-ink-mid cursor-default' : ''
-        ]"
-        :title="syncStatus === 'error' && syncError ? syncError : syncLabel"
-        :disabled="syncStatus !== 'error'"
-        @click="syncStatus === 'error' && (showSyncError = true)"
-      >
-        <span class="glyph">{{ syncIcon }}</span>
-        <span>{{ syncLabel }}</span>
-      </button>
-
-      <!-- Auth -->
-      <template v-if="isAuthenticated">
-        <div class="flex items-center justify-between gap-2">
-          <span class="text-ink-mid truncate min-w-0">{{ user?.email }}</span>
-          <button
-            type="button"
-            class="text-ink-low hover:text-ink-high transition-colors underline-offset-2 hover:underline shrink-0"
-            @click="handleSignOut"
-          >
-            {{ t('nav.logout') }}
-          </button>
-        </div>
-        <!-- XRPL wallet status row — additional identity, opt-in -->
-        <WalletBadge variant="sidebar" />
-      </template>
-      <template v-else>
-        <NuxtLink :to="localePath('/login')" class="text-ink-mid hover:text-ink-high transition-colors block">
-          {{ t('nav.login') }} →
-        </NuxtLink>
-      </template>
-
-      <!-- Lang switcher + theme toggle -->
-      <div class="flex items-center justify-between pt-1">
-        <div class="flex items-center gap-2">
-          <NuxtLink
-            v-for="l in otherLocales"
-            :key="l.code"
-            :to="switchLocalePath(l.code)"
-            class="text-ink-low hover:text-ink-high uppercase tracking-wider transition-colors"
-          >
-            {{ l.code }}
-          </NuxtLink>
-          <span class="text-ink-high uppercase tracking-wider">{{ locale }}</span>
-        </div>
-        <button
-          type="button"
-          class="w-7 h-7 inline-flex items-center justify-center rounded
-                 hover:bg-bg-elevated transition-colors"
-          :class="isDark ? 'text-gold-bright hover:text-gold' : 'text-accent-blue-bright hover:text-accent-blue'"
-          :title="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
-          :aria-label="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
-          @click="toggleTheme"
-        >
-          <svg v-if="isDark" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="4.5" />
-            <line x1="12" y1="1.5" x2="12" y2="4" />
-            <line x1="12" y1="20" x2="12" y2="22.5" />
-            <line x1="4.22" y1="4.22" x2="5.85" y2="5.85" />
-            <line x1="18.15" y1="18.15" x2="19.78" y2="19.78" />
-            <line x1="1.5" y1="12" x2="4" y2="12" />
-            <line x1="20" y1="12" x2="22.5" y2="12" />
-            <line x1="4.22" y1="19.78" x2="5.85" y2="18.15" />
-            <line x1="18.15" y1="5.85" x2="19.78" y2="4.22" />
-          </svg>
-          <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
-        </button>
-      </div>
-    </div>
   </aside>
-
-  <!-- Sync error modal — same as default layout, scoped to project routes -->
-  <Teleport to="body">
-    <div
-      v-if="showSyncError"
-      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-base/80 backdrop-blur-sm"
-      @click.self="showSyncError = false"
-    >
-      <div class="card p-6 max-w-lg w-full space-y-4 border-amber-500/30">
-        <div class="flex items-center gap-2">
-          <span class="glyph text-amber-400 text-xl">⚠</span>
-          <h3 class="text-lg font-semibold text-ink-high">{{ t('nav.syncFailed') }}</h3>
-        </div>
-        <p class="text-sm text-ink-mid">{{ t('nav.syncErrorBody') }}</p>
-        <div v-if="syncError" class="card p-3 border-red-500/30 bg-red-500/5 break-words">
-          <p class="text-xs uppercase tracking-wider text-red-300 mb-1">{{ t('nav.syncErrorDetail') }}</p>
-          <p class="text-xs font-mono text-red-200">{{ syncError }}</p>
-        </div>
-        <div class="flex items-center justify-end gap-2 pt-2">
-          <button type="button" class="btn-ghost !py-2 !px-4 text-sm" @click="showSyncError = false">
-            {{ t('nav.syncErrorClose') }}
-          </button>
-          <button type="button" class="btn-primary !px-4 !py-2 text-sm" @click="retrySync(); showSyncError = false">
-            {{ t('nav.syncErrorRetry') }}
-          </button>
-        </div>
-      </div>
-    </div>
-  </Teleport>
 </template>
