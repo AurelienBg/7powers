@@ -65,8 +65,13 @@ function isActive(target: string): boolean {
 
 <template>
   <header class="border-b border-border-subtle bg-bg-base sticky top-0 z-30">
-    <div class="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
-      <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5">
+    <!-- Full-bleed inner row: logo pinned to the actual top-left of the
+         viewport (px-4/6 from edge), nav cluster pinned to the right.
+         Was previously inside `mx-auto max-w-6xl` which pushed the logo
+         to ~150px from the edge on wide screens, hence the 'logo isn't
+         top-left' feedback. -->
+    <div class="px-4 md:px-6 h-14 flex items-center justify-between">
+      <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5 shrink-0">
         <Logo :size="28" />
         <span class="font-semibold tracking-tight">{{ t('app.name') }}</span>
       </NuxtLink>
