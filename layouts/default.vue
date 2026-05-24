@@ -4,7 +4,8 @@ const { t, locale, locales } = useI18n()
 // They must be obtained via these composables.
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
-const { isAuthenticated, signOut, user } = useAuth()
+const route = useRoute()
+const { isAuthenticated } = useAuth()
 // Mount the cloud-sync watcher here — it runs once for the lifetime of the
 // layout (which is the lifetime of any logged session). It triggers an
 // initial push of the local project to Supabase the moment auth lands.
@@ -35,9 +36,29 @@ const syncToneClass = computed(() => {
   }
 })
 
-async function handleSignOut() {
-  await signOut()
-  await navigateTo('/')
+// Primary nav items — declared as data so the template stays clean and
+// active-state matching can use the same path source of truth as the link.
+interface PrimaryNavItem {
+  to: string
+  labelKey: string
+}
+const primaryNav: PrimaryNavItem[] = [
+  { to: '/dashboard', labelKey: 'nav.assess' },
+  { to: '/learn',     labelKey: 'nav.learn' },
+  { to: '/examples',  labelKey: 'nav.examples' }
+]
+
+// Match the current route against a primary-nav target. The route path is
+// locale-prefixed (e.g. /en/learn) while the nav targets are bare paths;
+// we compare via localePath() so this works on either locale.
+function isActive(target: string): boolean {
+  const resolved = localePath(target)
+  // Treat /dashboard as active also for /project/* routes (Assess = the
+  // assessing flow, which spans the dashboard + each project's hub).
+  if (target === '/dashboard') {
+    return route.path === resolved || route.path.startsWith(localePath('/project'))
+  }
+  return route.path === resolved || route.path.startsWith(resolved + '/')
 }
 </script>
 
@@ -50,85 +71,106 @@ async function handleSignOut() {
           <span class="font-semibold tracking-tight">{{ t('app.name') }}</span>
         </NuxtLink>
 
-        <nav class="flex items-center gap-2">
-          <!-- Primary nav pair: Assess (the doing) + Learn (the supporting
-               material). Same styling on both so they read as siblings. -->
-          <NuxtLink
-            :to="localePath('/dashboard')"
-            class="text-xs uppercase tracking-wider text-ink-mid hover:text-ink-high px-2 py-1 transition-colors"
-          >
-            {{ t('nav.assess') }}
-          </NuxtLink>
-          <NuxtLink
-            :to="localePath('/learn')"
-            class="text-xs uppercase tracking-wider text-ink-mid hover:text-ink-high px-2 py-1 transition-colors"
-          >
-            {{ t('nav.learn') }}
-          </NuxtLink>
+        <!-- Three visual groups:
+               1. Primary nav (md+): Assess / Learn / Examples with active state
+               2. Utility cluster: lang toggle, theme toggle, sync-when-not-ok
+               3. Auth: user menu (avatar dropdown) or "Sign in" button -->
+        <nav class="flex items-center gap-1.5">
+          <!-- Group 1 — Primary nav -->
+          <div class="hidden md:flex items-center gap-0.5">
+            <NuxtLink
+              v-for="item in primaryNav"
+              :key="item.to"
+              :to="localePath(item.to)"
+              class="text-xs uppercase tracking-wider px-3 py-1.5 rounded-md transition-colors"
+              :class="isActive(item.to)
+                ? 'text-ink-high bg-bg-elevated border border-border-subtle'
+                : 'text-ink-mid hover:text-ink-high hover:bg-bg-elevated/60'"
+            >
+              {{ t(item.labelKey) }}
+            </NuxtLink>
+          </div>
 
-          <NuxtLink
-            v-for="l in otherLocales"
-            :key="l.code"
-            :to="switchLocalePath(l.code)"
-            class="text-xs uppercase tracking-wider text-ink-mid hover:text-ink-high px-2 py-1 transition-colors"
-          >
-            {{ l.code }}
-          </NuxtLink>
+          <!-- Visual divider between primary nav and utility cluster -->
+          <span class="hidden md:inline-block w-px h-4 bg-border-subtle mx-1.5" />
 
-          <button
-            type="button"
-            class="w-9 h-9 inline-flex items-center justify-center rounded-lg
-                   border border-border-subtle hover:border-accent-blue
-                   transition-colors"
-            :class="isDark ? 'text-gold-bright hover:text-gold' : 'text-accent-blue-bright hover:text-accent-blue'"
-            :title="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
-            :aria-label="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
-            @click="toggleTheme"
-          >
-            <!-- Sun (currently dark → click goes light) -->
-            <svg v-if="isDark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="4.5" />
-              <line x1="12" y1="1.5" x2="12" y2="4" />
-              <line x1="12" y1="20" x2="12" y2="22.5" />
-              <line x1="4.22" y1="4.22" x2="5.85" y2="5.85" />
-              <line x1="18.15" y1="18.15" x2="19.78" y2="19.78" />
-              <line x1="1.5" y1="12" x2="4" y2="12" />
-              <line x1="20" y1="12" x2="22.5" y2="12" />
-              <line x1="4.22" y1="19.78" x2="5.85" y2="18.15" />
-              <line x1="18.15" y1="5.85" x2="19.78" y2="4.22" />
-            </svg>
-            <!-- Moon (currently light → click goes dark) -->
-            <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-          </button>
+          <!-- Group 2 — Utility cluster (lang + theme + sync alert) -->
+          <div class="flex items-center gap-0.5">
+            <!-- Compact lang toggle (clicking the other locale switches) -->
+            <NuxtLink
+              v-for="l in otherLocales"
+              :key="l.code"
+              :to="switchLocalePath(l.code)"
+              class="text-[10px] uppercase tracking-widest font-medium
+                     text-ink-low hover:text-ink-high
+                     px-2 py-1 rounded-md transition-colors"
+              :title="t('nav.switchLocale', { code: l.code.toUpperCase() })"
+              :aria-label="t('nav.switchLocale', { code: l.code.toUpperCase() })"
+            >
+              {{ l.code.toUpperCase() }}
+            </NuxtLink>
 
-          <span class="w-px h-4 bg-border-subtle mx-1" />
-
-          <template v-if="isAuthenticated">
+            <!-- Theme toggle -->
             <button
-              v-if="syncStatus !== 'idle'"
               type="button"
-              class="text-xs hidden md:inline-flex items-center gap-1 transition-colors"
-              :class="[syncToneClass, syncStatus === 'error' ? 'cursor-pointer hover:underline' : 'cursor-default']"
+              class="w-8 h-8 inline-flex items-center justify-center rounded-md
+                     text-ink-mid hover:text-ink-high
+                     hover:bg-bg-elevated/60 transition-colors"
+              :title="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
+              :aria-label="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
+              @click="toggleTheme"
+            >
+              <svg v-if="isDark" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="4.5" />
+                <line x1="12" y1="1.5" x2="12" y2="4" />
+                <line x1="12" y1="20" x2="12" y2="22.5" />
+                <line x1="4.22" y1="4.22" x2="5.85" y2="5.85" />
+                <line x1="18.15" y1="18.15" x2="19.78" y2="19.78" />
+                <line x1="1.5" y1="12" x2="4" y2="12" />
+                <line x1="20" y1="12" x2="22.5" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.85" y2="18.15" />
+                <line x1="18.15" y1="5.85" x2="19.78" y2="4.22" />
+              </svg>
+              <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            </button>
+
+            <!-- Sync badge — ONLY visible when the user needs to know:
+                 syncing (in flight) or error (action required). The happy
+                 "synced" state stays silent (the dashboard card already
+                 carries the per-project cloud glyph). -->
+            <button
+              v-if="isAuthenticated && (syncStatus === 'syncing' || syncStatus === 'error')"
+              type="button"
+              class="text-xs hidden md:inline-flex items-center gap-1.5
+                     px-2 py-1 rounded-md transition-colors"
+              :class="[
+                syncToneClass,
+                syncStatus === 'error'
+                  ? 'cursor-pointer hover:bg-amber-500/10'
+                  : 'cursor-default'
+              ]"
               :title="syncStatus === 'error' && syncError ? syncError : syncLabel"
               :disabled="syncStatus !== 'error'"
               @click="syncStatus === 'error' && (showSyncError = true)"
             >
-              <span class="glyph">{{ syncStatus === 'error' ? '⚠' : syncStatus === 'syncing' ? '↻' : '☁' }}</span>
-              <span>{{ syncLabel }}</span>
+              <span class="glyph">{{ syncStatus === 'error' ? '⚠' : '↻' }}</span>
+              <span class="hidden lg:inline">{{ syncLabel }}</span>
             </button>
-            <span class="text-xs text-ink-mid hidden md:inline">{{ user?.email }}</span>
-            <WalletBadge />
-            <button type="button" class="btn-ghost !py-1.5 !px-3 text-sm" @click="handleSignOut">
-              {{ t('nav.logout') }}
-            </button>
-          </template>
-          <template v-else>
-            <NuxtLink :to="localePath('/login')" class="btn-ghost !py-1.5 !px-3 text-sm">
+          </div>
+
+          <!-- Group 3 — Auth: user menu (avatar) or sign-in button -->
+          <div class="flex items-center pl-1.5 ml-1 border-l border-border-subtle">
+            <UserMenu v-if="isAuthenticated" />
+            <NuxtLink
+              v-else
+              :to="localePath('/login')"
+              class="btn-ghost !py-1.5 !px-3 text-sm"
+            >
               {{ t('nav.login') }}
             </NuxtLink>
-          </template>
+          </div>
         </nav>
       </div>
     </header>

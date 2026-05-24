@@ -177,7 +177,11 @@
     "walletInfoBullet1": "Gratuit, aucun frais on-chain",
     "walletInfoBullet2": "Aucune signature qui dépense des fonds",
     "walletInfoBullet3": "Tu peux délier à tout moment",
-    "walletInfoFootnote": "Optionnel. Sert pour les features Web3 à venir (signe ton scoring on-chain, partage public via adresse, gating de cohortes…). Pas Web3 ? Ignore en toute sérénité."
+    "walletInfoFootnote": "Optionnel. Sert pour les features Web3 à venir (signe ton scoring on-chain, partage public via adresse, gating de cohortes…). Pas Web3 ? Ignore en toute sérénité.",
+    "userMenuAria": "Mon compte",
+    "userMenuSignedInAs": "Connecté en tant que",
+    "userMenuWallet": "Wallet XRPL",
+    "switchLocale": "Passer en {code}"
   },
   "sidebar": {
     "newProject": "Nouveau projet",
