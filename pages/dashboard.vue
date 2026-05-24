@@ -110,16 +110,16 @@ function handleDuplicate(p: LocalProject) {
     </section>
 
     <!-- Projects grid -->
-    <section v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <section v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
       <div
         v-for="p in projectList"
         :key="p.local_id"
-        class="card-hover p-5 group relative flex flex-col gap-4"
+        class="card-hover p-4 group relative flex flex-col gap-3"
       >
         <!-- Card head -->
-        <div class="flex items-start gap-3">
+        <div class="flex items-start gap-2.5">
           <div
-            class="w-11 h-11 rounded-lg flex items-center justify-center text-base font-semibold shrink-0
+            class="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-semibold shrink-0
                    bg-gradient-to-br from-accent-blue/40 to-accent-blue-glow/40
                    text-ink-high"
           >
@@ -141,7 +141,7 @@ function handleDuplicate(p: LocalProject) {
           <div class="flex items-center gap-1 shrink-0">
             <button
               type="button"
-              class="w-8 h-8 rounded inline-flex items-center justify-center
+              class="w-7 h-7 rounded inline-flex items-center justify-center
                      text-accent-blue-bright hover:text-accent-blue hover:bg-bg-elevated
                      border border-border-subtle hover:border-accent-blue transition-colors"
               :title="t('dashboard.editProject')"
@@ -155,7 +155,7 @@ function handleDuplicate(p: LocalProject) {
             </button>
             <button
               type="button"
-              class="w-8 h-8 rounded inline-flex items-center justify-center
+              class="w-7 h-7 rounded inline-flex items-center justify-center
                      text-accent-blue-bright hover:text-accent-blue hover:bg-bg-elevated
                      border border-border-subtle hover:border-accent-blue transition-colors"
               :title="t('dashboard.duplicateProject')"
@@ -169,7 +169,7 @@ function handleDuplicate(p: LocalProject) {
             </button>
             <button
               type="button"
-              class="w-8 h-8 rounded inline-flex items-center justify-center
+              class="w-7 h-7 rounded inline-flex items-center justify-center
                      text-red-400 hover:text-red-300 hover:bg-red-500/10
                      border border-border-subtle hover:border-red-400 transition-colors"
               :title="t('dashboard.deleteProject')"

@@ -174,7 +174,7 @@ watch(() => route.path, () => {
             <p class="text-[10px] uppercase tracking-widest text-ink-low px-2">{{ t('sidebar.setupSection') }}</p>
             <NuxtLink
               :to="localePath(`/project/${currentProject.local_id}`)"
-              class="flex items-center justify-between px-2 py-1 rounded text-sm transition-colors"
+              class="flex items-center justify-between pl-5 pr-2 py-1 rounded text-sm transition-colors"
               :class="isActive(`/project/${currentProject.local_id}`)
                 ? 'bg-accent-blue/15 text-ink-high border-l-2 border-accent-blue'
                 : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
@@ -186,7 +186,7 @@ watch(() => route.path, () => {
             </NuxtLink>
             <NuxtLink
               :to="localePath(`/project/${currentProject.local_id}/market`)"
-              class="flex items-center justify-between px-2 py-1 rounded text-sm transition-colors"
+              class="flex items-center justify-between pl-5 pr-2 py-1 rounded text-sm transition-colors"
               :class="isActive(`/project/${currentProject.local_id}/market`)
                 ? 'bg-accent-blue/15 text-ink-high border-l-2 border-accent-blue'
                 : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
@@ -209,7 +209,7 @@ watch(() => route.path, () => {
               <NuxtLink
                 v-if="IMPLEMENTED_POWERS.includes(power)"
                 :to="localePath(`/project/${currentProject.local_id}/power/${power}`)"
-                class="flex items-center justify-between px-2 py-1 rounded text-sm transition-colors"
+                class="flex items-center justify-between pl-5 pr-2 py-1 rounded text-sm transition-colors"
                 :class="isActive(`/project/${currentProject.local_id}/power/${power}`)
                   ? 'bg-accent-blue/15 text-ink-high border-l-2 border-accent-blue'
                   : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
@@ -228,7 +228,7 @@ watch(() => route.path, () => {
 
               <div
                 v-else
-                class="flex items-center justify-between px-2 py-1 rounded text-sm text-ink-low opacity-60 cursor-not-allowed"
+                class="flex items-center justify-between pl-5 pr-2 py-1 rounded text-sm text-ink-low opacity-60 cursor-not-allowed"
                 :title="t('hub.comingSoon')"
               >
                 <span class="flex items-center gap-2">
@@ -245,7 +245,7 @@ watch(() => route.path, () => {
             <p class="text-[10px] uppercase tracking-widest text-ink-low px-2">{{ t('sidebar.synthesisSection') }}</p>
             <NuxtLink
               :to="localePath(`/project/${currentProject.local_id}/synthesis`)"
-              class="flex items-center justify-between px-2 py-1 rounded text-sm transition-colors"
+              class="flex items-center justify-between pl-5 pr-2 py-1 rounded text-sm transition-colors"
               :class="isActive(`/project/${currentProject.local_id}/synthesis`)
                 ? 'bg-accent-blue/15 text-ink-high border-l-2 border-accent-blue'
                 : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
@@ -266,7 +266,7 @@ watch(() => route.path, () => {
           v-for="p in otherProjects"
           :key="p.local_id"
           type="button"
-          class="flex items-center gap-2 w-full px-2 py-1 rounded text-sm
+          class="flex items-center gap-2 w-full pl-5 pr-2 py-1 rounded text-sm
                  text-ink-mid hover:text-ink-high hover:bg-bg-card transition-colors text-left"
           @click="handleProjectSwitch(p)"
         >
