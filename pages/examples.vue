@@ -63,12 +63,20 @@ function scoreWidth(score: number): string {
 </script>
 
 <template>
-  <main class="mx-auto max-w-6xl px-6 py-16">
-    <!-- Header -->
-    <div class="space-y-3 mb-10">
-      <p class="text-xs uppercase tracking-widest text-accent-blue-bright">
-        {{ t('examples.eyebrow') }}
-      </p>
+  <!-- max-w-4xl matches /learn (the paired methodology page). Examples
+       are conceptually the "applied" counterpart to /learn's theory, so
+       they should share the same reading rhythm. Cards grid drops to 2
+       columns max at this width so they stay readable. -->
+  <main class="mx-auto max-w-4xl px-6 py-16">
+    <!-- Header — same pattern as /learn's hero: logo top-left + eyebrow,
+         then title + subtitle. Keeps brand identity consistent. -->
+    <div class="space-y-4 mb-10">
+      <div class="flex items-center gap-3 text-ink-mid">
+        <Logo :size="40" />
+        <span class="tracking-widest text-xs uppercase text-accent-blue-bright">
+          {{ t('examples.eyebrow') }}
+        </span>
+      </div>
       <h1 class="text-3xl md:text-4xl font-semibold text-ink-high">{{ t('examples.title') }}</h1>
       <p class="text-ink-mid max-w-2xl">{{ t('examples.subtitle') }}</p>
     </div>
@@ -147,8 +155,9 @@ function scoreWidth(score: number): string {
       {{ t('examples.noResults') }}
     </div>
 
-    <!-- Cards grid -->
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Cards grid — capped at 2 cols to keep cards readable inside the
+         narrower max-w-4xl container (was 3 cols at max-w-6xl). -->
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <article
         v-for="ex in filtered"
         :key="ex.id"
