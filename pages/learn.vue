@@ -197,16 +197,29 @@ const externalLinks = [
     </section>
 
     <!-- ============================================================ -->
-    <!-- BOTTOM CTA                                                    -->
+    <!-- BRIDGE TO /examples — applied counterpart of this conceptual  -->
+    <!-- page. Two-card row so it's visually a pair, not a single CTA. -->
     <!-- ============================================================ -->
-    <section class="card p-8 space-y-4 text-center border-gold/30">
-      <h2 class="text-xl font-semibold text-ink-high">{{ t('learn.cta.title') }}</h2>
-      <p class="text-sm text-ink-mid max-w-md mx-auto">{{ t('learn.cta.body') }}</p>
-      <div class="pt-2">
-        <NuxtLink :to="localePath('/project/new')" class="btn-primary text-base !px-6 !py-3">
-          {{ t('learn.cta.button') }}
-        </NuxtLink>
-      </div>
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <NuxtLink
+        :to="localePath('/examples')"
+        class="card p-6 hover:border-accent-blue/50 transition-colors space-y-2 block"
+      >
+        <p class="text-[10px] uppercase tracking-widest text-accent-blue-bright">{{ t('learn.examplesEyebrow') }}</p>
+        <h3 class="text-lg font-semibold text-ink-high">{{ t('learn.examplesTitle') }}</h3>
+        <p class="text-sm text-ink-mid">{{ t('learn.examplesBody') }}</p>
+        <p class="text-xs text-accent-blue-bright pt-1">→ {{ t('learn.examplesLink') }}</p>
+      </NuxtLink>
+
+      <NuxtLink
+        :to="localePath('/project/new')"
+        class="card p-6 hover:border-gold/50 transition-colors space-y-2 block border-gold/20"
+      >
+        <p class="text-[10px] uppercase tracking-widest text-gold-bright">{{ t('learn.cta.eyebrow') }}</p>
+        <h3 class="text-lg font-semibold text-ink-high">{{ t('learn.cta.title') }}</h3>
+        <p class="text-sm text-ink-mid">{{ t('learn.cta.body') }}</p>
+        <p class="text-xs text-gold-bright pt-1">→ {{ t('learn.cta.button') }}</p>
+      </NuxtLink>
     </section>
   </main>
 </template>

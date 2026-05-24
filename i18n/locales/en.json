@@ -89,8 +89,13 @@
     "cta": {
       "title": "Ready to stress-test your project?",
       "body": "The method takes you ~90 minutes through the 7 Powers. At the end, you walk away with a Power Map and an action plan — not just theory.",
-      "button": "Start my assessment"
-    }
+      "button": "Start my assessment",
+      "eyebrow": "Take action"
+    },
+    "examplesEyebrow": "Applied cases",
+    "examplesTitle": "12 companies broken down",
+    "examplesBody": "Netflix, Uber, Uniswap, Anthropic... see how the 7 Powers actually show up (or don't) in real-world cases.",
+    "examplesLink": "Browse the library"
   },
   "helmerTerms": {
     "close": "Close",
@@ -163,7 +168,8 @@
     "walletStatusConnected": "● Session active",
     "walletStatusOffline": "● Reconnect needed",
     "walletUnlink": "Unlink this wallet",
-    "assess": "Assess"
+    "assess": "Assess",
+    "examples": "Examples"
   },
   "sidebar": {
     "newProject": "New project",
@@ -876,5 +882,29 @@
     "branding": "✦",
     "cornered": "△",
     "process": "⚖"
+  },
+  "examples": {
+    "eyebrow": "Case library",
+    "title": "12 Helmer examples, broken down",
+    "subtitle": "How the 7 Powers show up in real companies. Compare your own scoring against these benchmarks to calibrate your instincts.",
+    "filterPower": "Dominant Power",
+    "filterSector": "Sector",
+    "filterAll": "All",
+    "count": "{n} of {total} cases shown",
+    "noResults": "No case matches these filters. Try widening your search.",
+    "benefitLabel": "Benefit",
+    "barrierLabel": "Barrier",
+    "expand": "Show details",
+    "collapse": "Collapse",
+    "scoresLabel": "Power-by-Power score (estimate)",
+    "contextLabel": "Context",
+    "referenceLink": "Reference",
+    "footerLearnEyebrow": "Methodology",
+    "footerLearnCta": "Re-read the 7 Powers in depth",
+    "footerAssessEyebrow": "Take action",
+    "footerAssessCta": "Assess your own project",
+    "sectors": {
+      "classic": "Classic"
+    }
   }
 }

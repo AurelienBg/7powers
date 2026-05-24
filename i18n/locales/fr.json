@@ -89,8 +89,13 @@
     "cta": {
       "title": "Prêt à stress-tester ton projet ?",
       "body": "La méthode te prend ~90 minutes pour les 7 Powers. À la fin, tu repars avec un Power Map et un plan d'action — pas juste de la théorie.",
-      "button": "Commencer mon assessment"
-    }
+      "button": "Commencer mon assessment",
+      "eyebrow": "Passer à l'action"
+    },
+    "examplesEyebrow": "Cas pratiques",
+    "examplesTitle": "12 entreprises décortiquées",
+    "examplesBody": "Netflix, Uber, Uniswap, Anthropic... vois comment les 7 Powers se manifestent (ou pas) dans des cas réels.",
+    "examplesLink": "Voir la bibliothèque"
   },
   "helmerTerms": {
     "close": "Fermer",
@@ -163,7 +168,8 @@
     "walletStatusConnected": "● Session active",
     "walletStatusOffline": "● Reconnexion requise",
     "walletUnlink": "Délier ce wallet",
-    "assess": "Évaluer"
+    "assess": "Évaluer",
+    "examples": "Exemples"
   },
   "sidebar": {
     "newProject": "Nouveau projet",
@@ -876,5 +882,29 @@
     "branding": "✦",
     "cornered": "△",
     "process": "⚖"
+  },
+  "examples": {
+    "eyebrow": "Bibliothèque de cas",
+    "title": "12 exemples Helmer décortiqués",
+    "subtitle": "Comment les 7 Powers se manifestent dans des entreprises réelles. Compare ton scoring à ces benchmarks pour calibrer ton instinct.",
+    "filterPower": "Power dominant",
+    "filterSector": "Secteur",
+    "filterAll": "Tous",
+    "count": "{n} cas affichés sur {total}",
+    "noResults": "Aucun cas ne correspond à ces filtres. Élargis ta recherche.",
+    "benefitLabel": "Benefit",
+    "barrierLabel": "Barrier",
+    "expand": "Voir le détail",
+    "collapse": "Replier",
+    "scoresLabel": "Scoring par Power (estimation)",
+    "contextLabel": "Contexte",
+    "referenceLink": "Référence",
+    "footerLearnEyebrow": "Méthodologie",
+    "footerLearnCta": "Relire les 7 Powers en détail",
+    "footerAssessEyebrow": "Passe à l'action",
+    "footerAssessCta": "Évalue ton propre projet",
+    "sectors": {
+      "classic": "Classique"
+    }
   }
 }
