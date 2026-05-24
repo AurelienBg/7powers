@@ -45,7 +45,7 @@ async function handleGoogle() {
   <main class="mx-auto max-w-md px-6 py-24">
     <div class="card p-8 space-y-6">
       <div class="flex items-center gap-3 text-ink-mid">
-        <Logo :size="40" mode="dark" />
+        <Logo :size="40" />
         <span class="tracking-widest text-xs uppercase">{{ t('app.name') }}</span>
       </div>
 

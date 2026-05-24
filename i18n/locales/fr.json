@@ -14,7 +14,9 @@
     "syncErrorBody": "Ton projet local n'a pas pu être pushé vers Supabase. Le travail reste sauvegardé en localStorage. Tu peux réessayer.",
     "syncErrorDetail": "Détail technique",
     "syncErrorClose": "Fermer",
-    "syncErrorRetry": "Réessayer"
+    "syncErrorRetry": "Réessayer",
+    "switchToLight": "Passer en mode clair",
+    "switchToDark": "Passer en mode sombre"
   },
   "sidebar": {
     "newProject": "Nouveau projet",

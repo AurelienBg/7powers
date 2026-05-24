@@ -11,6 +11,8 @@ const { isAuthenticated, signOut, user } = useAuth()
 const { status: syncStatus, errorMessage: syncError, retry: retrySync } = useCloudSync()
 const showSyncError = ref(false)
 
+const { isDark, toggle: toggleTheme } = useTheme()
+
 const otherLocales = computed(() =>
   (locales.value as { code: string; name: string }[]).filter((l) => l.code !== locale.value)
 )
@@ -44,7 +46,7 @@ async function handleSignOut() {
     <header class="border-b border-border-subtle">
       <div class="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
         <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5">
-          <Logo :size="28" mode="dark" />
+          <Logo :size="28" />
           <span class="font-semibold tracking-tight">{{ t('app.name') }}</span>
         </NuxtLink>
 
@@ -57,6 +59,16 @@ async function handleSignOut() {
           >
             {{ l.code }}
           </NuxtLink>
+
+          <button
+            type="button"
+            class="text-base text-ink-mid hover:text-ink-high w-8 h-8 inline-flex items-center justify-center transition-colors"
+            :title="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
+            :aria-label="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
+            @click="toggleTheme"
+          >
+            <span class="glyph">{{ isDark ? '☀' : '☾' }}</span>
+          </button>
 
           <span class="w-px h-4 bg-border-subtle mx-1" />
 
@@ -94,7 +106,7 @@ async function handleSignOut() {
     <footer class="border-t border-border-subtle py-6 mt-12">
       <div class="mx-auto max-w-6xl px-6 text-xs text-ink-low flex items-center justify-between">
         <span>{{ t('app.name') }} — {{ t('app.tagline') }}</span>
-        <Logo :size="18" mode="dark" :show-seven="false" />
+        <Logo :size="18" :show-seven="false" />
       </div>
     </footer>
 

@@ -3,14 +3,13 @@ import type { Config } from 'tailwindcss'
 /**
  * 7Powers brand palette — LOCKED.
  *
- *   Primary blue:  #378ADD  (CTAs, card borders, hover glow, all Power scoring elements)
- *   Gold accent:   #EF9F27  (USED SPARINGLY — only on dominant Powers and top-scoring
- *                            elements. "What shines = what holds.")
+ *   Primary blue:  #378ADD  (CTAs, card borders, hover glow, Power scoring)
+ *   Gold accent:   #EF9F27  (USED SPARINGLY — only on dominant Powers and
+ *                            top-scoring elements. "What shines = what holds.")
  *
- * Logo files live in public/. See public/README.md for usage rules.
- *
- * Derived shades (bright/glow) are computed from the locked brand hexes to keep
- * the visual identity coherent across hover, focus, and emphasis states.
+ * Surface colors (bg.*, border.*, ink.*) are wired to CSS variables defined
+ * in assets/css/main.css — they swap between light and dark via the `.dark`
+ * class on <html>. Brand colors stay static across themes.
  */
 export default <Partial<Config>>{
   darkMode: 'class',
@@ -26,21 +25,27 @@ export default <Partial<Config>>{
   theme: {
     extend: {
       colors: {
-        // Surfaces
+        // ────────────────────────────────────────────────────────────────
+        // Theme-aware surface colors — driven by CSS variables in :root + .dark
+        // ────────────────────────────────────────────────────────────────
         bg: {
-          base: '#0a0a0f',
-          card: '#11111a',
-          elevated: '#161622'
+          base: 'rgb(var(--bg-base) / <alpha-value>)',
+          card: 'rgb(var(--bg-card) / <alpha-value>)',
+          elevated: 'rgb(var(--bg-elevated) / <alpha-value>)'
         },
         border: {
-          subtle: '#1f1f2e',
-          accent: '#2a2a40'
+          subtle: 'rgb(var(--border-subtle) / <alpha-value>)',
+          accent: 'rgb(var(--border-accent) / <alpha-value>)'
+        },
+        ink: {
+          high: 'rgb(var(--ink-high) / <alpha-value>)',
+          mid: 'rgb(var(--ink-mid) / <alpha-value>)',
+          low: 'rgb(var(--ink-low) / <alpha-value>)'
         },
 
-        // Brand — primary blue (#378ADD)
-        // Use `brand-blue` everywhere a Power-related accent is needed.
-        // `accent-blue` is kept as an alias of `brand-blue` so existing
-        // utilities (.btn-primary, .card-hover) keep working unchanged.
+        // ────────────────────────────────────────────────────────────────
+        // Brand colors — LOCKED, identical in both themes
+        // ────────────────────────────────────────────────────────────────
         brand: {
           blue: '#378ADD',
           'blue-bright': '#5BA3E8',
@@ -54,19 +59,10 @@ export default <Partial<Config>>{
           'blue-bright': '#5BA3E8',
           'blue-glow': '#1E5FAB'
         },
-
-        // Gold — emphasis only. Reserve for top-3 Powers / high-score badges.
         gold: {
           DEFAULT: '#EF9F27',
           bright: '#F5B450',
           glow: '#B87808'
-        },
-
-        // Typography ramp
-        ink: {
-          high: '#f5f5f7',
-          mid: '#a1a1aa',
-          low: '#52525b'
         }
       },
       fontFamily: {

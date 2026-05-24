@@ -99,7 +99,7 @@ function handleDuplicate(p: LocalProject) {
 
     <!-- Empty state -->
     <section v-if="projectList.length === 0" class="card p-12 text-center space-y-4">
-      <Logo :size="56" mode="dark" />
+      <Logo :size="56" />
       <h2 class="text-xl font-semibold text-ink-high">{{ t('dashboard.emptyTitle') }}</h2>
       <p class="text-ink-mid max-w-md mx-auto">{{ t('dashboard.emptyBody') }}</p>
       <div class="pt-2">

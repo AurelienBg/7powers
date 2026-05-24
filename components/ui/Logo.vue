@@ -16,19 +16,25 @@
 const props = withDefaults(
   defineProps<{
     size?: number | string
-    mode?: 'light' | 'dark'
+    /** 'auto' (default) follows the active theme. Force 'light'/'dark' to override. */
+    mode?: 'light' | 'dark' | 'auto'
     showSeven?: boolean
     label?: string
   }>(),
   {
     size: 40,
-    mode: 'dark',
+    mode: 'auto',
     showSeven: true,
     label: '7Powers'
   }
 )
 
-const sevenFill = computed(() => (props.mode === 'light' ? '#0a0a0f' : '#ffffff'))
+const { isDark } = useTheme()
+
+const sevenFill = computed(() => {
+  const effective = props.mode === 'auto' ? (isDark.value ? 'dark' : 'light') : props.mode
+  return effective === 'light' ? '#0a0a0f' : '#ffffff'
+})
 </script>
 
 <template>

@@ -38,6 +38,15 @@ export default defineNuxtConfig({
     head: {
       title: '7Powers — Build defensibility, Helmer-style',
       htmlAttrs: { class: 'dark' },
+      // Inline script runs synchronously BEFORE first paint — prevents a
+      // light↔dark flash if the user's persisted theme differs from the
+      // SSR default class. See composables/useTheme.ts for the runtime side.
+      script: [
+        {
+          innerHTML: `(function(){try{var t=localStorage.getItem('sevenpowers:theme');if(t==='light'){document.documentElement.classList.remove('dark')}else if(t==='dark'){document.documentElement.classList.add('dark')}}catch(e){}})();`,
+          tagPosition: 'head'
+        }
+      ],
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },

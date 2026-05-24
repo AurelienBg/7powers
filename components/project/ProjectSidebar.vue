@@ -9,6 +9,7 @@ const route = useRoute()
 const { isAuthenticated, signOut, user } = useAuth()
 const { status: syncStatus, errorMessage: syncError, retry: retrySync } = useCloudSync()
 const showSyncError = ref(false)
+const { isDark, toggle: toggleTheme } = useTheme()
 const {
   projectList,
   currentProject,
@@ -160,7 +161,7 @@ watch(() => route.path, () => {
     <!-- Brand -->
     <div class="px-5 py-4 border-b border-border-subtle">
       <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5">
-        <Logo :size="24" mode="dark" />
+        <Logo :size="24" />
         <span class="font-semibold tracking-tight">{{ t('app.name') }}</span>
       </NuxtLink>
     </div>
@@ -374,17 +375,28 @@ watch(() => route.path, () => {
         </NuxtLink>
       </template>
 
-      <!-- Lang switcher -->
-      <div class="flex items-center gap-2 pt-1">
-        <NuxtLink
-          v-for="l in otherLocales"
-          :key="l.code"
-          :to="switchLocalePath(l.code)"
-          class="text-ink-low hover:text-ink-high uppercase tracking-wider transition-colors"
+      <!-- Lang switcher + theme toggle -->
+      <div class="flex items-center justify-between pt-1">
+        <div class="flex items-center gap-2">
+          <NuxtLink
+            v-for="l in otherLocales"
+            :key="l.code"
+            :to="switchLocalePath(l.code)"
+            class="text-ink-low hover:text-ink-high uppercase tracking-wider transition-colors"
+          >
+            {{ l.code }}
+          </NuxtLink>
+          <span class="text-ink-high uppercase tracking-wider">{{ locale }}</span>
+        </div>
+        <button
+          type="button"
+          class="text-ink-low hover:text-ink-high text-base transition-colors w-6 h-6 inline-flex items-center justify-center"
+          :title="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
+          :aria-label="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
+          @click="toggleTheme"
         >
-          {{ l.code }}
-        </NuxtLink>
-        <span class="text-ink-high uppercase tracking-wider">{{ locale }}</span>
+          <span class="glyph">{{ isDark ? '☀' : '☾' }}</span>
+        </button>
       </div>
     </div>
   </aside>
