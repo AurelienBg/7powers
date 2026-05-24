@@ -885,7 +885,10 @@
     },
     "errors": {
       "generic": "Error calling the coach. Check your connection and try again."
-    }
+    },
+    "stopStreaming": "Stop",
+    "tokenUsage": "{n} tokens",
+    "tokenUsageDetail": "{input} in + {output} out"
   },
   "powers": {
     "scale": "Scale Economies",

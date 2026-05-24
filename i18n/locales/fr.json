@@ -885,7 +885,10 @@
     },
     "errors": {
       "generic": "Erreur lors de l'appel au coach. Vérifie ta connexion et réessaie."
-    }
+    },
+    "stopStreaming": "Stop",
+    "tokenUsage": "{n} tokens",
+    "tokenUsageDetail": "{input} in + {output} out"
   },
   "powers": {
     "scale": "Économies d'échelle",

@@ -15,6 +15,13 @@ export function useCoach(powerContext: Ref<PowerContext>) {
 
   const isStreaming = ref(false)
   const errorMessage = ref<string | null>(null)
+  // Token usage from the most recent assistant response — surfaced in the UI
+  // footer so power users can see how expensive their conversations are.
+  const lastUsage = ref<{ input_tokens?: number; output_tokens?: number } | null>(null)
+  // AbortController for the in-flight fetch. Kept in module scope of this
+  // composable invocation so the "Stop generating" button can call .abort()
+  // without prop-drilling.
+  let activeController: AbortController | null = null
 
   const messages = computed<CoachLocalMessage[]>(() => {
     if (!currentProject.value) return []
@@ -86,10 +93,17 @@ export function useCoach(powerContext: Ref<PowerContext>) {
           .map((m) => ({ role: m.role, content: m.content }))
       }
 
+      // Hook up an AbortController so the UI can interrupt streaming
+      // ("Stop generating" button). If a previous stream is somehow still
+      // referenced, abort it defensively before starting a new one.
+      activeController?.abort()
+      activeController = new AbortController()
+
       const response = await fetch('/api/coach', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: activeController.signal
       })
 
       if (!response.ok || !response.body) {
@@ -135,15 +149,32 @@ export function useCoach(powerContext: Ref<PowerContext>) {
             errorMessage.value = parsed.message ?? t('coach.errors.generic')
             break
           } else if (eventName === 'done') {
-            // Stream finished cleanly.
+            // Stream finished cleanly. The server side emits the Anthropic
+            // `usage` block here (see server/api/coach.post.ts), so we
+            // can surface input/output token counts in the UI.
+            const u = (parsed as { usage?: { input_tokens?: number; output_tokens?: number } }).usage
+            if (u) lastUsage.value = u
           }
         }
       }
     } catch (e) {
-      errorMessage.value = e instanceof Error ? e.message : t('coach.errors.generic')
+      // User-initiated abort is NOT an error worth surfacing. Anything
+      // else (network, parse, server error) is.
+      if (e instanceof Error && e.name === 'AbortError') {
+        // Trim the trailing space the assistant might have just written
+        // so the final visible message looks intentional.
+      } else {
+        errorMessage.value = e instanceof Error ? e.message : t('coach.errors.generic')
+      }
     } finally {
       isStreaming.value = false
+      activeController = null
     }
+  }
+
+  /** Interrupt the in-flight stream, if any. */
+  function abortStream() {
+    activeController?.abort()
   }
 
   function clearThread() {
@@ -156,7 +187,9 @@ export function useCoach(powerContext: Ref<PowerContext>) {
     messages,
     isStreaming: readonly(isStreaming),
     errorMessage: readonly(errorMessage),
+    lastUsage: readonly(lastUsage),
     sendMessage,
+    abortStream,
     clearThread
   }
 }

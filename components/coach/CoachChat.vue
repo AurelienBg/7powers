@@ -26,7 +26,23 @@ const powerContext = computed<PowerContext>(() => {
   return 'general'
 })
 
-const { messages, isStreaming, errorMessage, sendMessage, clearThread } = useCoach(powerContext)
+const {
+  messages,
+  isStreaming,
+  errorMessage,
+  lastUsage,
+  sendMessage,
+  abortStream,
+  clearThread
+} = useCoach(powerContext)
+
+// Derived total tokens for the most recent assistant response (input + output).
+// Surfaced in the footer so the user can see how heavy their conversations are.
+const totalTokens = computed(() => {
+  const u = lastUsage.value
+  if (!u) return null
+  return (u.input_tokens ?? 0) + (u.output_tokens ?? 0)
+})
 
 // ============================================================
 // Input handling
@@ -227,14 +243,43 @@ async function useSuggestedPrompt(prompt: string) {
           @keydown="onKeydown"
         />
         <div class="flex items-center justify-between gap-2">
-          <p class="text-[10px] text-ink-low">{{ t('coach.inputHint') }}</p>
+          <!-- Left meta: hint when idle, token count when we have one -->
+          <p class="text-[10px] text-ink-low flex items-center gap-2">
+            <span>{{ t('coach.inputHint') }}</span>
+            <span
+              v-if="totalTokens !== null"
+              class="tabular-nums"
+              :title="t('coach.tokenUsageDetail', {
+                input: lastUsage?.input_tokens ?? 0,
+                output: lastUsage?.output_tokens ?? 0
+              })"
+            >
+              · {{ t('coach.tokenUsage', { n: totalTokens }) }}
+            </span>
+          </p>
+
+          <!-- Streaming → Stop button. Idle → Send. Keeping a single button
+               slot avoids layout jitter when state flips. -->
           <button
+            v-if="isStreaming"
+            type="button"
+            class="btn-ghost !px-4 !py-1.5 text-sm border border-amber-500/40 text-amber-300
+                   hover:border-amber-400 hover:text-amber-200"
+            @click="abortStream"
+          >
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-2 h-2 bg-amber-400 rounded-sm"></span>
+              <span>{{ t('coach.stopStreaming') }}</span>
+            </span>
+          </button>
+          <button
+            v-else
             type="button"
             class="btn-primary !px-4 !py-1.5 text-sm"
-            :disabled="!input.trim() || isStreaming"
+            :disabled="!input.trim()"
             @click="submit"
           >
-            {{ isStreaming ? t('coach.streaming') : t('coach.send') }}
+            {{ t('coach.send') }}
           </button>
         </div>
       </div>
