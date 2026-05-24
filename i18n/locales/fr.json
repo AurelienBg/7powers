@@ -670,6 +670,50 @@
     "inputHint": "Entrée pour envoyer · Shift+Entrée pour une nouvelle ligne",
     "emptyTitle": "Stress-teste ta défensibilité",
     "emptyBody": "Décris ton Benefit, ta Barrier, ou demande au coach un avis sur ce que tu viens de saisir. Il connaît ton projet, son secteur, son stade, et tes scores actuels.",
+    "suggestedPromptsHeading": "Suggestions pour démarrer",
+    "suggestedPrompts": {
+      "general": [
+        "C'est quoi un Power chez Helmer, vs un simple avantage compétitif ?",
+        "Quels Powers se construisent au stade où je suis ?",
+        "Donne-moi 3 exemples de Powers dans mon secteur",
+        "Sur quel Power je devrais bosser en premier vu mon projet ?"
+      ],
+      "scale": [
+        "Comment je quantifie le Benefit de mes Scale Economies ?",
+        "Mon TVL / volume actuel suffit-il pour avoir un vrai Power Scale ?",
+        "Quels concurrents dans mon secteur ont vraiment Scale comme Power ?"
+      ],
+      "network": [
+        "Comment savoir si mon Network Effect est déjà activé (pas juste des users) ?",
+        "Quelle métrique de mon projet trahirait un vrai Network Effect ?",
+        "Mes incentives liquidity mining suffisent-elles à briser un Network ?"
+      ],
+      "counter": [
+        "Quel est le dilemme cannibal exact que je peux exploiter chez les incumbents ?",
+        "Mon modèle est-il vraiment différent ou juste meilleur ?",
+        "Quels exemples DeFi de Counter-Positioning solide ?"
+      ],
+      "switching": [
+        "Quels switching costs accumule mon user après 6 mois ?",
+        "Mon premium pricing est-il défendable ou arbitrable ?",
+        "Comment renforcer le lock-in sans devenir hostile à l'user ?"
+      ],
+      "branding": [
+        "Est-ce que je suis trop tôt pour revendiquer Branding (stade S-Curve) ?",
+        "Quels signaux concrets de marque montrent que Branding est activé ?",
+        "Combien de temps + de capital pour un challenger d'égaler ma brand ?"
+      ],
+      "cornered": [
+        "Mon actif exclusif est-il défendable juridiquement ou juste rare ?",
+        "Que se passe-t-il si je perds cet actif (contrat, IP, talent) ?",
+        "Comment construire un 2nd-order moat autour de cet asset ?"
+      ],
+      "process": [
+        "Mon écart de performance avec les concurrents est-il vraiment > 20% ?",
+        "Quel process tacite ferait échouer un copy-paste de mon playbook ?",
+        "Suis-je au stade Stability où Process Power se consolide ?"
+      ]
+    },
     "errors": {
       "generic": "Erreur lors de l'appel au coach. Vérifie ta connexion et réessaie."
     }

@@ -670,6 +670,50 @@
     "inputHint": "Enter to send · Shift+Enter for a newline",
     "emptyTitle": "Stress-test your defensibility",
     "emptyBody": "Describe your Benefit, your Barrier, or ask the coach to assess what you just filled in. It knows your project, sector, stage, and current scores.",
+    "suggestedPromptsHeading": "Suggestions to get started",
+    "suggestedPrompts": {
+      "general": [
+        "What's a Power per Helmer, vs a simple competitive advantage?",
+        "Which Powers are built at my current stage?",
+        "Give me 3 examples of Powers in my sector",
+        "Which Power should I work on first given my project?"
+      ],
+      "scale": [
+        "How do I quantify the Benefit of my Scale Economies?",
+        "Is my current TVL / volume enough to claim a real Scale Power?",
+        "Which competitors in my sector actually have Scale as a Power?"
+      ],
+      "network": [
+        "How do I know if my Network Effect is actually active (not just users)?",
+        "Which metric of my project would reveal a real Network Effect?",
+        "Are my liquidity mining incentives enough to break a Network?"
+      ],
+      "counter": [
+        "What's the exact cannibalization dilemma I can exploit against incumbents?",
+        "Is my model truly different, or just better?",
+        "Give me solid DeFi examples of Counter-Positioning"
+      ],
+      "switching": [
+        "What switching costs accumulate for my user after 6 months?",
+        "Is my premium pricing defensible or arbitrable?",
+        "How do I reinforce lock-in without becoming user-hostile?"
+      ],
+      "branding": [
+        "Am I too early to claim Branding (S-Curve stage)?",
+        "What concrete brand signals show Branding is activated?",
+        "How much time + capital for a challenger to match my brand?"
+      ],
+      "cornered": [
+        "Is my exclusive asset legally defensible or just rare?",
+        "What happens if I lose this asset (contract, IP, talent)?",
+        "How do I build a 2nd-order moat around this asset?"
+      ],
+      "process": [
+        "Is my performance gap with competitors really > 20%?",
+        "What tacit process would cause a copy-paste of my playbook to fail?",
+        "Am I at the Stability stage where Process Power consolidates?"
+      ]
+    },
     "errors": {
       "generic": "Error calling the coach. Check your connection and try again."
     }

@@ -76,6 +76,34 @@ const contextLabel = computed(() => {
   if (ctx === 'general') return t('coach.contextGeneral')
   return t(`powers.${ctx}`)
 })
+
+// Context-aware suggested prompts for the empty state.
+// On a specific Power module, surface prompts about that Power.
+// Falls back to general Helmer prompts on hub / market / etc.
+const suggestedPrompts = computed<string[]>(() => {
+  const ctx = powerContext.value
+  if (ctx === 'general') {
+    return [
+      t('coach.suggestedPrompts.general.0'),
+      t('coach.suggestedPrompts.general.1'),
+      t('coach.suggestedPrompts.general.2'),
+      t('coach.suggestedPrompts.general.3')
+    ]
+  }
+  // Per-Power prompts — also include 1-2 generic Helmer ones for variety
+  return [
+    t(`coach.suggestedPrompts.${ctx}.0`),
+    t(`coach.suggestedPrompts.${ctx}.1`),
+    t(`coach.suggestedPrompts.${ctx}.2`),
+    t('coach.suggestedPrompts.general.0')
+  ]
+})
+
+async function useSuggestedPrompt(prompt: string) {
+  // Auto-send: less friction than letting the user pre-edit. They can
+  // always type a follow-up after seeing the response.
+  await sendMessage(prompt)
+}
 </script>
 
 <template>
@@ -141,12 +169,33 @@ const contextLabel = computed(() => {
         ref="messagesEl"
         class="flex-1 overflow-y-auto px-4 py-4 space-y-3"
       >
-        <!-- Empty state -->
-        <div v-if="messages.length === 0" class="space-y-3 py-6">
+        <!-- Empty state with suggested prompts -->
+        <div v-if="messages.length === 0" class="space-y-4 py-4">
           <div class="text-center space-y-2">
             <span class="glyph text-4xl text-gold-bright">✦</span>
             <h3 class="text-base font-medium text-ink-high">{{ t('coach.emptyTitle') }}</h3>
             <p class="text-sm text-ink-mid leading-relaxed">{{ t('coach.emptyBody') }}</p>
+          </div>
+
+          <div class="space-y-2 pt-2">
+            <p class="text-[10px] uppercase tracking-widest text-ink-low text-center">
+              {{ t('coach.suggestedPromptsHeading') }}
+            </p>
+            <div class="space-y-1.5">
+              <button
+                v-for="(prompt, idx) in suggestedPrompts"
+                :key="idx"
+                type="button"
+                class="w-full text-left px-3 py-2 rounded-lg
+                       bg-bg-elevated border border-border-subtle
+                       text-xs text-ink-high
+                       hover:border-accent-blue hover:bg-bg-card
+                       transition-colors"
+                @click="useSuggestedPrompt(prompt)"
+              >
+                {{ prompt }}
+              </button>
+            </div>
           </div>
         </div>
 
