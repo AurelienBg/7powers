@@ -138,30 +138,44 @@ function handleDuplicate(p: LocalProject) {
               </p>
             </NuxtLink>
           </div>
-          <div class="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div class="flex items-center gap-1 shrink-0">
             <button
               type="button"
-              class="w-7 h-7 rounded inline-flex items-center justify-center text-ink-low hover:text-ink-high hover:bg-bg-elevated transition-colors"
+              class="w-8 h-8 rounded inline-flex items-center justify-center
+                     text-accent-blue-bright hover:text-accent-blue hover:bg-bg-elevated
+                     border border-border-subtle hover:border-accent-blue transition-colors"
               :title="t('dashboard.editProject')"
               @click.stop.prevent="handleEdit(p)"
             >
-              <span class="glyph text-sm">✎</span>
+              <!-- Pencil / Edit -->
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+              </svg>
             </button>
             <button
               type="button"
-              class="w-7 h-7 rounded inline-flex items-center justify-center text-ink-low hover:text-ink-high hover:bg-bg-elevated transition-colors"
+              class="w-8 h-8 rounded inline-flex items-center justify-center
+                     text-accent-blue-bright hover:text-accent-blue hover:bg-bg-elevated
+                     border border-border-subtle hover:border-accent-blue transition-colors"
               :title="t('dashboard.duplicateProject')"
               @click.stop.prevent="handleDuplicate(p)"
             >
-              <span class="glyph text-sm">⎘</span>
+              <!-- Copy / Duplicate -->
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+              </svg>
             </button>
             <button
               type="button"
-              class="w-7 h-7 rounded inline-flex items-center justify-center text-ink-low hover:text-red-400 hover:bg-bg-elevated transition-colors"
+              class="w-8 h-8 rounded inline-flex items-center justify-center
+                     text-red-400 hover:text-red-300 hover:bg-red-500/10
+                     border border-border-subtle hover:border-red-400 transition-colors"
               :title="t('dashboard.deleteProject')"
               @click.stop.prevent="confirmDelete(p)"
             >
-              <!-- Trash icon (Feather Icons style, inline SVG to follow currentColor) -->
+              <!-- Trash -->
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <polyline points="3 6 5 6 21 6" />
                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />

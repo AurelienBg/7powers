@@ -146,7 +146,7 @@ function executeDelete() {
         >
           <div class="flex items-center justify-between">
             <span class="text-[10px] uppercase tracking-wider text-ink-low">{{ t('hub.setupLabel') }}</span>
-            <span class="text-xs uppercase tracking-wider text-accent-blue-bright">
+            <span class="text-xs uppercase tracking-wider text-gold-bright">
               ✓ {{ t('hub.done') }} · {{ t('hub.editProject') }}
             </span>
           </div>
@@ -164,7 +164,8 @@ function executeDelete() {
             <span class="text-[10px] uppercase tracking-wider text-ink-low">{{ t('hub.setupLabel') }}</span>
             <span
               v-if="marketDone"
-              class="text-xs uppercase tracking-wider text-accent-blue-bright tabular-nums"
+              class="text-xs uppercase tracking-wider tabular-nums"
+              :class="marketScore >= 70 ? 'text-gold-bright' : 'text-accent-blue-bright'"
             >
               {{ marketScore }}/100
             </span>
@@ -188,7 +189,8 @@ function executeDelete() {
               <span class="text-xs text-ink-low font-mono">{{ String(idx + 1).padStart(2, '0') }}</span>
               <span
                 v-if="isPowerComplete(assessments[power]?.answers)"
-                class="text-xs uppercase tracking-wider text-accent-blue-bright tabular-nums"
+                class="text-xs uppercase tracking-wider tabular-nums"
+                :class="computePowerScore(assessments[power]?.answers) >= 70 ? 'text-gold-bright' : 'text-accent-blue-bright'"
               >
                 {{ computePowerScore(assessments[power]?.answers) }}/100
               </span>

@@ -227,7 +227,7 @@ watch(() => route.path, () => {
               <span class="flex items-center gap-2">
                 <span>{{ t('hub.module0') }}</span>
               </span>
-              <span class="text-xs text-accent-blue-bright">✓</span>
+              <span class="text-xs text-gold-bright">✓</span>
             </NuxtLink>
             <NuxtLink
               :to="localePath(`/project/${currentProject.local_id}/market`)"
@@ -239,7 +239,11 @@ watch(() => route.path, () => {
               <span class="flex items-center gap-2">
                 <span>{{ t('hub.module1') }}</span>
               </span>
-              <span v-if="marketDone" class="text-xs text-accent-blue-bright tabular-nums">{{ marketScore }}</span>
+              <span
+                v-if="marketDone"
+                class="text-xs tabular-nums"
+                :class="marketScore >= 70 ? 'text-gold-bright' : 'text-accent-blue-bright'"
+              >{{ marketScore }}</span>
             </NuxtLink>
           </div>
 
@@ -260,7 +264,11 @@ watch(() => route.path, () => {
                   <span class="glyph text-sm text-accent-blue-bright">{{ t(`powerGlyphs.${power}`) }}</span>
                   <span>{{ t(`powers.${power}`) }}</span>
                 </span>
-                <span v-if="powerDone(power)" class="text-xs text-accent-blue-bright tabular-nums">{{ powerScore(power) }}</span>
+                <span
+                  v-if="powerDone(power)"
+                  class="text-xs tabular-nums"
+                  :class="powerScore(power) >= 70 ? 'text-gold-bright' : 'text-accent-blue-bright'"
+                >{{ powerScore(power) }}</span>
               </NuxtLink>
 
               <div
@@ -390,12 +398,27 @@ watch(() => route.path, () => {
         </div>
         <button
           type="button"
-          class="text-ink-low hover:text-ink-high text-base transition-colors w-6 h-6 inline-flex items-center justify-center"
+          class="w-7 h-7 inline-flex items-center justify-center rounded
+                 hover:bg-bg-elevated transition-colors"
+          :class="isDark ? 'text-gold-bright hover:text-gold' : 'text-accent-blue-bright hover:text-accent-blue'"
           :title="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
           :aria-label="isDark ? t('nav.switchToLight') : t('nav.switchToDark')"
           @click="toggleTheme"
         >
-          <span class="glyph">{{ isDark ? '☀' : '☾' }}</span>
+          <svg v-if="isDark" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.5" />
+            <line x1="12" y1="1.5" x2="12" y2="4" />
+            <line x1="12" y1="20" x2="12" y2="22.5" />
+            <line x1="4.22" y1="4.22" x2="5.85" y2="5.85" />
+            <line x1="18.15" y1="18.15" x2="19.78" y2="19.78" />
+            <line x1="1.5" y1="12" x2="4" y2="12" />
+            <line x1="20" y1="12" x2="22.5" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.85" y2="18.15" />
+            <line x1="18.15" y1="5.85" x2="19.78" y2="4.22" />
+          </svg>
+          <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
         </button>
       </div>
     </div>

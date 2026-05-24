@@ -46,9 +46,9 @@ const powers = [
   <main class="mx-auto max-w-5xl px-6 py-24 space-y-32">
     <!-- HERO -->
     <section class="space-y-8">
-      <div class="flex items-center gap-3 text-ink-mid">
+      <div class="flex items-center gap-3">
         <Logo :size="56" />
-        <span class="tracking-widest text-xs uppercase">{{ t('landing.hero.kicker') }}</span>
+        <span class="tracking-widest text-xs uppercase text-gold-bright">{{ t('landing.hero.kicker') }}</span>
       </div>
 
       <h1 class="text-4xl md:text-5xl font-semibold leading-tight text-ink-high max-w-3xl">
