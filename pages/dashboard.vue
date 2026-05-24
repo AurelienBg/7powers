@@ -194,12 +194,15 @@ function handleDuplicate(p: LocalProject) {
           <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-bg-elevated text-ink-mid border border-border-subtle">
             {{ t(`stages.${p.stage}`) }}
           </span>
+          <!-- Sync status: just the cloud glyph, no label. The "synced" state
+               is the happy default — showing a full tag for every card was
+               visually noisy. Tooltip keeps the info discoverable. -->
           <span
             v-if="isProjectSynced(p)"
-            class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-accent-blue/10 text-accent-blue-bright border border-accent-blue/30"
-          >
-            ☁ {{ t('nav.syncedToCloud') }}
-          </span>
+            class="text-[10px] text-ink-low ml-0.5 select-none"
+            :title="t('nav.syncedToCloud')"
+            :aria-label="t('nav.syncedToCloud')"
+          >☁</span>
         </div>
 
         <!-- Description (takes remaining vertical space so the score row stays
