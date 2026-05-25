@@ -300,20 +300,24 @@ function save() {
               <p class="text-sm font-medium text-ink-high inline-flex items-center gap-2 flex-wrap">
                 <span class="text-[10px] text-ink-low font-mono uppercase tabular-nums">{{ key }}</span>
                 <span>{{ t(`power.${powerType}.${key}.label`) }}</span>
-                <!-- Inline AI help — opens the Coach drawer with a
-                     question-specific prompt. Coach already has the
+                <!-- Inline AI help — visible pill with glyph + 'AI' label.
+                     The previous icon-only version was too discreet to
+                     read as a CTA. Opens the Coach drawer with a
+                     question-specific prompt; Coach already has the
                      project + power context in its system prompt. -->
                 <button
                   type="button"
-                  class="inline-flex items-center justify-center w-5 h-5 rounded-full
-                         text-gold-bright/70 hover:text-gold-bright hover:bg-gold-bright/10
-                         border border-transparent hover:border-gold-bright/30
-                         transition-colors text-xs leading-none"
+                  class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md
+                         text-[10px] uppercase tracking-wider font-medium
+                         text-gold-bright bg-gold-bright/10 border border-gold-bright/40
+                         hover:bg-gold-bright/20 hover:border-gold-bright/60
+                         transition-colors leading-none"
                   :title="t('power.askHelpTooltip')"
                   :aria-label="t('power.askHelpTooltip')"
                   @click="askHelp(key)"
                 >
                   <span class="glyph">✦</span>
+                  <span>{{ t('power.askHelpLabel') }}</span>
                 </button>
               </p>
               <p class="text-xs text-ink-mid">{{ t(`power.${powerType}.${key}.hint`) }}</p>

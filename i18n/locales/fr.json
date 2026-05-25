@@ -647,7 +647,8 @@
     "askHelpTooltip": "Demande au Coach IA d'expliquer cette question",
     "askCritique": "Demander un feedback à l'IA",
     "askCritiqueTooltip": "Envoie ton Benefit + Barrier au Coach IA pour critique constructive",
-    "askCritiqueDisabledTooltip": "Renseigne au moins le Benefit ou le Barrier d'abord"
+    "askCritiqueDisabledTooltip": "Renseigne au moins le Benefit ou le Barrier d'abord",
+    "askHelpLabel": "Aide IA"
   },
   "module1": {
     "step": "Setup",

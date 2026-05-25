@@ -647,7 +647,8 @@
     "askHelpTooltip": "Ask the AI Coach to explain this question",
     "askCritique": "Ask the AI for feedback",
     "askCritiqueTooltip": "Send your Benefit + Barrier to the AI Coach for a critique",
-    "askCritiqueDisabledTooltip": "Fill at least the Benefit or the Barrier first"
+    "askCritiqueDisabledTooltip": "Fill at least the Benefit or the Barrier first",
+    "askHelpLabel": "AI help"
   },
   "module1": {
     "step": "Setup",
