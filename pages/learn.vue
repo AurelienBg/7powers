@@ -140,7 +140,7 @@ onMounted(() => {
         <section class="space-y-4">
           <div class="flex items-center gap-3 text-ink-mid">
             <Logo :size="40" />
-            <span class="tracking-widest text-xs uppercase text-gold-bright">
+            <span class="tracking-widest text-xs uppercase text-accent-blue-bright">
               {{ t('learn.hero.kicker') }}
             </span>
           </div>
