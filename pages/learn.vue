@@ -90,15 +90,52 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="mx-auto max-w-6xl px-6 py-16">
-    <!-- Grid: main column + sticky TOC (md+). Mobile collapses to one col. -->
-    <div class="grid md:grid-cols-[1fr_220px] gap-8 md:gap-12">
+  <!-- Same shell as the `project` layout: a fixed-width sidebar on the
+       LEFT (border-r, sticky under AppHeader), then the main column on
+       the right. User asked for visual parity with the project sidebar
+       ('sidebar comme pour assess'). -->
+  <div class="flex min-h-[calc(100vh-3.5rem)]">
 
-      <!-- ============================================================ -->
-      <!-- MAIN COLUMN — same content as before, tightened section gap  -->
-      <!-- (space-y-20 → space-y-12), per user feedback on whitespace.  -->
-      <!-- ============================================================ -->
-      <div class="space-y-12 min-w-0">
+    <!-- ============================================================ -->
+    <!-- TOC SIDEBAR — w-72 to match ProjectSidebar, border-r, sticky  -->
+    <!-- under the topbar. Hidden on mobile (the page stays readable  -->
+    <!-- without it).                                                  -->
+    <!-- ============================================================ -->
+    <aside
+      class="hidden md:flex md:flex-col w-72 shrink-0 border-r border-border-subtle
+             bg-bg-base sticky top-14 self-start h-[calc(100vh-3.5rem)] overflow-y-auto"
+      :aria-label="t('learn.toc.label')"
+    >
+      <div class="px-5 pt-4 pb-2">
+        <p class="text-[10px] uppercase tracking-widest text-ink-low">
+          {{ t('learn.toc.label') }}
+        </p>
+      </div>
+      <nav class="px-3 pb-4 space-y-0.5">
+        <a
+          v-for="(item, idx) in tocItems"
+          :key="item.id"
+          :href="`#${item.id}`"
+          class="flex items-center justify-between pl-5 pr-2 py-1.5 rounded text-sm transition-colors"
+          :class="activeSection === item.id
+            ? 'bg-accent-blue/15 text-ink-high border-l-2 border-accent-blue'
+            : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
+        >
+          <span class="flex items-center gap-2 min-w-0">
+            <span class="text-[10px] text-gold-bright/80 font-mono tabular-nums shrink-0">
+              {{ String(idx + 1).padStart(2, '0') }}
+            </span>
+            <span class="truncate">{{ t(item.labelKey) }}</span>
+          </span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- ============================================================ -->
+    <!-- MAIN COLUMN — same content as before, max-w-4xl reading width -->
+    <!-- ============================================================ -->
+    <div class="flex-1 min-w-0">
+      <div class="mx-auto max-w-4xl px-6 py-16 space-y-12">
         <!-- HERO -->
         <section class="space-y-4">
           <div class="flex items-center gap-3 text-ink-mid">
@@ -265,32 +302,6 @@ onMounted(() => {
           </NuxtLink>
         </section>
       </div>
-
-      <!-- ============================================================ -->
-      <!-- TOC SIDEBAR — sticky on md+, hidden on mobile (long page is  -->
-      <!-- still readable, just lose the jump-to affordance).            -->
-      <!-- ============================================================ -->
-      <aside class="hidden md:block">
-        <nav
-          class="sticky top-20 space-y-1 border-l border-border-subtle pl-4 text-sm"
-          :aria-label="t('learn.toc.label')"
-        >
-          <p class="text-[10px] uppercase tracking-widest text-ink-low mb-2">
-            {{ t('learn.toc.label') }}
-          </p>
-          <a
-            v-for="item in tocItems"
-            :key="item.id"
-            :href="`#${item.id}`"
-            class="block px-2 py-1 rounded-md transition-colors leading-snug"
-            :class="activeSection === item.id
-              ? 'text-ink-high bg-accent-blue/10 border-l-2 border-accent-blue -ml-[18px] pl-[16px]'
-              : 'text-ink-mid hover:text-ink-high hover:bg-bg-elevated/60'"
-          >
-            {{ t(item.labelKey) }}
-          </a>
-        </nav>
-      </aside>
     </div>
-  </main>
+  </div>
 </template>
