@@ -13,6 +13,8 @@ const projectStore = useProjectStore()
 const { compute: computePowerScore } = usePowerScore()
 
 const projectToDelete = ref<LocalProject | null>(null)
+const deleteError = ref<string | null>(null)
+const deleting = ref(false)
 
 function projectInitial(p: LocalProject): string {
   return p.name.charAt(0).toUpperCase() || '·'
@@ -64,12 +66,27 @@ function confirmDelete(p: LocalProject) {
 
 function cancelDelete() {
   projectToDelete.value = null
+  deleteError.value = null
 }
 
-function executeDelete() {
+async function executeDelete() {
   if (!projectToDelete.value) return
-  deleteProject(projectToDelete.value.local_id)
-  projectToDelete.value = null
+  deleting.value = true
+  deleteError.value = null
+  try {
+    await deleteProject(projectToDelete.value.local_id)
+    projectToDelete.value = null
+  } catch (e) {
+    // Cloud delete failed (RLS, network, etc). Keep the modal open with
+    // a visible error so the user can retry. Critically, we do NOT remove
+    // the project locally on failure — otherwise sign-out+in would
+    // resurrect it via fetchFromCloud and the bug we just fixed would
+    // come back.
+    deleteError.value = e instanceof Error ? e.message : t('dashboard.deleteError')
+    console.error('[dashboard] delete failed:', e)
+  } finally {
+    deleting.value = false
+  }
 }
 
 function handleEdit(p: LocalProject) {
@@ -286,18 +303,31 @@ function handleDuplicate(p: LocalProject) {
         <p class="text-sm text-ink-mid">
           {{ t('dashboard.deleteConfirmBody', { name: projectToDelete.name }) }}
         </p>
+        <div
+          v-if="deleteError"
+          class="card p-3 border-red-500/30 bg-red-500/5 break-words"
+        >
+          <p class="text-xs uppercase tracking-wider text-red-300 mb-1">{{ t('dashboard.deleteErrorLabel') }}</p>
+          <p class="text-xs font-mono text-red-200">{{ deleteError }}</p>
+        </div>
         <div class="flex items-center justify-end gap-2 pt-2">
-          <button type="button" class="btn-ghost !py-2 !px-4 text-sm" @click="cancelDelete">
+          <button
+            type="button"
+            class="btn-ghost !py-2 !px-4 text-sm"
+            :disabled="deleting"
+            @click="cancelDelete"
+          >
             {{ t('dashboard.deleteCancel') }}
           </button>
           <button
             type="button"
             class="inline-flex items-center justify-center px-4 py-2 rounded-lg
                    bg-red-500/90 text-white text-sm font-medium
-                   hover:bg-red-500 transition-colors"
+                   hover:bg-red-500 transition-colors disabled:opacity-50"
+            :disabled="deleting"
             @click="executeDelete"
           >
-            {{ t('dashboard.deleteConfirm') }}
+            {{ deleting ? t('dashboard.deleting') : t('dashboard.deleteConfirm') }}
           </button>
         </div>
       </div>

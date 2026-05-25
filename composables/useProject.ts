@@ -45,7 +45,35 @@ export function useProject() {
     store.setCurrentProject(localId)
   }
 
-  function deleteProject(localId: string) {
+  /**
+   * Delete a project EVERYWHERE.
+   *
+   * 1. If the project was ever synced (we have its cloud uuid in
+   *    cloudIdByLocalId), DELETE the cloud row first. RLS guarantees we
+   *    can only delete our own. The FK cascade on power_assessments and
+   *    coach_messages takes care of the children server-side.
+   * 2. Then remove locally.
+   *
+   * Order matters: if we wiped local first and the cloud delete failed,
+   * a sign-out → sign-in cycle would resurrect the row via fetchFromCloud
+   * (which is exactly the bug the user reported). Doing cloud first +
+   * throwing on failure ensures local and cloud stay in sync.
+   */
+  async function deleteProject(localId: string): Promise<void> {
+    if (user.value) {
+      const cloudId = store.cloudIdByLocalId[localId]
+      if (cloudId) {
+        console.log('[deleteProject] cloud delete for', cloudId)
+        const { error } = await supabase
+          .from('projects')
+          .delete()
+          .eq('id', cloudId)
+        if (error) {
+          console.error('[deleteProject] cloud delete failed:', error)
+          throw error
+        }
+      }
+    }
     store.deleteProject(localId)
   }
 

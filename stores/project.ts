@@ -136,6 +136,9 @@ export const useProjectStore = defineStore('project', {
     deleteProject(localId: string) {
       delete this.projects[localId]
       delete this.assessmentsByProject[localId]
+      // Also drop the local→cloud mapping so re-creating a project with
+      // the same local id wouldn't accidentally target the old cloud row.
+      delete this.cloudIdByLocalId[localId]
       this.syncedLocalIds = this.syncedLocalIds.filter((id) => id !== localId)
       if (this.currentProjectId === localId) {
         // Pick the next most-recently-updated project, or null if none left.

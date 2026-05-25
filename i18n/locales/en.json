@@ -846,7 +846,10 @@
     "timeMinutesAgo": "{n} min ago",
     "timeHoursAgo": "{n} h ago",
     "timeDaysAgo": "{n} d ago",
-    "syncTooltip": "Backed up to the cloud (Supabase). This project will be restored automatically if you sign in from another browser."
+    "syncTooltip": "Backed up to the cloud (Supabase). This project will be restored automatically if you sign in from another browser.",
+    "deleting": "Deleting…",
+    "deleteError": "Delete failed",
+    "deleteErrorLabel": "Detail"
   },
   "coach": {
     "title": "Helmer Coach",

@@ -846,7 +846,10 @@
     "timeMinutesAgo": "il y a {n} min",
     "timeHoursAgo": "il y a {n} h",
     "timeDaysAgo": "il y a {n} j",
-    "syncTooltip": "Sauvegardé dans le cloud (Supabase). Ce projet est restauré automatiquement si tu te reconnectes sur un autre navigateur."
+    "syncTooltip": "Sauvegardé dans le cloud (Supabase). Ce projet est restauré automatiquement si tu te reconnectes sur un autre navigateur.",
+    "deleting": "Suppression…",
+    "deleteError": "Échec de la suppression",
+    "deleteErrorLabel": "Détail"
   },
   "coach": {
     "title": "Coach Helmer",
