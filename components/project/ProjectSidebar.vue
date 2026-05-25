@@ -225,7 +225,7 @@ watch(() => route.path, () => {
                   : 'text-ink-mid hover:text-ink-high hover:bg-bg-card'"
               >
                 <span class="flex items-center gap-2">
-                  <span class="text-[10px] text-ink-low font-mono tabular-nums">{{ String(idx + 1).padStart(2, '0') }}</span>
+                  <span class="text-[10px] text-gold-bright/80 font-mono tabular-nums">{{ String(idx + 1).padStart(2, '0') }}</span>
                   <span class="glyph text-sm text-accent-blue-bright">{{ t(`powerGlyphs.${power}`) }}</span>
                   <span>{{ t(`powers.${power}`) }}</span>
                 </span>

@@ -106,7 +106,7 @@ function handleDuplicate(p: LocalProject) {
     <header class="flex items-end justify-between gap-6 flex-wrap">
       <div class="space-y-2">
         <p class="text-xs uppercase tracking-widest text-ink-mid">{{ t('dashboard.kicker') }}</p>
-        <h1 class="text-3xl font-semibold text-ink-high">{{ t('dashboard.title') }}</h1>
+        <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-ink-high">{{ t('dashboard.title') }}</h1>
         <p class="text-ink-mid">{{ t('dashboard.subtitle', { count: projectList.length }) }}</p>
       </div>
       <NuxtLink :to="localePath('/project/new')" class="btn-primary !px-5 !py-2.5">

@@ -95,7 +95,17 @@
     "examplesEyebrow": "Cas pratiques",
     "examplesTitle": "12 entreprises décortiquées",
     "examplesBody": "Netflix, Uber, Uniswap, Anthropic... vois comment les 7 Powers se manifestent (ou pas) dans des cas réels.",
-    "examplesLink": "Voir la bibliothèque"
+    "examplesLink": "Voir la bibliothèque",
+    "toc": {
+      "label": "Sommaire",
+      "power": "Qu'est-ce qu'un Power",
+      "sCurve": "S-Curve",
+      "powers": "Les 7 Powers",
+      "value": "Value = Market × Power",
+      "pitfalls": "Pièges classiques",
+      "resources": "Ressources",
+      "next": "Aller plus loin"
+    }
   },
   "helmerTerms": {
     "close": "Fermer",
