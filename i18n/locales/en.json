@@ -643,7 +643,11 @@
       "whyMatters": "The most invisible and most durable Power. A competitor can read your documentation, hire your VP Eng — and still fail. Toyota, Aave, Anthropic — decades of iterations accumulating into non-transferable tacit knowledge, distributed across hundreds of people.",
       "pitfalls": "Thinking that documenting the process = transferring the Power. Helmer insists: if you can write your process in a transferable manual, it's NOT Process Power. Real Process Power is the part that resists documentation — the culture, the collective intuition, the thousands of micro-decisions made unconsciously.",
       "deepDive": "Toyota Production System: the book has been public for 30 years. GM hired ex-Toyota executives in the 2000s to copy. Result: they implemented the rituals (kaizen, andon cord) but without the soul. Toyota still produces fewer defects per vehicle, at 30%+ higher margin. Process Power = tacit complexity, not the SOPs."
-    }
+    },
+    "askHelpTooltip": "Ask the AI Coach to explain this question",
+    "askCritique": "Ask the AI for feedback",
+    "askCritiqueTooltip": "Send your Benefit + Barrier to the AI Coach for a critique",
+    "askCritiqueDisabledTooltip": "Fill at least the Benefit or the Barrier first"
   },
   "module1": {
     "step": "Setup",
@@ -933,7 +937,12 @@
     },
     "stopStreaming": "Stop",
     "tokenUsage": "{n} tokens",
-    "tokenUsageDetail": "{input} in + {output} out"
+    "tokenUsageDetail": "{input} in + {output} out",
+    "injectedPrompts": {
+      "help": "Help me score question {question}. What should I concretely evaluate for my project? Give me 2-3 key criteria and a sector example.",
+      "critique": "Critique my formulation for this Power.\n\nBenefit: {benefit}\nBarrier: {barrier}\n\nApply the 'Me too won't do' test: could a well-funded competitor copy this in 18 months? Be honest, flag weaknesses.",
+      "empty": "(not filled in)"
+    }
   },
   "powers": {
     "scale": "Scale Economies",

@@ -46,6 +46,33 @@ const totalTokens = computed(() => {
 })
 
 // ============================================================
+// External-prompt injection (useCoachInjector).
+// Power-assessment buttons elsewhere push prompts via useCoachInjector;
+// we watch the shared state and auto-send when the drawer is open AND
+// not already streaming a previous response.
+// ============================================================
+const { pendingPrompt } = useCoachInjector()
+watch(pendingPrompt, async (val) => {
+  if (!val) return
+  if (isStreaming.value) return // wait until current stream done
+  if (!isOpen.value) return     // wait until drawer is mounted/visible
+  // Consume + clear before the await so concurrent triggers don't double-fire.
+  const text = val
+  pendingPrompt.value = null
+  await sendMessage(text)
+})
+// Also re-evaluate when the drawer opens (the injector opened it then
+// set the prompt — both refs flip in the same microtask but the order
+// is not guaranteed).
+watch(isOpen, async (open) => {
+  if (!open) return
+  const text = pendingPrompt.value
+  if (!text || isStreaming.value) return
+  pendingPrompt.value = null
+  await sendMessage(text)
+})
+
+// ============================================================
 // Input handling
 // ============================================================
 

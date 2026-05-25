@@ -8,6 +8,7 @@ const route = useRoute()
 const localePath = useLocalePath()
 const { currentProject, assessments, saveAssessment } = useProject()
 const { compute, isComplete } = usePowerScore()
+const { ask: askCoach } = useCoachInjector()
 
 // ============================================================
 // Routing guards
@@ -86,6 +87,44 @@ const questionKeys: QuestionKey[] = ['q1', 'q2', 'q3', 'q4', 'q5']
 function setAnswer(key: QuestionKey, value: number) {
   form[key] = value
 }
+
+// ============================================================
+// Coach IA injection — per-question help + Benefit/Barrier critique
+// ============================================================
+//
+// Both helpers push a prompt into the Coach drawer via useCoachInjector.
+// The Coach already has the full project context (sector, stage, etc.)
+// AND knows it's on this specific Power module — so prompts stay short
+// and the AI fills in the rest from its system context.
+
+/** Ask the Coach to explain a specific question (Q1-Q5). */
+function askHelp(key: QuestionKey) {
+  if (!powerType.value) return
+  const questionLabel = t(`power.${powerType.value}.${key}.label`)
+  askCoach(
+    t('coach.injectedPrompts.help', {
+      question: `${key.toUpperCase()} (${questionLabel})`
+    })
+  )
+}
+
+/** Ask the Coach to critique the user's Benefit / Barrier formulation. */
+function askCritique() {
+  if (!powerType.value) return
+  const b = form.benefit?.trim() ?? ''
+  const r = form.barrier?.trim() ?? ''
+  if (!b && !r) return
+  askCoach(
+    t('coach.injectedPrompts.critique', {
+      benefit: b || t('coach.injectedPrompts.empty'),
+      barrier: r || t('coach.injectedPrompts.empty')
+    })
+  )
+}
+
+const critiqueDisabled = computed(
+  () => !(form.benefit?.trim() || form.barrier?.trim())
+)
 
 const scoreBand = computed(() => {
   const s = liveScore.value
@@ -258,9 +297,24 @@ function save() {
           >
             <!-- Question label + hint (left, takes remaining width) -->
             <div class="flex-1 min-w-0 space-y-0.5">
-              <p class="text-sm font-medium text-ink-high">
-                <span class="text-[10px] text-ink-low font-mono uppercase mr-2 tabular-nums">{{ key }}</span>
-                {{ t(`power.${powerType}.${key}.label`) }}
+              <p class="text-sm font-medium text-ink-high inline-flex items-center gap-2 flex-wrap">
+                <span class="text-[10px] text-ink-low font-mono uppercase tabular-nums">{{ key }}</span>
+                <span>{{ t(`power.${powerType}.${key}.label`) }}</span>
+                <!-- Inline AI help — opens the Coach drawer with a
+                     question-specific prompt. Coach already has the
+                     project + power context in its system prompt. -->
+                <button
+                  type="button"
+                  class="inline-flex items-center justify-center w-5 h-5 rounded-full
+                         text-gold-bright/70 hover:text-gold-bright hover:bg-gold-bright/10
+                         border border-transparent hover:border-gold-bright/30
+                         transition-colors text-xs leading-none"
+                  :title="t('power.askHelpTooltip')"
+                  :aria-label="t('power.askHelpTooltip')"
+                  @click="askHelp(key)"
+                >
+                  <span class="glyph">✦</span>
+                </button>
               </p>
               <p class="text-xs text-ink-mid">{{ t(`power.${powerType}.${key}.hint`) }}</p>
             </div>
@@ -324,6 +378,26 @@ function save() {
               :placeholder="t(`power.${powerType}.barrierPlaceholder`)"
             />
           </div>
+        </div>
+
+        <!-- ✦ Critique button — sends benefit + barrier to the Coach so
+             it can pressure-test the user's formulation (Me-too test,
+             quantification, stage-fit, etc.). Disabled until the user
+             has typed at least one of the two — no point asking the AI
+             to critique nothing. -->
+        <div class="flex justify-end pt-1">
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-md
+                   border border-gold-bright/30 text-gold-bright hover:bg-gold-bright/10
+                   transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            :disabled="critiqueDisabled"
+            :title="critiqueDisabled ? t('power.askCritiqueDisabledTooltip') : t('power.askCritiqueTooltip')"
+            @click="askCritique"
+          >
+            <span class="glyph">✦</span>
+            <span>{{ t('power.askCritique') }}</span>
+          </button>
         </div>
       </section>
 

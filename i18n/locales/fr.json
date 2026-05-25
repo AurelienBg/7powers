@@ -643,7 +643,11 @@
       "whyMatters": "Le Power le plus invisible et le plus durable. Le concurrent peut lire ta documentation, embaucher ton VP Eng — et continuer à échouer. Toyota, Aave, Anthropic — des décennies d'itérations qui s'accumulent en savoir tacite non-transférable, distribué sur des centaines de personnes.",
       "pitfalls": "Penser que documenter le process = transférer le Power. Helmer insiste : si tu peux écrire ton process dans un manuel transmissible, ce n'est PAS du Process Power. Le vrai Process Power est la partie qui résiste à la documentation — la culture, l'intuition collective, les milliers de décisions micro qu'on prend sans réfléchir.",
       "deepDive": "Toyota Production System : le livre est public depuis 30 ans. GM a embauché des ex-Toyota cadres dans les années 2000 pour copier. Résultat : ils ont implémenté les rituels (kaizen, andon cord) mais sans l'âme. Toyota produit toujours moins de défauts par véhicule, à 30%+ de marge supérieure. Le Process Power = la complexité tacite, pas les SOPs."
-    }
+    },
+    "askHelpTooltip": "Demande au Coach IA d'expliquer cette question",
+    "askCritique": "Demander un feedback à l'IA",
+    "askCritiqueTooltip": "Envoie ton Benefit + Barrier au Coach IA pour critique constructive",
+    "askCritiqueDisabledTooltip": "Renseigne au moins le Benefit ou le Barrier d'abord"
   },
   "module1": {
     "step": "Setup",
@@ -933,7 +937,12 @@
     },
     "stopStreaming": "Stop",
     "tokenUsage": "{n} tokens",
-    "tokenUsageDetail": "{input} in + {output} out"
+    "tokenUsageDetail": "{input} in + {output} out",
+    "injectedPrompts": {
+      "help": "Aide-moi à scorer la question {question}. Que dois-je évaluer concrètement pour mon projet ? Donne-moi 2-3 critères clés et un exemple sectoriel.",
+      "critique": "Critique ma formulation pour cette Power.\n\nBenefit : {benefit}\nBarrier : {barrier}\n\nApplique le 'Me too won't do' test : un concurrent bien financé pourrait-il copier ça en 18 mois ? Sois honnête, signale les faiblesses.",
+      "empty": "(non renseigné)"
+    }
   },
   "powers": {
     "scale": "Économies d'échelle",
