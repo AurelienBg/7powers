@@ -83,9 +83,12 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick))
         <p class="text-xs text-ink-high truncate font-medium">{{ shortEmail }}</p>
       </div>
 
-      <!-- XRPL wallet — reuse the sidebar variant which is row-style and
-           fits a dropdown context cleanly. -->
-      <div class="px-3 py-2.5 border-b border-border-subtle">
+      <!-- XRPL wallet — shown ONLY on mobile here (md:hidden). On desktop
+           the wallet badge lives directly in the header next to the
+           avatar, so duplicating it inside the dropdown is just noise.
+           Mobile has no room for it in the header → keep it accessible
+           via the burger menu. -->
+      <div class="md:hidden px-3 py-2.5 border-b border-border-subtle">
         <p class="text-[10px] uppercase tracking-wider text-ink-low mb-1.5">
           {{ t('nav.userMenuWallet') }}
         </p>

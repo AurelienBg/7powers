@@ -162,8 +162,13 @@ function isActive(target: string): boolean {
           </button>
         </div>
 
-        <!-- Group 3 — Auth: user menu (avatar) or sign-in button -->
-        <div class="flex items-center pl-1.5 ml-1 border-l border-border-subtle">
+        <!-- Group 3 — Auth: wallet badge + user menu (avatar) or sign-in.
+             The XRPL wallet badge sits in the header (md+) so the
+             Web3-native sign-in option stays discoverable for the target
+             DeFi/AI audience — burying it in the UserMenu hid it from
+             ~everyone. On mobile the avatar drops it down via the burger. -->
+        <div class="flex items-center gap-2 pl-1.5 ml-1 border-l border-border-subtle">
+          <WalletBadge v-if="isAuthenticated" variant="header" />
           <UserMenu v-if="isAuthenticated" />
           <NuxtLink
             v-else
