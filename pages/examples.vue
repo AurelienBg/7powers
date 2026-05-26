@@ -83,63 +83,70 @@ function scoreWidth(score: number): string {
 
     <!-- Filters -->
     <div class="space-y-3 mb-8">
-      <!-- Power filter -->
-      <div class="flex items-center gap-2 flex-wrap">
-        <span class="text-[10px] uppercase tracking-widest text-ink-low mr-1">
+      <!-- Power filter — label on its own line, buttons on a single
+           horizontal row below. shrink-0 on buttons + overflow-x-auto on
+           the row ensures all 8 (All + 7 Powers) fit on ONE line on any
+           viewport; narrow screens get horizontal scroll instead of wrap. -->
+      <div class="space-y-1.5">
+        <span class="block text-[10px] uppercase tracking-widest text-ink-low">
           {{ t('examples.filterPower') }}
         </span>
-        <button
-          type="button"
-          class="text-xs px-2.5 py-1 rounded-md border transition-colors"
-          :class="activePower === 'all'
-            ? 'border-accent-blue text-ink-high bg-accent-blue/10'
-            : 'border-border-subtle text-ink-mid hover:text-ink-high hover:border-accent-blue/50'"
-          @click="activePower = 'all'"
-        >
-          {{ t('examples.filterAll') }}
-        </button>
-        <button
-          v-for="p in POWERS"
-          :key="p"
-          type="button"
-          class="text-xs px-2.5 py-1 rounded-md border inline-flex items-center gap-1.5 transition-colors"
-          :class="activePower === p
-            ? 'border-accent-blue text-ink-high bg-accent-blue/10'
-            : 'border-border-subtle text-ink-mid hover:text-ink-high hover:border-accent-blue/50'"
-          @click="activePower = p"
-        >
-          <span class="glyph text-accent-blue-bright">{{ t(`powerGlyphs.${p}`) }}</span>
-          <span>{{ t(`powers.${p}`) }}</span>
-        </button>
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 -mb-1">
+          <button
+            type="button"
+            class="shrink-0 text-xs px-2.5 py-1 rounded-md border transition-colors whitespace-nowrap"
+            :class="activePower === 'all'
+              ? 'border-accent-blue text-ink-high bg-accent-blue/10'
+              : 'border-border-subtle text-ink-mid hover:text-ink-high hover:border-accent-blue/50'"
+            @click="activePower = 'all'"
+          >
+            {{ t('examples.filterAll') }}
+          </button>
+          <button
+            v-for="p in POWERS"
+            :key="p"
+            type="button"
+            class="shrink-0 text-xs px-2.5 py-1 rounded-md border inline-flex items-center gap-1.5 transition-colors whitespace-nowrap"
+            :class="activePower === p
+              ? 'border-accent-blue text-ink-high bg-accent-blue/10'
+              : 'border-border-subtle text-ink-mid hover:text-ink-high hover:border-accent-blue/50'"
+            @click="activePower = p"
+          >
+            <span class="glyph text-accent-blue-bright">{{ t(`powerGlyphs.${p}`) }}</span>
+            <span>{{ t(`powers.${p}`) }}</span>
+          </button>
+        </div>
       </div>
 
-      <!-- Sector filter -->
-      <div class="flex items-center gap-2 flex-wrap">
-        <span class="text-[10px] uppercase tracking-widest text-ink-low mr-1">
+      <!-- Sector filter — same layout as the Power row for consistency -->
+      <div class="space-y-1.5">
+        <span class="block text-[10px] uppercase tracking-widest text-ink-low">
           {{ t('examples.filterSector') }}
         </span>
-        <button
-          type="button"
-          class="text-xs px-2.5 py-1 rounded-md border transition-colors"
-          :class="activeSector === 'all'
-            ? 'border-accent-blue text-ink-high bg-accent-blue/10'
-            : 'border-border-subtle text-ink-mid hover:text-ink-high hover:border-accent-blue/50'"
-          @click="activeSector = 'all'"
-        >
-          {{ t('examples.filterAll') }}
-        </button>
-        <button
-          v-for="s in EXAMPLE_SECTORS"
-          :key="s"
-          type="button"
-          class="text-xs px-2.5 py-1 rounded-md border transition-colors"
-          :class="activeSector === s
-            ? 'border-accent-blue text-ink-high bg-accent-blue/10'
-            : 'border-border-subtle text-ink-mid hover:text-ink-high hover:border-accent-blue/50'"
-          @click="activeSector = s"
-        >
-          {{ t(SECTOR_LABEL_KEYS[s]) }}
-        </button>
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 -mb-1">
+          <button
+            type="button"
+            class="shrink-0 text-xs px-2.5 py-1 rounded-md border transition-colors whitespace-nowrap"
+            :class="activeSector === 'all'
+              ? 'border-accent-blue text-ink-high bg-accent-blue/10'
+              : 'border-border-subtle text-ink-mid hover:text-ink-high hover:border-accent-blue/50'"
+            @click="activeSector = 'all'"
+          >
+            {{ t('examples.filterAll') }}
+          </button>
+          <button
+            v-for="s in EXAMPLE_SECTORS"
+            :key="s"
+            type="button"
+            class="shrink-0 text-xs px-2.5 py-1 rounded-md border transition-colors whitespace-nowrap"
+            :class="activeSector === s
+              ? 'border-accent-blue text-ink-high bg-accent-blue/10'
+              : 'border-border-subtle text-ink-mid hover:text-ink-high hover:border-accent-blue/50'"
+            @click="activeSector = s"
+          >
+            {{ t(SECTOR_LABEL_KEYS[s]) }}
+          </button>
+        </div>
       </div>
 
       <p class="text-xs text-ink-low">
