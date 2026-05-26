@@ -132,10 +132,14 @@ onMounted(() => {
     </aside>
 
     <!-- ============================================================ -->
-    <!-- MAIN COLUMN — same content as before, max-w-4xl reading width -->
+    <!-- MAIN COLUMN — content sits flush-left after the sidebar (no   -->
+    <!-- mx-auto centering, which previously left ~300px of empty      -->
+    <!-- space between the sidebar edge and the title on wide          -->
+    <!-- viewports). max-w-4xl caps the reading width on the right,    -->
+    <!-- mirroring the visual rhythm of /examples.                     -->
     <!-- ============================================================ -->
     <div class="flex-1 min-w-0">
-      <div class="mx-auto max-w-4xl px-6 py-16 space-y-12">
+      <div class="max-w-4xl px-6 py-16 space-y-12">
         <!-- HERO -->
         <section class="space-y-4">
           <div class="flex items-center gap-3 text-ink-mid">
@@ -144,12 +148,10 @@ onMounted(() => {
               {{ t('learn.hero.kicker') }}
             </span>
           </div>
-          <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-ink-high max-w-3xl">
+          <h1 class="text-3xl md:text-4xl font-semibold text-ink-high">
             {{ t('learn.hero.title') }}
           </h1>
-          <p class="text-lg text-ink-mid max-w-2xl leading-relaxed">
-            {{ t('learn.hero.subtitle') }}
-          </p>
+          <p class="text-ink-mid max-w-2xl">{{ t('learn.hero.subtitle') }}</p>
         </section>
 
         <!-- WHAT IS A POWER -->

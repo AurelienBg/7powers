@@ -69,40 +69,34 @@ function isActive(target: string): boolean {
 
 <template>
   <header class="border-b border-border-subtle bg-bg-base sticky top-0 z-30">
-    <!-- Full-bleed inner row: logo pinned to the actual top-left of the
-         viewport (px-4/6 from edge), nav cluster pinned to the right.
-         Was previously inside `mx-auto max-w-6xl` which pushed the logo
-         to ~150px from the edge on wide screens, hence the 'logo isn't
-         top-left' feedback. -->
-    <div class="px-4 md:px-6 h-14 flex items-center justify-between">
+    <!-- 3-column layout: logo flush-left, primary nav centered, utility
+         + auth flush-right. Was justify-between → primary nav glued to
+         the right side; centering gives the nav visual prominence. -->
+    <div class="px-4 md:px-6 h-14 grid grid-cols-[auto_1fr_auto] items-center gap-4">
       <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5 shrink-0">
         <Logo :size="28" />
         <span class="font-semibold tracking-tight">{{ t('app.name') }}</span>
       </NuxtLink>
 
-      <!-- Three visual groups:
-             1. Primary nav (md+): Assess / Learn / Examples with active state
-             2. Utility cluster: lang + theme + ACTIVE-state sync indicator
-             3. Auth: user menu (avatar dropdown) or "Sign in" button -->
-      <nav class="flex items-center gap-1.5">
-        <!-- Group 1 — Primary nav -->
-        <div class="hidden md:flex items-center gap-0.5">
-          <NuxtLink
-            v-for="item in primaryNav"
-            :key="item.to"
-            :to="localePath(item.to)"
-            class="text-xs uppercase tracking-wider px-3 py-1.5 rounded-md transition-colors"
-            :class="isActive(item.to)
-              ? 'text-ink-high bg-accent-blue/10 border border-accent-blue/40'
-              : 'text-ink-mid hover:text-ink-high hover:bg-bg-elevated/60'"
-          >
-            {{ t(item.labelKey) }}
-          </NuxtLink>
-        </div>
+      <!-- Center cell holds the primary nav. Empty on mobile (hidden md:flex)
+           so the cell collapses visually and lets utility+auth take the rest. -->
+      <div class="hidden md:flex items-center justify-center gap-0.5">
+        <NuxtLink
+          v-for="item in primaryNav"
+          :key="item.to"
+          :to="localePath(item.to)"
+          class="text-xs uppercase tracking-wider px-3 py-1.5 rounded-md transition-colors"
+          :class="isActive(item.to)
+            ? 'text-ink-high bg-accent-blue/10 border border-accent-blue/40'
+            : 'text-ink-mid hover:text-ink-high hover:bg-bg-elevated/60'"
+        >
+          {{ t(item.labelKey) }}
+        </NuxtLink>
+      </div>
 
-        <span class="hidden md:inline-block w-px h-4 bg-border-subtle mx-1.5" />
-
-        <!-- Group 2 — Utility cluster -->
+      <!-- Right cell: utility cluster + auth. -->
+      <nav class="flex items-center gap-1.5 justify-end">
+        <!-- Utility cluster -->
         <div class="flex items-center gap-0.5">
           <NuxtLink
             v-for="l in otherLocales"
